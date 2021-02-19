@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "795997496198",
+    "project_id": "poblacionesvulnerables-2021",
+    "storage_bucket": "poblacionesvulnerables-2021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795997496198:android:a568a7362a12eaa936c207",
+        "android_client_info": {
+          "package_name": "com.example.app_titulacion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795997496198-ntflcbf2v77e110c63m2p30pk168diuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmhrmwA3RMqSTAYwMBSXRjYyjxRdmhxKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795997496198-ntflcbf2v77e110c63m2p30pk168diuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
