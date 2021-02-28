@@ -79,7 +79,7 @@ class AuthActivity : AppCompatActivity() {
 
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             it.result?.token?.let {
-                tk = it.toString()
+                tk = it
                 println("Este es el token del dispositivo: ${it}")
             }
         }

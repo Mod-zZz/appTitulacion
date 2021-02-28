@@ -39,7 +39,7 @@ class HomeActivity : AppCompatActivity() {
         val bundle = intent.extras
         val email: String? = bundle?.getString("email")
         val provider: String? = bundle?.getString("provider")
-        val token: String? = bundle?.getString("tk")
+        val token: String? = bundle?.getString("token")
 
 
         //Setup
@@ -63,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
         provider: String,
         token: String
     ) {
-        db.collection("users").document("user")
+        db.collection("users").document()
             .set(
                 hashMapOf(
                     "Token" to token,
