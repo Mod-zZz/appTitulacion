@@ -3,6 +3,8 @@ package com.example.app_titulacion
 import android.accounts.AccountAuthenticatorActivity
 import android.content.Context
 import android.content.Intent
+import android.media.Session2Token
+import android.media.VolumeProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -22,10 +24,13 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.type.Date
 import java.security.ProviderException
+import java.security.Timestamp
 import kotlin.math.sign
 
 class AuthActivity : AppCompatActivity() {
@@ -38,10 +43,13 @@ class AuthActivity : AppCompatActivity() {
     //Variable Facebook
     private val callbackManager = CallbackManager.Factory.create()
 
+    //Variable Token
+    var tk = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+        //setContentView(R.layout.activity_auth)
 
         //Vista
         binding = ActivityAuthBinding.inflate(layoutInflater)
@@ -68,20 +76,22 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun notification() {
+
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             it.result?.token?.let {
+                tk = it.toString()
                 println("Este es el token del dispositivo: ${it}")
             }
         }
 
         //Temas (Topics)
-        FirebaseMessaging.getInstance().subscribeToTopic("Prueba")
+//        FirebaseMessaging.getInstance().subscribeToTopic("Prueba")
 
         //Recuperar informacion de una notifiacion Push
-        val url = intent.getStringExtra("url")
-        url?.let {
-            println("Ha llegado información en una push: ${it}")
-        }
+//        val url = intent.getStringExtra("url")
+//        url?.let {
+//            println("Ha llegado información en una push: ${it}")
+//        }
     }
 
     private fun setup() {
@@ -113,7 +123,6 @@ class AuthActivity : AppCompatActivity() {
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
                     .build()
-
                 //Cliente de autenticacion
                 val googleClient = GoogleSignIn.getClient(this@AuthActivity, googleConf)
                 googleClient.signOut()
@@ -208,9 +217,11 @@ class AuthActivity : AppCompatActivity() {
         val homeIntent = Intent(this, HomeActivity::class.java).apply {
             putExtra("email", email)
             putExtra("provider", provider.name)
+            putExtra("token", tk)
         }
         startActivity(homeIntent)
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
