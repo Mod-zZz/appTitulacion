@@ -17,4 +17,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    //
+    <string name="bn_home">SOS</string>
+    <string name="bn_config">Configuración</string>
+
+
+
 </resources>
