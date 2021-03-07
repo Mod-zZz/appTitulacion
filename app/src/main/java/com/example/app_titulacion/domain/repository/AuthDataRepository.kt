@@ -11,6 +11,6 @@ class AuthDataRepository @Inject constructor(private val authDataSource: IAuthDa
     override suspend fun signIn(email: String, password: String): Resource<AuthResult> =
         authDataSource.signInFb(email, password)
 
-    override suspend fun signUp(email: String, password: String, name: String): Resource<Boolean> =
-        authDataSource.signUpFb(email, password, name)
+    override suspend fun signUp(email: String, password: String): Resource<AuthResult> =
+        authDataSource.signUpFb(email, password)
 }

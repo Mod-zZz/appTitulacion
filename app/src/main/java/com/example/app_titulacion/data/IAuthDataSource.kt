@@ -7,7 +7,7 @@ interface IAuthDataSource {
 
     // region firebase
     suspend fun signInFb(email: String, password: String): Resource<AuthResult>
-    suspend fun signUpFb(email: String, password: String, name: String): Resource<Boolean>
+    suspend fun signUpFb(email: String, password: String): Resource<AuthResult>
 
     // endregion
 }

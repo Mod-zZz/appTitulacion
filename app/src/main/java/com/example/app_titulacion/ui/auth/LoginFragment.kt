@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentLoginBinding
+import com.example.app_titulacion.databinding.FragmentRegisterBinding
 import com.example.app_titulacion.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : Fragment() {
     private val TAG = "LoginFragment"
 
-    private lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     private val loginViewModel: LoginViewModel by viewModels()
 
@@ -26,7 +29,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -35,15 +38,24 @@ class LoginFragment : Fragment() {
 
         subscribe()
 
+        with(binding) {
+            loginButton.setOnClickListener {
+                val email = binding.emailEditText.text.toString()
+                val password = binding.passwordEditText.text.toString()
 
+                loginViewModel.executeSignIn(email, password)
+            }
 
-        binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-
-            loginViewModel.executeSignIn(email, password)
+            signUpButton.setOnClickListener {
+                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            }
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun subscribe() {
@@ -54,6 +66,8 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     Log.d(TAG, "Success")
+                    Log.d(TAG, it.data.toString())
+                    findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                 }
                 is Resource.Failure -> {
                     Log.d(TAG, "Failure")

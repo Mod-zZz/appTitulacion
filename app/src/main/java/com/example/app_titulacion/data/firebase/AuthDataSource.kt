@@ -23,9 +23,14 @@ class AuthDataSource @Inject constructor() : IAuthDataSource {
 
     override suspend fun signUpFb(
         email: String,
-        password: String,
-        name: String
-    ): Resource<Boolean> {
-        return Resource.Success(false)
+        password: String
+    ): Resource<AuthResult> {
+        return try {
+            val request =
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).await()
+            Resource.Success(request)
+        } catch (e: Exception) {
+            Resource.Failure(e)
+        }
     }
 }
