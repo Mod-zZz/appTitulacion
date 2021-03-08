@@ -4,6 +4,9 @@ import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.example.app_titulacion.utils.Constants.FIREBASE_PREF
+import com.example.app_titulacion.utils.Constants.FIREBASE_TOKEN
+import com.google.firebase.messaging.FirebaseMessagingService
 
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
@@ -22,4 +25,9 @@ fun Fragment.showAlert(title: String, message: String, positiveButtonText: Strin
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+}
+
+fun getNewToken(context: Context): String? {
+    return context.getSharedPreferences(FIREBASE_PREF, FirebaseMessagingService.MODE_PRIVATE)
+        .getString(FIREBASE_TOKEN, "empty")
 }

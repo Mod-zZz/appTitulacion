@@ -1,19 +1,15 @@
 package com.example.app_titulacion.utils
 
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
+import android.util.Log
+import com.example.app_titulacion.utils.Constants.FIREBASE_PREF
+import com.example.app_titulacion.utils.Constants.FIREBASE_TOKEN
 import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.messaging.ktx.remoteMessage
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    //Notifiaciones en primer plano
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Looper.prepare()
-        Handler().post() {
-            Toast.makeText(baseContext, remoteMessage.notification?.title, Toast.LENGTH_LONG).show()
-        }
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.e("newToken", token);
+        getSharedPreferences(FIREBASE_PREF, MODE_PRIVATE).edit().putString(FIREBASE_TOKEN, token).apply();
     }
 }

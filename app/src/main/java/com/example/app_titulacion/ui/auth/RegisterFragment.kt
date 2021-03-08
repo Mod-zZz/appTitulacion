@@ -12,7 +12,7 @@ import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentRegisterBinding
 import com.example.app_titulacion.utils.Resource
-import com.google.firebase.installations.FirebaseInstallations
+import com.example.app_titulacion.utils.getNewToken
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,21 +52,21 @@ class RegisterFragment : Fragment() {
             passwordEditText.setText(R.string.dev_password)
 
             btnSignUp.setOnClickListener {
-                FirebaseInstallations.getInstance().getToken(true)
-                    .addOnCompleteListener { tokenResult ->
+//                FirebaseInstallations.getInstance().getToken(true)
+//                    .addOnCompleteListener { tokenResult ->
 
-                        val email = emailEditText.text.toString()
-                        val password = passwordEditText.text.toString()
+                val email = emailEditText.text.toString()
+                val password = passwordEditText.text.toString()
 
-                        user = UserModel(
-                            email = email,
-                            password = password,
-                            token = tokenResult.result!!.token
-                        )
+                user = UserModel(
+                    email = email,
+                    password = password,
+                    token = getNewToken(requireContext())!!
+                )
 
-                        registerViewModel.createUser(user!!)
+                registerViewModel.createUser(user!!)
 
-                    }
+//                    }
             }
         }
 
