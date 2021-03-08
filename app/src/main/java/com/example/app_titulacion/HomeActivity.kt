@@ -1,19 +1,14 @@
 package com.example.app_titulacion
 
 import android.content.Context
-import android.media.session.MediaSession
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.app_titulacion.databinding.ActivityAuthBinding
+import android.util.Log
 import com.example.app_titulacion.databinding.ActivityHomeBinding
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import java.security.Timestamp
 
 enum class ProviterType {
     BASIC,
@@ -54,7 +49,36 @@ class HomeActivity : AppCompatActivity() {
         prefs.apply()
 
         //Guardado de datos FireBaseCloud
-        guardarUsuarioLogeado(email ?: "",provider ?: "",token ?: "")
+        if (validarUsuario(email!!, provider!!, token!!) == false) {
+            guardarUsuarioLogeado(email ?: "", provider ?: "", token ?: "")
+
+        } else {
+            // Mostrar que ya existe
+
+        }
+
+
+    }
+
+    private fun validarUsuario(
+        email: String,
+        provider: String,
+        token: String
+    ): Boolean {
+
+        val TAG = "validarUsuario"
+
+        var isExist = false
+        db.collection("users").whereEqualTo("Email", email)
+            .get().addOnSuccessListener { documents ->
+                isExist = documents.count() > 0
+
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
+
+        return isExist
 
     }
 
@@ -69,9 +93,9 @@ class HomeActivity : AppCompatActivity() {
                     "Token" to token,
                     "Email" to email,
                     "Provider" to provider
-                ))
+                )
+            )
     }
-
 
 
     private fun setup(email: String, provider: String) {

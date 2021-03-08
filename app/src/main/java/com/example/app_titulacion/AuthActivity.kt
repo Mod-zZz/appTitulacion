@@ -7,7 +7,9 @@ import android.media.Session2Token
 import android.media.VolumeProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.app_titulacion.databinding.ActivityAuthBinding
 import com.facebook.CallbackManager
@@ -24,11 +26,13 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.type.Date
+import kotlinx.coroutines.awaitAll
 import java.security.ProviderException
 import java.security.Timestamp
 import kotlin.math.sign
@@ -46,6 +50,8 @@ class AuthActivity : AppCompatActivity() {
     //Variable Token
     var tk = ""
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -56,6 +62,7 @@ class AuthActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        auth = Firebase.auth
         //Lanzando eventos personalizados para google analytics
 
         val analytics = FirebaseAnalytics.getInstance(this)
@@ -103,16 +110,16 @@ class AuthActivity : AppCompatActivity() {
             //Registrar usuario con correo y contraseña
             signUpButton.setOnClickListener {
                 if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                    val resp = crearUsuario(
                         emailEditText.text.toString(),
                         passwordEditText.text.toString()
-                    ).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            showHome(it.result?.user?.email ?: "", ProviterType.BASIC)
-                        } else {
-                            showAlert()
-                        }
+                    )
+                    if (resp) {
+                        showHome(emailEditText.text.toString() ?: "", ProviterType.BASIC)
+                    } else {
+                        showAlert()
                     }
+
                 }
             }
 
@@ -132,16 +139,16 @@ class AuthActivity : AppCompatActivity() {
             //Inicio de sesión por usuario y contraseña
             loginButton.setOnClickListener {
                 if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(
+
+                    val resp = loginUsuario(
                         emailEditText.text.toString(),
                         passwordEditText.text.toString()
-                    ).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            showHome(it.result?.user?.email ?: "", ProviterType.BASIC)
-                        } else {
-                            showAlert()
-                        }
-                    }
+                    )
+                    if (resp) showHome(
+                        emailEditText.text.toString() ?: "",
+                        ProviterType.BASIC
+                    ) else showAlert()
+
                 }
             }
 
@@ -256,4 +263,36 @@ class AuthActivity : AppCompatActivity() {
 
     //Captura de errores
 
+
+    // Firebase Auth
+
+    private fun crearUsuario(email: String, password: String): Boolean {
+        val TAG = "crearUsuario"
+
+        var isSuccessful = false
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                isSuccessful = task.isSuccessful
+
+            }
+        return isSuccessful
+    }
+
+    private fun loginUsuario(email: String, password: String): Boolean {
+        val TAG = "loginUsuario"
+
+        var isSuccessful = false
+
+        auth.signInWithEmailAndPassword(
+            email,
+            password
+        ).addOnCompleteListener(this) { task ->
+            isSuccessful = task.isSuccessful
+            if (!task.isSuccessful) {
+                Log.w(TAG, "signInWithEmail:failure", task.exception)
+            }
+        }
+        return isSuccessful
+    }
 }
