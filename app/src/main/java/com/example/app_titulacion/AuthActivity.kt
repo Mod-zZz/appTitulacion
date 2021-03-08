@@ -1,15 +1,11 @@
 package com.example.app_titulacion
 
-import android.accounts.AccountAuthenticatorActivity
 import android.content.Context
 import android.content.Intent
-import android.media.Session2Token
-import android.media.VolumeProvider
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.app_titulacion.databinding.ActivityAuthBinding
 import com.facebook.CallbackManager
@@ -18,24 +14,14 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.type.Date
-import kotlinx.coroutines.awaitAll
-import java.security.ProviderException
-import java.security.Timestamp
-import kotlin.math.sign
 
 class AuthActivity : AppCompatActivity() {
     //Vista
@@ -135,10 +121,13 @@ class AuthActivity : AppCompatActivity() {
 
             //******************* INICIAR SESION CON FACEBOOK *******************
             facebookButton.setOnClickListener {
+
                 LoginManager.getInstance()
                     .logInWithReadPermissions(this@AuthActivity, listOf("email"))
+
                 LoginManager.getInstance()
                     .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+
                         override fun onSuccess(result: LoginResult?) {
                             result?.let {
                                 val token = it.accessToken
@@ -173,7 +162,9 @@ class AuthActivity : AppCompatActivity() {
 
     //************************************* GOOGLE INICIO DE SESION *************************************
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // callbackManager.onActivityResult(requestCode, resultCode, data)
+        //**************** AGREGADO PARA FACEBOOK ****************
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    //**************** FIN AGREGADO PARA FACEBOOK ****************
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -275,12 +266,21 @@ class AuthActivity : AppCompatActivity() {
 
     //************************************* PASAR DE PANTALLA *************************************
     private fun showHome(email: String, provider: ProviterType) {
-        val homeIntent = Intent(this, HomeActivity::class.java).apply {
+
+//        val homeIntent = Intent(this, HomeActivity::class.java).apply {
+//            putExtra("email", email)
+//            putExtra("provider", provider.name)
+//            putExtra("token", tk)
+//        }
+//        startActivity(homeIntent)
+
+        val homeIntent = Intent(this, MainActivity::class.java).apply {
             putExtra("email", email)
             putExtra("provider", provider.name)
             putExtra("token", tk)
         }
         startActivity(homeIntent)
+
     }
 
 

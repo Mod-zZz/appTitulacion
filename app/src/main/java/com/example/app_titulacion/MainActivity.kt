@@ -13,12 +13,23 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
+
+    enum class ProviterType {
+        BASIC,
+        GOOGLE,
+        FACEBOOK
+    }
+
+    //Variable Base de Datos
+    private val db = FirebaseFirestore.getInstance()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -41,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //AGREGADO POR MI
+
+        val bundle = intent.extras
+        val email: String? = bundle?.getString("email")
+        val provider: String? = bundle?.getString("provider")
+        val token: String? = bundle?.getString("token")
+
+        guardarUsuarioLogeado(email ?: "", provider ?: "", token ?: "")
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,5 +73,20 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun guardarUsuarioLogeado(
+        email: String,
+        provider: String,
+        token: String
+    ) {
+        db.collection("users").document(email)
+            .set(
+                hashMapOf(
+                    "Token" to token,
+                    "Email" to email,
+                    "Provider" to provider
+                )
+            )
     }
 }

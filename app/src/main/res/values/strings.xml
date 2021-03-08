@@ -13,8 +13,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Agregar usuario de Confianza</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+<!--AGREGADOS-->
+    <string name="menuAlerta">Alerta</string>
+    <string name="menuAlertas">Mis Alerta</string>
+    <string name="menuZonaRiesgo">Zonas de riesgo</string>
+    <string name="menuEditarUsuario">Editar usaurio</string>
+    <string name="menuUsuarioConfianza">Usuario de confianza</string>
 
 </resources>

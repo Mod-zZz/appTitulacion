@@ -35,29 +35,56 @@ class HomeActivity : AppCompatActivity() {
         val email: String? = bundle?.getString("email")
         val provider: String? = bundle?.getString("provider")
         val token: String? = bundle?.getString("token")
-
-
         //Setup
         setup(email ?: "", provider ?: "")
+        guardarUsuarioLogeado(email ?: "", provider ?: "", token ?: "")
 
+    }
 
-        //Guardado de datos
-        val prefs =
-            getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
-        prefs.putString("email", email)
-        prefs.putString("provider", provider)
-        prefs.apply()
+    private fun setup(email: String, provider: String) {
 
-        //Guardado de datos FireBaseCloud
-        if (validarUsuario(email!!, provider!!, token!!) == false) {
-            guardarUsuarioLogeado(email ?: "", provider ?: "", token ?: "")
+        with(binding) {
+            title = "Pantalla de inicio"
+            emailTextView.text = email
+            providerTextView.text = provider
 
-        } else {
-            // Mostrar que ya existe
+//************************** CERRAR SESION **************************
+            logOutButton.setOnClickListener {
 
+                //BORRAR DATOS DE SESION GUARDADOS
+                val prefs =
+                    getSharedPreferences(
+                        getString(R.string.prefs_file),
+                        Context.MODE_PRIVATE
+                    ).edit()
+                prefs.clear()
+                prefs.apply()
+
+                //CERRAR SESION FACEBOOK
+                if (provider == ProviterType.FACEBOOK.name) {
+                    LoginManager.getInstance().logOut()
+                }
+
+                //CERRAR SESSION GOOGLE
+                FirebaseAuth.getInstance().signOut()
+                onBackPressed()
+            }
         }
+    }
 
-
+    private fun guardarUsuarioLogeado(
+        email: String,
+        provider: String,
+        token: String
+    ) {
+        db.collection("users").document(email)
+            .set(
+                hashMapOf(
+                    "Token" to token,
+                    "Email" to email,
+                    "Provider" to provider
+                )
+            )
     }
 
     private fun validarUsuario(
@@ -82,49 +109,8 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    private fun guardarUsuarioLogeado(
-        email: String,
-        provider: String,
-        token: String
-    ) {
-        db.collection("users").document()
-            .set(
-                hashMapOf(
-                    "Token" to token,
-                    "Email" to email,
-                    "Provider" to provider
-                )
-            )
-    }
 
 
-    private fun setup(email: String, provider: String) {
-        title = "Pantalla de inicio"
 
-        with(binding) {
-            emailTextView.text = email
-            providerTextView.text = provider
 
-//************************** CERRAR SESION **************************
-            logOutButton.setOnClickListener {
-                //BORRAR DATOS DE SESION GUARDADOS
-                val prefs =
-                    getSharedPreferences(
-                        getString(R.string.prefs_file),
-                        Context.MODE_PRIVATE
-                    ).edit()
-                prefs.clear()
-                prefs.apply()
-
-                //CERRAR SESION FACEBOOK
-                if (provider == ProviterType.FACEBOOK.name) {
-                    LoginManager.getInstance().logOut()
-                }
-
-                //CERRAR SESSION GOOGLE
-                FirebaseAuth.getInstance().signOut()
-                onBackPressed()
-            }
-        }
-    }
 }
