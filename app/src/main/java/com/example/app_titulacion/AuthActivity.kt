@@ -53,6 +53,9 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        Splash
+        Thread.sleep(2000)
+        setTheme(R.style.Theme_App_Titulacion)
 
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_auth)
