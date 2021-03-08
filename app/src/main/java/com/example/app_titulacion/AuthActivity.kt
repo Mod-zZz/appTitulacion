@@ -53,7 +53,8 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        Splash
+
+        //******************************** SPLASH ********************************
         Thread.sleep(2000)
         setTheme(R.style.Theme_App_Titulacion)
 
@@ -64,44 +65,14 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         auth = Firebase.auth
-        //Lanzando eventos personalizados para google analytics
 
-        val analytics = FirebaseAnalytics.getInstance(this)
-        val bundle = Bundle()
-        bundle.putString("message", "¡¡¡Integracion de FireBase completa!!!")
-        analytics.logEvent("InitScreen", bundle)
-
-        //Setup
-        notification()
-        setup()
+        //PRIMERO SE INICIA CON SESSION PARA SABER SÍ EL USUARIO INICIO SESIÓN ANTERIORMENTE
         session()
+        setup()
+        recuperaToken()
 
-    }
 
-    override fun onStart() {
-        super.onStart()
-        binding.authLayout.visibility = View.VISIBLE
-    }
-
-    private fun notification() {
-
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
-            it.result?.token?.let {
-                tk = it
-                println("Este es el token del dispositivo: ${it}")
-            }
-        }
-
-        //Temas (Topics)
-//        FirebaseMessaging.getInstance().subscribeToTopic("Prueba")
-
-        //Recuperar informacion de una notifiacion Push
-//        val url = intent.getStringExtra("url")
-//        url?.let {
-//            println("Ha llegado información en una push: ${it}")
-//        }
     }
 
     private fun setup() {
@@ -110,67 +81,69 @@ class AuthActivity : AppCompatActivity() {
 
         with(binding) {
 
-            //Registrar usuario con correo y contraseña
+            //******************* REGISTRAR POR USUARIO Y CONTRASEÑA *******************
             signUpButton.setOnClickListener {
                 if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
-                    val resp = crearUsuario(
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                         emailEditText.text.toString(),
                         passwordEditText.text.toString()
-                    )
-                    if (resp) {
-                        showHome(emailEditText.text.toString() ?: "", ProviterType.BASIC)
-                    } else {
-                        showAlert()
+                    ).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            showHome(emailEditText.text.toString() ?: "", ProviterType.BASIC)
+                        } else {
+                            showAlert();
+                        }
                     }
-
                 }
             }
+            //******************* FIN REGISTRAR POR USUARIO Y CONTRASEÑA *******************
 
-            //Iniciar sesion con google
+            //******************* INICIAR SESION POR USUARIO Y CONTRASEÑA *******************
+            loginButton.setOnClickListener {
+                if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                        emailEditText.text.toString(),
+                        passwordEditText.text.toString()
+                    ).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            showHome(emailEditText.text.toString() ?: "", ProviterType.BASIC)
+                        } else {
+                            showAlert();
+                        }
+                    }
+                }
+            }
+            //******************* FIN INICIAR SESION POR USUARIO Y CONTRASEÑA *******************
+
+            //******************* INICIAR SESION CON GOOGLE *******************
+
             googleButton.setOnClickListener {
-                //Configuracion
+                //CONFIGURACION
                 val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
                     .build()
-                //Cliente de autenticacion
+
+                //CLIENTE DE AUTH
                 val googleClient = GoogleSignIn.getClient(this@AuthActivity, googleConf)
                 googleClient.signOut()
                 startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
             }
 
-            //Inicio de sesión por usuario y contraseña
-            loginButton.setOnClickListener {
-                if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
+            //******************* FIN INICIAR SESION CON GOOGLE *******************
 
-                    val resp = loginUsuario(
-                        emailEditText.text.toString(),
-                        passwordEditText.text.toString()
-                    )
-                    if (resp) showHome(
-                        emailEditText.text.toString() ?: "",
-                        ProviterType.BASIC
-                    ) else showAlert()
 
-                }
-            }
-
-            //Iniciar sesión con Facebook
+            //******************* INICIAR SESION CON FACEBOOK *******************
             facebookButton.setOnClickListener {
                 LoginManager.getInstance()
                     .logInWithReadPermissions(this@AuthActivity, listOf("email"))
-
-
                 LoginManager.getInstance()
                     .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-
                         override fun onSuccess(result: LoginResult?) {
                             result?.let {
                                 val token = it.accessToken
-
                                 val credential =
                                     FacebookAuthProvider.getCredential(token.token)
-
                                 FirebaseAuth.getInstance().signInWithCredential(credential)
                                     .addOnCompleteListener {
                                         if (it.isSuccessful) {
@@ -192,96 +165,54 @@ class AuthActivity : AppCompatActivity() {
                         override fun onError(error: FacebookException?) {
                             showAlert()
                         }
-
                     })
             }
         }
 
     }
 
-    private fun session() {
-        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        val email = prefs.getString("email", null)
-        val provider = prefs.getString("provider", null)
-
-        if (email != null && provider != null) {
-            binding.authLayout.visibility = View.INVISIBLE
-            showHome(email, ProviterType.valueOf(provider))
-        }
-    }
-
-    //Alerta
-    private fun showAlert() {
-
-        val builder = AlertDialog.Builder(this)
-        with(builder) {
-            setTitle("Error")
-            setMessage("Se ha producido un error autenticando al usuario")
-            setPositiveButton("Aceptar", null)
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        }
-    }
-
-    private fun showHome(email: String, provider: ProviterType) {
-        val homeIntent = Intent(this, HomeActivity::class.java).apply {
-            putExtra("email", email)
-            putExtra("provider", provider.name)
-            putExtra("token", tk)
-        }
-        startActivity(homeIntent)
-    }
-
-
+    //************************************* GOOGLE INICIO DE SESION *************************************
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
+        // callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
+                //LA CUENTA VALOR PUEDE TRAER UN ERROR - TRY
                 val account = task.getResult(ApiException::class.java)
 
                 if (account != null) {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener {
+
                             if (it.isSuccessful) {
                                 showHome(account.email ?: "", ProviterType.GOOGLE)
                             } else {
                                 showAlert()
                             }
-
                         }
                 }
             } catch (e: ApiException) {
                 showAlert()
             }
-
-
         }
     }
 
-    //Captura de errores
-
-
-    // Firebase Auth
-
+    //******************* FUNCION REGISTRAR POR USUARIO Y CONTRASEÑA *******************
     private fun crearUsuario(email: String, password: String): Boolean {
         val TAG = "crearUsuario"
-
         var isSuccessful = false
-
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 isSuccessful = task.isSuccessful
-
             }
         return isSuccessful
     }
+    //******************* FIN FUNCION REGISTRAR POR USUARIO Y CONTRASEÑA *******************
 
+    //******************* INGRESAR POR USUARIO Y CONTRASEÑA *******************
     private fun loginUsuario(email: String, password: String): Boolean {
         val TAG = "loginUsuario"
 
@@ -298,4 +229,59 @@ class AuthActivity : AppCompatActivity() {
         }
         return isSuccessful
     }
+    //******************* FIN INGRESAR POR USUARIO Y CONTRASEÑA *******************
+
+
+    //    ***************************** INICIAR *****************************
+    override fun onStart() {
+        super.onStart()
+        binding.authLayout.visibility = View.VISIBLE
+    }
+
+    //************************************* SESION *************************************
+    private fun session() {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        val email = prefs.getString("email", null)
+        val provider = prefs.getString("provider", null)
+
+        if (email != null && provider != null) {
+            binding.authLayout.visibility = View.INVISIBLE
+            showHome(email, ProviterType.valueOf(provider))
+        }
+    }
+
+    private fun recuperaToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            it.result?.token?.let {
+                tk = it
+                //println("Este es el token del dispositivo: ${it}")
+            }
+        }
+    }
+
+
+    //************************************* ALERTA *************************************
+    private fun showAlert() {
+
+        val builder = AlertDialog.Builder(this)
+        with(builder) {
+            setTitle("Error")
+            setMessage("Se ha producido un error autenticando al usuario")
+            setPositiveButton("Aceptar", null)
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+    }
+
+    //************************************* PASAR DE PANTALLA *************************************
+    private fun showHome(email: String, provider: ProviterType) {
+        val homeIntent = Intent(this, HomeActivity::class.java).apply {
+            putExtra("email", email)
+            putExtra("provider", provider.name)
+            putExtra("token", tk)
+        }
+        startActivity(homeIntent)
+    }
+
+
 }

@@ -105,9 +105,9 @@ class HomeActivity : AppCompatActivity() {
             emailTextView.text = email
             providerTextView.text = provider
 
+//************************** CERRAR SESION **************************
             logOutButton.setOnClickListener {
-
-                //Borrado de datos
+                //BORRAR DATOS DE SESION GUARDADOS
                 val prefs =
                     getSharedPreferences(
                         getString(R.string.prefs_file),
@@ -116,29 +116,15 @@ class HomeActivity : AppCompatActivity() {
                 prefs.clear()
                 prefs.apply()
 
-                //Cierra Sesión Facebook
+                //CERRAR SESION FACEBOOK
                 if (provider == ProviterType.FACEBOOK.name) {
                     LoginManager.getInstance().logOut()
                 }
 
-                //Cierra Sesión Google
+                //CERRAR SESSION GOOGLE
                 FirebaseAuth.getInstance().signOut()
                 onBackPressed()
             }
-
-            errorButton.setOnClickListener {
-
-                //Envio de datos
-                FirebaseCrashlytics.getInstance().setUserId(email)
-                FirebaseCrashlytics.getInstance().setCustomKey("provider", provider)
-
-                //Enviar log de contexto
-                FirebaseCrashlytics.getInstance().log("Se ha pulsado el boton FORZAR ERROR.")
-
-                //Forzado de error
-                throw RuntimeException("Forzado de error")
-            }
-
         }
     }
 }
