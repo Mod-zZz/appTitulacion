@@ -37,6 +37,17 @@
         android:id="@+id/registerFragment"
         android:name="com.example.app_titulacion.ui.auth.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/nav_auth"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

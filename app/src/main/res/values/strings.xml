@@ -22,6 +22,23 @@
     <string name="bn_config">Configuración</string>
     <string name="create_account"><u>¿No tienes cuenta? Regístrate</u></string>
 
+    <string name="dev_email">asantivanezg@hotmail.com</string>
+    <string name="dev_password">123456</string>
+
+    <string name="icon_app_description">Icono de la aplicacion</string>
+
+    <string name="error_title">Error</string>
+    <string name="error_message">Se ha producido un error autenticando al usuario</string>
+    <string name="accept">Aceptar</string>
+    <string name="ok">OK</string>
+    <string name="register">Registrar</string>
+    <string name="access">Acceder</string>
+    <string name="password">Contraseña</string>
+    <string name="email">Email</string>
+
+
+
+
 
 
 </resources>

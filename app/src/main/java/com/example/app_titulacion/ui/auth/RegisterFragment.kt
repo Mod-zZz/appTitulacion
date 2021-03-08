@@ -1,25 +1,31 @@
 package com.example.app_titulacion.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
+import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentRegisterBinding
+import com.example.app_titulacion.utils.Resource
+import com.google.firebase.installations.FirebaseInstallations
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
-    
+
     private val TAG = "RegisterFragment"
 
-    private var _binding : FragmentRegisterBinding?= null
+    private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-
     private val registerViewModel: RegisterViewModel by viewModels()
+
+    private var user: UserModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +46,64 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            emailEditText.setText(R.string.dev_email)
+            passwordEditText.setText(R.string.dev_password)
+
+            btnSignUp.setOnClickListener {
+                FirebaseInstallations.getInstance().getToken(true)
+                    .addOnCompleteListener { tokenResult ->
+
+                        val email = emailEditText.text.toString()
+                        val password = passwordEditText.text.toString()
+
+                        user = UserModel(
+                            email = email,
+                            password = password,
+                            token = tokenResult.result!!.token
+                        )
+
+                        registerViewModel.createUser(user!!)
+
+                    }
+            }
+        }
+
+        subscribe()
+    }
+
+    private fun subscribe() {
+        registerViewModel.createUser.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "createUser Loading")
+                }
+                is Resource.Success -> {
+                    Log.d(TAG, "createUser Success")
+                    registerViewModel.doSignUp(user!!)
+                }
+                is Resource.Failure -> {
+                    Log.d(TAG, "createUser Failure ${it.throwable.message!!}")
+                }
+            }
+        })
+
+        registerViewModel.signUp.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "signUp Loading")
+                }
+                is Resource.Success -> {
+                    Log.d(TAG, "signUp Success")
+                    findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
+                }
+                is Resource.Failure -> {
+                    Log.d(TAG, "signUp Failure ${it.throwable.message!!}")
+                }
+            }
+        })
+
 
     }
 }

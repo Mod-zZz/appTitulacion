@@ -16,7 +16,7 @@ class LoginViewModel @Inject constructor(private val authDataRepository: AuthDat
     private val _signIn = MutableLiveData<Resource<AuthResult>>()
     val signIn: LiveData<Resource<AuthResult>> get() = _signIn
 
-    fun executeSignIn(email: String, password: String) {
+    fun doSignIn(email: String, password: String) {
         _signIn.postValue(Resource.Loading())
         try {
             viewModelScope.launch(Dispatchers.IO) {
