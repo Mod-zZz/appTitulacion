@@ -14,5 +14,14 @@
         android:id="@+id/nav_configuration_fragment"
         android:name="com.example.app_titulacion.ui.configuration.ConfigurationFragment"
         android:label="ConfigurationFragment"
-        tools:layout="@layout/fragment_configuration" />
+        tools:layout="@layout/fragment_configuration" >
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_alertarFragment"
+            app:destination="@id/alertarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alertarFragment"
+        android:name="com.example.app_titulacion.ui.configuration.alertar.AlertarFragment"
+        android:label="fragment_alertar"
+        tools:layout="@layout/fragment_alertar" />
 </navigation>

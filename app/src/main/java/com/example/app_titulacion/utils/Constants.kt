@@ -10,4 +10,11 @@ object Constants {
     const val TOKEN = "token"
     const val EMAIL = "email"
     const val PROVIDER = "provider"
+
+    const val MENU_ALERTAR = 0
+    const val MENU_MIS_ALERTAS = 1
+    const val MENU_ZONA_DE_RIESGO = 2
+    const val MENU_MI_PERFIL = 3
+    const val MENU_CONTACTOS_DE_CONFIANZA = 4
+    const val MENU_LOGOUT = 5
 }
