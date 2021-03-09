@@ -18,10 +18,18 @@
         <action
             android:id="@+id/action_nav_configuration_fragment_to_alertarFragment"
             app:destination="@id/alertarFragment" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
     </fragment>
     <fragment
         android:id="@+id/alertarFragment"
         android:name="com.example.app_titulacion.ui.configuration.alertar.AlertarFragment"
         android:label="fragment_alertar"
         tools:layout="@layout/fragment_alertar" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.app_titulacion.ui.configuration.mi_perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
 </navigation>

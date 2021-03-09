@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.configuration.mi_perfil.PerfilFragment">
+
+    <LinearLayout
+        android:id="@+id/perfilLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/correoTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Correo:" />
+
+        <EditText
+            android:id="@+id/correoEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/celularTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Celular" />
+
+        <EditText
+            android:id="@+id/celularEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/ciudadTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ciudad" />
+
+        <EditText
+            android:id="@+id/ciudadEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/distritoTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distrito" />
+
+        <EditText
+            android:id="@+id/distritoEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/fechaRegistroTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha de registro:" />
+
+        <EditText
+            android:id="@+id/fechaRegistroEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/actualizarButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:text="Actualizar"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
