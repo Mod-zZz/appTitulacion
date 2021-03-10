@@ -6,6 +6,10 @@ object Constants {
     const val FIREBASE_PREF = "FIREBASE_PREF"
     const val FIREBASE_TOKEN = "FIREBASE_TOKEN"
 
+    const val APP_PREF = "APP_PREF"
+    const val APP_EMAIL = "APP_EMAIL"
+    const val APP_SESSION = "APP_SESSION"
+
     const val USER = "usuario"
     const val TOKEN = "token"
     const val EMAIL = "email"

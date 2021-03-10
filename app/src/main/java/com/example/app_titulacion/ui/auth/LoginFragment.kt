@@ -1,5 +1,7 @@
 package com.example.app_titulacion.ui.auth
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentLoginBinding
+import com.example.app_titulacion.utils.Constants.APP_EMAIL
+import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.APP_SESSION
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
 import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.showAlert
@@ -36,6 +43,10 @@ class LoginFragment : Fragment() {
 
     private lateinit var callbackManager: CallbackManager
 
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private var email: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +59,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+
         callbackManager = CallbackManager.Factory.create()
 
         subscribe()
@@ -58,10 +73,10 @@ class LoginFragment : Fragment() {
             passwordEditText.setText(R.string.dev_password)
 
             loginButton.setOnClickListener {
-                val email = binding.emailEditText.text.toString()
+                email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
 
-                loginViewModel.doSignIn(email, password)
+                loginViewModel.doSignIn(email!!, password)
             }
 
             signUpButton.setOnClickListener {
@@ -102,6 +117,7 @@ class LoginFragment : Fragment() {
 //                                                ProviterType.FACEBOOK
 //                                            )
                                             findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+
                                         } else {
                                             showAlert(
                                                 getString(R.string.error_title),
@@ -132,25 +148,33 @@ class LoginFragment : Fragment() {
 
     }
 
+    private fun saveUserInSharedPreference(email: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(APP_EMAIL, email)
+        editor.putBoolean(APP_SESSION, true)
+        editor.apply()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     private fun subscribe() {
-        loginViewModel.signIn.observe(viewLifecycleOwner, {
+        loginViewModel.signIn.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     Log.d(TAG, "Loading")
                 }
                 is Resource.Success -> {
                     Log.d(TAG, "Success")
-//                    val userInfo = it.data.additionalUserInfo
-//                    val user = it.data.user
-//                    val userCredential = it.data.credential
-//                    val gson = Gson()
-//                    val json = gson.toJson(it.data)
-//                    Log.d(TAG, json)
+                    //                    val userInfo = it.data.additionalUserInfo
+                    //                    val user = it.data.user
+                    //                    val userCredential = it.data.credential
+                    //                    val gson = Gson()
+                    //                    val json = gson.toJson(it.data)
+                    //                    Log.d(TAG, json)
+                    saveUserInSharedPreference(email!!)
                     findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                 }
                 is Resource.Failure -> {
@@ -158,6 +182,6 @@ class LoginFragment : Fragment() {
                     Log.d(TAG, it.throwable.message!!)
                 }
             }
-        })
+        }
     }
 }
