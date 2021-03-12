@@ -29,6 +29,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -64,7 +65,7 @@ class LoginFragment : Fragment() {
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
 
         callbackManager = CallbackManager.Factory.create()
-
+        recuperaToken()
         subscribe()
 
         with(binding) {
@@ -147,6 +148,15 @@ class LoginFragment : Fragment() {
         }
 
     }
+    private fun recuperaToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            it.result?.token?.let {
+                //tk = it
+
+            }
+        }
+    }
+
 
     private fun saveUserInSharedPreference(email: String) {
         val editor = sharedPreferences.edit()
