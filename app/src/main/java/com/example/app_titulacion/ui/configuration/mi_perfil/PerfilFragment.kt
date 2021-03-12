@@ -23,7 +23,7 @@ import com.google.type.Date
 
 class PerfilFragment : Fragment() {
 
-//Traemos la funcion para traer la fecha del servidor
+    //Traemos la funcion para traer la fecha del servidor
     private lateinit var functions: FirebaseFunctions
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -49,31 +49,49 @@ class PerfilFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        traerEmailSession()
+        val email: String;
+        //*********TRAER EL EMAIL GUARADO EN EL SHARE PREFERNECES*********//
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
+        email = sharedPreferences.getString("APP_EMAIL", "").toString()
+
+        //********* FIN TRAER EL EMAIL GUARADO EN EL SHARE PREFERNECES*********//
+        traerEmailSession(email)
+        recuperarInformacionUsaurio(email)
         actualizarInformacionUsuario(binding.correoEditText.text.toString())
 
     }
 
-    private fun traerEmailSession(){
-        sharedPreferences =
-            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
-        binding.correoEditText.setText(sharedPreferences.getString("APP_EMAIL",""))
-
-
+    private fun traerEmailSession(email: String) {
+        binding.correoEditText.setText(email)
     }
 
-    private fun actualizarInformacionUsuario(email :String) {
+    private fun recuperarInformacionUsaurio(email: String) {
+
+        with(binding) {
+            db.collection("users").document(email).get().addOnSuccessListener {
+                celularEditText.setText(it.get("cell") as String?)
+                ciudadEditText.setText(it.get("city") as String?)
+                distritoEditText.setText(it.get("distric") as String?)
+            }
+
+        }
+    }
+
+    private fun actualizarInformacionUsuario(email: String) {
         // TODO IMPLEMENTAR SPINNER EN CIUDAD / DISTRITO
         //https://www.youtube.com/watch?v=dp_ruQOP1sU
 
-        with(binding){
+        with(binding) {
 
-            actualizarButton.setOnClickListener{
+            actualizarButton.setOnClickListener {
 
                 db.collection("users").document(email).set(
-                    hashMapOf("cell" to celularEditText.text.toString(),
-                        "ciudad" to ciudadEditText.text.toString(),
-                        "distrito" to distritoEditText.text.toString())
+                    hashMapOf(
+                        "cell" to celularEditText.text.toString(),
+                        "city" to ciudadEditText.text.toString(),
+                        "distric" to distritoEditText.text.toString()
+                    )
                 )
 
             }
@@ -81,14 +99,6 @@ class PerfilFragment : Fragment() {
 
         }
     }
-
-    private fun recuperarInformacionUsaurio() {
-        // TODO RECUPERAR INFORMACION DEL USURIO LOGUEADO, DESDE SU CORREO
-        with(binding){
-
-        }
-    }
-
 
 
 

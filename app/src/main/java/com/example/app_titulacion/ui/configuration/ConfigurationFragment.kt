@@ -64,7 +64,6 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
         when (pos) {
             MENU_ALERTAR -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_alertarFragment)
-
             }
             MENU_MIS_ALERTAS -> {
                 // Todo Ir a fragmento mis alertas
@@ -77,7 +76,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_perfilFragment)
             }
             MENU_CONTACTOS_DE_CONFIANZA -> {
-                // Todo Ir a fragmento contactos de confianza
+                findNavController().navigate(R.id.action_nav_configuration_fragment_to_contactosCFragment)
             }
             MENU_LOGOUT -> {
                 // Todo Funcion para salir de app
