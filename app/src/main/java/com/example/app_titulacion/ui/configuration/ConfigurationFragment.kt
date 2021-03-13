@@ -114,11 +114,10 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 //CERRAR SESSION GOOGLE
                 if (provider == GMAIL) {
                     FirebaseAuth.getInstance().signOut()
-                    onBackPressed()
                 }
 
-
-                // Todo Funcion para salir de app
+                //findNavController().navigate(R.id.action_nav_configuration_fragment_to_loginFragment2)
+                findNavController().navigate(ConfigurationFragmentDirections.actionNavConfigurationFragmentToLoginFragment2())
 
             }
         }
