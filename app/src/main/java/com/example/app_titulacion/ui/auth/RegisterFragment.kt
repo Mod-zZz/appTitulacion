@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.UserModel
@@ -74,7 +75,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun subscribe() {
-        registerViewModel.createUser.observe(viewLifecycleOwner, {
+        registerViewModel.createUser.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     Log.d(TAG, "createUser Loading")
@@ -87,9 +88,9 @@ class RegisterFragment : Fragment() {
                     Log.d(TAG, "createUser Failure ${it.throwable.message!!}")
                 }
             }
-        })
+        }
 
-        registerViewModel.signUp.observe(viewLifecycleOwner, {
+        registerViewModel.signUp.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     Log.d(TAG, "signUp Loading")
@@ -102,7 +103,7 @@ class RegisterFragment : Fragment() {
                     Log.d(TAG, "signUp Failure ${it.throwable.message!!}")
                 }
             }
-        })
+        }
 
 
     }

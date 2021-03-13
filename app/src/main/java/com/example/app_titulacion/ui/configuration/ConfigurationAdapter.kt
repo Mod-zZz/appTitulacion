@@ -4,28 +4,38 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_titulacion.databinding.ItemConfigurationBinding
-import com.example.app_titulacion.utils.BaseViewHolder
+import com.example.app_titulacion.utils.BaseViewHolderWithIndex
 
-class ConfigurationAdapter(private val list: List<String>) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+class ConfigurationAdapter(
+    private val list: List<String>,
+    private val listener: ConfigurationListener
+) : RecyclerView.Adapter<BaseViewHolderWithIndex<*>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+    interface ConfigurationListener {
+        fun onItemClickSelected(pos: Int)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolderWithIndex<*> {
         val vh =
             ItemConfigurationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ConfigurationViewHolder(vh)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolderWithIndex<*>, position: Int) {
         when (holder) {
-            is ConfigurationViewHolder -> holder.bind(list[position])
+            is ConfigurationViewHolder -> holder.bind(list[position], position)
         }
     }
 
     override fun getItemCount(): Int = list.count()
 
     inner class ConfigurationViewHolder(private val binding: ItemConfigurationBinding) :
-        BaseViewHolder<String>(binding.root) {
-        override fun bind(item: String) = with(binding) {
+        BaseViewHolderWithIndex<String>(binding.root) {
+        override fun bind(item: String, i: Int) = with(binding) {
             tvDescription.text = item
+            root.setOnClickListener { 
+                listener.onItemClickSelected(i)
+            }
         }
     }
 }

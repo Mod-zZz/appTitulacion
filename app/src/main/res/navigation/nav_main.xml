@@ -14,5 +14,30 @@
         android:id="@+id/nav_configuration_fragment"
         android:name="com.example.app_titulacion.ui.configuration.ConfigurationFragment"
         android:label="ConfigurationFragment"
-        tools:layout="@layout/fragment_configuration" />
+        tools:layout="@layout/fragment_configuration" >
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_alertarFragment"
+            app:destination="@id/alertarFragment" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_contactosCFragment"
+            app:destination="@id/contactosCFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alertarFragment"
+        android:name="com.example.app_titulacion.ui.configuration.alertar.AlertarFragment"
+        android:label="fragment_alertar"
+        tools:layout="@layout/fragment_alertar" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.app_titulacion.ui.configuration.mi_perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/contactosCFragment"
+        android:name="com.example.app_titulacion.ui.configuration.contactos_de_confianza.ContactosCFragment"
+        android:label="fragment_contactos_c"
+        tools:layout="@layout/fragment_contactos_c" />
 </navigation>
