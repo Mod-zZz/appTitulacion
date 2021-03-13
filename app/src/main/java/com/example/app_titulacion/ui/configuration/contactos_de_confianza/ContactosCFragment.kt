@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentContactosCBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +16,8 @@ import com.example.app_titulacion.utils.Constants.USER_COL
 import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
 import com.example.app_titulacion.utils.Constants.APP_EMAIL
 import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.EMAIL
+import com.example.app_titulacion.utils.showToast
 
 
 class ContactosCFragment : Fragment() {
@@ -52,12 +55,41 @@ class ContactosCFragment : Fragment() {
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
         email = sharedPreferences.getString(APP_EMAIL, "").toString()
 
-        // TODO CARGAR CONTACTOS DE CONFIANZA
-        contactosGrabados(email)
-        // TODO GRABAR CONTACTOS DE CONFIANZA
+        traerContactos(email)
+
+        with(binding) {
+            guardarButton.setOnClickListener{
+                guardarContactos(email)
+            }
+        }
     }
 
-    private fun contactosGrabados(email: String) {
+    private fun guardarContactos(email: String){
+
+
+        // TODO GRABAR CONTACTOS DE CONFIANZA
+        with(binding){
+
+            val dataUpdate = hashMapOf<String, Any>(
+                "" to correo1EditText.text.toString(),
+                "" to correo2EditText.text.toString(),
+                "" to correo3EditText.text.toString(),
+                "" to correo4EditText.text.toString(),
+                "" to correo5EditText.text.toString()
+            )
+
+            db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document().update(dataUpdate)
+                .addOnSuccessListener {
+                    showToast(getString(R.string.mensajeCorrecto))
+                }.addOnFailureListener { e ->
+                    showToast(getString(R.string.mensajeError))
+                }
+        }
+    }
+
+    private fun traerContactos(email: String) {
+
+        // TODO CARGAR CONTACTOS DE CONFIANZA
 
         with(binding) {
             db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
@@ -80,18 +112,9 @@ class ContactosCFragment : Fragment() {
                             3 -> correo4EditText.setText(item.email)
                             4 -> correo5EditText.setText(item.email)
                         }
-
-//                        correo2EditText.setText(item.get("email2") as String?)
-//                        correo3EditText.setText(item.get("email3") as String?)
-//                        correo4EditText.setText(item.get("email4") as String?)
-//                        correo5EditText.setText(item.get("email5") as String?)
                     }
-
                 }
-
         }
-
-
     }
 
 

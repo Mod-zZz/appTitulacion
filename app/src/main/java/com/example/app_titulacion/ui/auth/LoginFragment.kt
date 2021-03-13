@@ -21,6 +21,7 @@ import com.example.app_titulacion.utils.Constants.APP_PREF
 import com.example.app_titulacion.utils.Constants.APP_PROVIDER
 import com.example.app_titulacion.utils.Constants.APP_SESSION
 import com.example.app_titulacion.utils.Constants.APP_TOKEN
+import com.example.app_titulacion.utils.Constants.BASIC
 import com.example.app_titulacion.utils.Constants.FACEBOOK
 import com.example.app_titulacion.utils.Constants.GMAIL
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
@@ -58,7 +59,6 @@ class LoginFragment : Fragment() {
 
     private var email: String? = null
 
-    //Variable Token
     var MyToken = ""
     var provider = ""
 
@@ -74,6 +74,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        session()
 
         sharedPreferences =
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
@@ -91,8 +92,8 @@ class LoginFragment : Fragment() {
             loginButton.setOnClickListener {
                 email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
-                               loginViewModel.doSignIn(email!!, password)
-                val provider = "BASIC"
+                loginViewModel.doSignIn(email!!, password)
+                provider = BASIC
             }
 
             signUpButton.setOnClickListener {
@@ -129,7 +130,7 @@ class LoginFragment : Fragment() {
                                     .addOnCompleteListener { authResult ->
 
                                         if (authResult.isSuccessful) {
-                                            val provider = "GMAIL"
+                                            provider = FACEBOOK
                                             val userFb = authResult.result?.user?.email!!
                                             val user = UserModel(userFb, FACEBOOK, "", MyToken)
                                             registerViewModel.doCreateUser(user)
@@ -163,6 +164,19 @@ class LoginFragment : Fragment() {
 
     }
 
+    private fun session() {
+
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+
+        val isSessionActive = sharedPreferences.getBoolean(APP_SESSION, false)
+
+        if (isSessionActive) {
+            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        }
+
+    }
+
     //************************************* GOOGLE INICIO DE SESION *************************************
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //**************** AGREGADO PARA FACEBOOK ****************
@@ -188,7 +202,7 @@ class LoginFragment : Fragment() {
                                 val userGM = authResult.result?.user?.email!!
                                 val user = UserModel(userGM, GMAIL, "", MyToken)
                                 registerViewModel.doCreateUser(user)
-                                val provider = "GMAIL"
+                                provider = GMAIL
 
                             } else {
                                 showAlert(

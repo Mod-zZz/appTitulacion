@@ -116,8 +116,8 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                     FirebaseAuth.getInstance().signOut()
                 }
 
-                //findNavController().navigate(R.id.action_nav_configuration_fragment_to_loginFragment2)
-                findNavController().navigate(ConfigurationFragmentDirections.actionNavConfigurationFragmentToLoginFragment2())
+                findNavController().navigate(R.id.action_nav_configuration_fragment_to_nav_auth)
+                //findNavController().navigate(ConfigurationFragmentDirections.actionNavConfigurationFragmentToNavAuth())
 
             }
         }

@@ -25,15 +25,8 @@
             android:id="@+id/action_nav_configuration_fragment_to_contactosCFragment"
             app:destination="@id/contactosCFragment" />
         <action
-            android:id="@+id/action_nav_configuration_fragment_to_loginFragment2"
-            app:destination="@id/loginFragment2"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/nav_auth"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_nav_configuration_fragment_to_nav_auth"
+            app:destination="@id/nav_auth" />
     </fragment>
     <fragment
         android:id="@+id/alertarFragment"
@@ -50,9 +43,5 @@
         android:name="com.example.app_titulacion.ui.configuration.contactos_de_confianza.ContactosCFragment"
         android:label="fragment_contactos_c"
         tools:layout="@layout/fragment_contactos_c" />
-    <fragment
-        android:id="@+id/loginFragment2"
-        android:name="com.example.app_titulacion.ui.auth.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+    <include app:graph="@navigation/nav_auth" />
 </navigation>
