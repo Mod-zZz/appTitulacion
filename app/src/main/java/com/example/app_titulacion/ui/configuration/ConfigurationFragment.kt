@@ -1,16 +1,19 @@
 package com.example.app_titulacion.ui.configuration
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentConfigurationBinding
+import com.example.app_titulacion.ui.MainActivity
 import com.example.app_titulacion.utils.Constants
 import com.example.app_titulacion.utils.Constants.APP_PREF
 import com.example.app_titulacion.utils.Constants.FACEBOOK
@@ -116,8 +119,11 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                     FirebaseAuth.getInstance().signOut()
                 }
 
-                findNavController().navigate(R.id.action_nav_configuration_fragment_to_nav_auth)
+//                findNavController().navigate(R.id.action_nav_configuration_fragment_to_nav_auth)
                 //findNavController().navigate(ConfigurationFragmentDirections.actionNavConfigurationFragmentToNavAuth())
+                val mIntent = Intent(context, MainActivity::class.java)
+                ActivityCompat.finishAffinity(requireActivity())
+                startActivity(mIntent)
 
             }
         }

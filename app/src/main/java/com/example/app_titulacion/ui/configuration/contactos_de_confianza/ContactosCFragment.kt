@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentContactosCBinding
+import com.example.app_titulacion.utils.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.app_titulacion.utils.Constants.USER_COL
 import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
@@ -22,7 +23,7 @@ import com.example.app_titulacion.utils.showToast
 
 class ContactosCFragment : Fragment() {
 
-    private val TAG ="ContactosCFragment"
+    private val TAG = "ContactosCFragment"
 
     private var _binding: FragmentContactosCBinding? = null
 
@@ -58,17 +59,22 @@ class ContactosCFragment : Fragment() {
         traerContactos(email)
 
         with(binding) {
-            guardarButton.setOnClickListener{
+            guardarButton.setOnClickListener {
                 guardarContactos(email)
             }
         }
     }
 
-    private fun guardarContactos(email: String){
+    private fun guardarContactos(email: String) {
 
 
         // TODO GRABAR CONTACTOS DE CONFIANZA
+
         with(binding){
+            db.collection(USER_COL).document(email)
+        }
+
+        with(binding) {
 
             val dataUpdate = hashMapOf<String, Any>(
                 "" to correo1EditText.text.toString(),
@@ -78,7 +84,8 @@ class ContactosCFragment : Fragment() {
                 "" to correo5EditText.text.toString()
             )
 
-            db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document().update(dataUpdate)
+            db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document()
+                .update(dataUpdate)
                 .addOnSuccessListener {
                     showToast(getString(R.string.mensajeCorrecto))
                 }.addOnFailureListener { e ->
