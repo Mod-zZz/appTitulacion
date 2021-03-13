@@ -79,6 +79,25 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_contactosCFragment)
             }
             MENU_LOGOUT -> {
+
+                //BORRAR DATOS DE SESION GUARDADOS
+                val prefs =
+                    getSharedPreferences(
+                        getString(R.string.prefs_file),
+                        Context.MODE_PRIVATE
+                    ).edit()
+                prefs.clear()
+                prefs.apply()
+
+                //CERRAR SESION FACEBOOK
+                if (provider == ProviterType.FACEBOOK.name) {
+                    LoginManager.getInstance().logOut()
+                }
+
+                //CERRAR SESSION GOOGLE
+                FirebaseAuth.getInstance().signOut()
+                onBackPressed()
+
                 // Todo Funcion para salir de app
 
             }
