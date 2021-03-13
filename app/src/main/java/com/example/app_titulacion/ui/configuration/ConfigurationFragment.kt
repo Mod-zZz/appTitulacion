@@ -80,6 +80,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
             }
             MENU_LOGOUT -> {
                 // Todo Funcion para salir de app
+
             }
         }
     }

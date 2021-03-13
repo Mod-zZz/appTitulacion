@@ -11,15 +11,14 @@ object Constants {
     const val APP_SESSION = "APP_SESSION"
     const val APP_TOKEN = "APPTOKEN"
 
+    //region COLECCION USUARIO
     const val USER_COL = "usuario"
     const val TOKEN_FIELD = "token"
     const val EMAIL = "email"
     const val PROVIDER_FIELD = "provider"
-
-    //region COLECCION USUARIO
-    const val CAMPO_CELL = "celular"
-    const val CAMPO_CITY = "ciudad"
-    const val CAMPO_DISTRICT = "distrito"
+    const val CELL_FIELD = "celular"
+    const val CITY_FIELD = "ciudad"
+    const val DISTRICT_FIELD = "distrito"
     //endregion
 
     //region DENTRO DEL DOCUMENTO ID_EMAIL COLECCION CONTACTOS SEGUROS

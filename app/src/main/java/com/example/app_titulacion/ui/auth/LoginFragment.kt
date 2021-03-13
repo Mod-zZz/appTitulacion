@@ -1,6 +1,7 @@
 package com.example.app_titulacion.ui.auth
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.example.app_titulacion.utils.Constants.APP_PREF
 import com.example.app_titulacion.utils.Constants.APP_SESSION
 import com.example.app_titulacion.utils.Constants.APP_TOKEN
 import com.example.app_titulacion.utils.Constants.FACEBOOK
+import com.example.app_titulacion.utils.Constants.GMAIL
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
 import com.example.app_titulacion.utils.Constants.TOKEN_FIELD
 import com.example.app_titulacion.utils.Resource
@@ -31,8 +33,10 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.iid.FirebaseInstanceId
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -121,6 +125,7 @@ class LoginFragment : Fragment() {
 
                                 FirebaseAuth.getInstance().signInWithCredential(credential)
                                     .addOnCompleteListener { authResult ->
+
                                         if (authResult.isSuccessful) {
 
                                             val userFb = authResult.result?.user?.email!!
@@ -156,6 +161,55 @@ class LoginFragment : Fragment() {
 
     }
 
+    //************************************* GOOGLE INICIO DE SESION *************************************
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //**************** AGREGADO PARA FACEBOOK ****************
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        //**************** FIN AGREGADO PARA FACEBOOK ****************
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                //LA CUENTA VALOR PUEDE TRAER UN ERROR - TRY
+                val account = task.getResult(ApiException::class.java)
+
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener { authResult ->
+
+                            if (authResult.isSuccessful) {
+
+                                val userGM = authResult.result?.user?.email!!
+                                val user = UserModel(userGM, GMAIL, "", MyToken)
+                                registerViewModel.doCreateUser(user)
+
+                            } else {
+                                showAlert(
+                                    getString(R.string.error_title),
+                                    getString(R.string.error_message),
+                                    getString(
+                                        R.string.ok
+                                    )
+                                )
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                showAlert(
+                    getString(R.string.error_title),
+                    getString(R.string.error_message),
+                    getString(
+                        R.string.ok
+                    )
+                )
+            }
+        }
+    }
+
     private fun recuperaToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             it.result?.token?.let { mToken ->
@@ -169,7 +223,7 @@ class LoginFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString(APP_EMAIL, email)
         editor.putBoolean(APP_SESSION, true)
-        // editor.putString(APP_TOKEN, MyToken)
+        editor.putString(APP_TOKEN, MyToken)
         editor.apply()
     }
 
