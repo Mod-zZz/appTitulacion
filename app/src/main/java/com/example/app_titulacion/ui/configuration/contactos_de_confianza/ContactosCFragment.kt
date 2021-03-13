@@ -1,14 +1,31 @@
 package com.example.app_titulacion.ui.configuration.contactos_de_confianza
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app_titulacion.R
+import com.example.app_titulacion.data.model.Contact
+import com.example.app_titulacion.databinding.FragmentContactosCBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.example.app_titulacion.utils.Constants.USER_COL
+import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
+import com.example.app_titulacion.utils.Constants.APP_EMAIL
+import com.example.app_titulacion.utils.Constants.APP_PREF
 
 
 class ContactosCFragment : Fragment() {
+
+    private val TAG ="ContactosCFragment"
+
+    private var _binding: FragmentContactosCBinding? = null
+
+    private val binding get() = _binding!!
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +39,59 @@ class ContactosCFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contactos_c, container, false)
+
+        _binding = FragmentContactosCBinding.inflate(inflater, container, false)
+        return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val email: String;
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+        email = sharedPreferences.getString(APP_EMAIL, "").toString()
+
+        // TODO CARGAR CONTACTOS DE CONFIANZA
+        contactosGrabados(email)
+        // TODO GRABAR CONTACTOS DE CONFIANZA
+    }
+
+    private fun contactosGrabados(email: String) {
+
+        with(binding) {
+            db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+
+                    if (firebaseFirestoreException != null) {
+                        Log.e(TAG, "firebaseFirestoreException", firebaseFirestoreException)
+                    }
+
+                    val list = mutableListOf<Contact>()
+                    querySnapshot!!.forEach { queryDocumentSnapshot ->
+                        list.add(queryDocumentSnapshot.toObject(Contact::class.java))
+                    }
+
+                    list.forEachIndexed { pos, item ->
+                        when (pos) {
+                            0 -> correo1EditText.setText(item.email)
+                            1 -> correo2EditText.setText(item.email)
+                            2 -> correo3EditText.setText(item.email)
+                            3 -> correo4EditText.setText(item.email)
+                            4 -> correo5EditText.setText(item.email)
+                        }
+
+//                        correo2EditText.setText(item.get("email2") as String?)
+//                        correo3EditText.setText(item.get("email3") as String?)
+//                        correo4EditText.setText(item.get("email4") as String?)
+//                        correo5EditText.setText(item.get("email5") as String?)
+                    }
+
+                }
+
+        }
+
+
     }
 
 

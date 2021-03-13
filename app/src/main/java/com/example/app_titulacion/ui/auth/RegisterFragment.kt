@@ -15,6 +15,8 @@ import com.example.app_titulacion.databinding.FragmentRegisterBinding
 import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.getNewToken
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.app_titulacion.utils.Constants.BASIC
+
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -62,10 +64,11 @@ class RegisterFragment : Fragment() {
                 user = UserModel(
                     email = email,
                     password = password,
-                    token = getNewToken(requireContext())!!
+                    token = getNewToken(requireContext())!!,
+                    provider = BASIC
                 )
 
-                registerViewModel.createUser(user!!)
+                registerViewModel.doCreateUser(user!!)
 
 //                    }
             }

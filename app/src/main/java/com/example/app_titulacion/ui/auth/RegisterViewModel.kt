@@ -38,7 +38,7 @@ class RegisterViewModel @Inject constructor(private val authDataRepository: Auth
     }
 
 
-    fun createUser(user: UserModel) {
+    fun doCreateUser(user: UserModel) {
         _createUser.postValue(Resource.Loading())
         try {
             viewModelScope.launch(Dispatchers.IO) {

@@ -3,23 +3,20 @@ package com.example.app_titulacion.ui.configuration.mi_perfil
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app_titulacion.R
-import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentPerfilBinding
-import com.example.app_titulacion.databinding.FragmentRegisterBinding
 import com.example.app_titulacion.utils.Constants
-import com.facebook.share.Share
+import com.example.app_titulacion.utils.Constants.APP_EMAIL
+import com.example.app_titulacion.utils.Constants.CAMPO_CELL
+import com.example.app_titulacion.utils.Constants.CAMPO_CITY
+import com.example.app_titulacion.utils.Constants.CAMPO_DISTRICT
+import com.example.app_titulacion.utils.Constants.USER_COL
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ServerTimestamp
-
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.firestore.v1.DocumentTransform
-import com.google.type.Date
+
 
 class PerfilFragment : Fragment() {
 
@@ -43,19 +40,18 @@ class PerfilFragment : Fragment() {
     ): View? {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
         return binding.root
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val email: String;
         //*********TRAER EL EMAIL GUARADO EN EL SHARE PREFERNECES*********//
         sharedPreferences =
             this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
-        email = sharedPreferences.getString("APP_EMAIL", "").toString()
+        email = sharedPreferences.getString(APP_EMAIL, "").toString()
 
         //********* FIN TRAER EL EMAIL GUARADO EN EL SHARE PREFERNECES*********//
+
         traerEmailSession(email)
         recuperarInformacionUsaurio(email)
         actualizarInformacionUsuario(binding.correoEditText.text.toString())
@@ -69,10 +65,10 @@ class PerfilFragment : Fragment() {
     private fun recuperarInformacionUsaurio(email: String) {
 
         with(binding) {
-            db.collection("users").document(email).get().addOnSuccessListener {
-                celularEditText.setText(it.get("cell") as String?)
-                ciudadEditText.setText(it.get("city") as String?)
-                distritoEditText.setText(it.get("distric") as String?)
+            db.collection(USER_COL).document(email).get().addOnSuccessListener {
+                celularEditText.setText(it.get(CAMPO_CELL) as String?)
+                ciudadEditText.setText(it.get(CAMPO_CITY) as String?)
+                distritoEditText.setText(it.get(CAMPO_DISTRICT) as String?)
             }
 
         }
@@ -86,11 +82,11 @@ class PerfilFragment : Fragment() {
 
             actualizarButton.setOnClickListener {
 
-                db.collection("users").document(email).set(
+                db.collection(USER_COL).document(email).set(
                     hashMapOf(
-                        "cell" to celularEditText.text.toString(),
-                        "city" to ciudadEditText.text.toString(),
-                        "distric" to distritoEditText.text.toString()
+                        CAMPO_CELL to celularEditText.text.toString(),
+                        CAMPO_CITY to ciudadEditText.text.toString(),
+                        CAMPO_DISTRICT to distritoEditText.text.toString()
                     )
                 )
 
