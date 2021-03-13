@@ -17,6 +17,7 @@ import com.example.app_titulacion.databinding.FragmentLoginBinding
 import com.example.app_titulacion.utils.Constants.APP_EMAIL
 import com.example.app_titulacion.utils.Constants.APP_PREF
 import com.example.app_titulacion.utils.Constants.APP_SESSION
+import com.example.app_titulacion.utils.Constants.APP_TOKEN
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
 import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.showAlert
@@ -48,6 +49,9 @@ class LoginFragment : Fragment() {
 
     private var email: String? = null
 
+    //Variable Token
+    var tk = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,6 +69,7 @@ class LoginFragment : Fragment() {
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
 
         callbackManager = CallbackManager.Factory.create()
+
         recuperaToken()
         subscribe()
 
@@ -151,8 +156,7 @@ class LoginFragment : Fragment() {
     private fun recuperaToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             it.result?.token?.let {
-                //tk = it
-
+                tk = it
             }
         }
     }
@@ -162,6 +166,7 @@ class LoginFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString(APP_EMAIL, email)
         editor.putBoolean(APP_SESSION, true)
+        editor.putString(APP_TOKEN, tk)
         editor.apply()
     }
 
