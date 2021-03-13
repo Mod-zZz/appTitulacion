@@ -24,8 +24,11 @@ object Constants {
 
     //region DENTRO DEL DOCUMENTO ID_EMAIL COLECCION CONTACTOS SEGUROS
     const val COLEC_CONTACT = "cSeguro"
-    const val CAMPO_EMAIL_C = "email"
-    const val CAMPO_TOKEN_C = "token"
+    const val EMAIL1_FIELD = "email1"
+    const val EMAIL2_FIELD = "email2"
+    const val EMAIL3_FIELD = "email3"
+    const val EMAIL4_FIELD = "email4"
+    const val EMAIL5_FIELD = "email5"
     //endregion
 
 
