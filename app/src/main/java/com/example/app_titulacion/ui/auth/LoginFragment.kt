@@ -18,6 +18,7 @@ import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentLoginBinding
 import com.example.app_titulacion.utils.Constants.APP_EMAIL
 import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.APP_PROVIDER
 import com.example.app_titulacion.utils.Constants.APP_SESSION
 import com.example.app_titulacion.utils.Constants.APP_TOKEN
 import com.example.app_titulacion.utils.Constants.FACEBOOK
@@ -59,6 +60,7 @@ class LoginFragment : Fragment() {
 
     //Variable Token
     var MyToken = ""
+    var provider = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,8 +91,8 @@ class LoginFragment : Fragment() {
             loginButton.setOnClickListener {
                 email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
-
-                loginViewModel.doSignIn(email!!, password)
+                               loginViewModel.doSignIn(email!!, password)
+                val provider = "BASIC"
             }
 
             signUpButton.setOnClickListener {
@@ -127,7 +129,7 @@ class LoginFragment : Fragment() {
                                     .addOnCompleteListener { authResult ->
 
                                         if (authResult.isSuccessful) {
-
+                                            val provider = "GMAIL"
                                             val userFb = authResult.result?.user?.email!!
                                             val user = UserModel(userFb, FACEBOOK, "", MyToken)
                                             registerViewModel.doCreateUser(user)
@@ -186,6 +188,7 @@ class LoginFragment : Fragment() {
                                 val userGM = authResult.result?.user?.email!!
                                 val user = UserModel(userGM, GMAIL, "", MyToken)
                                 registerViewModel.doCreateUser(user)
+                                val provider = "GMAIL"
 
                             } else {
                                 showAlert(
@@ -224,6 +227,7 @@ class LoginFragment : Fragment() {
         editor.putString(APP_EMAIL, email)
         editor.putBoolean(APP_SESSION, true)
         editor.putString(APP_TOKEN, MyToken)
+        editor.putString(APP_PROVIDER, provider)
         editor.apply()
     }
 

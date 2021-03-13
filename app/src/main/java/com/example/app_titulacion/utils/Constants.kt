@@ -9,7 +9,8 @@ object Constants {
     const val APP_PREF = "APP_PREF"
     const val APP_EMAIL = "APP_EMAIL"
     const val APP_SESSION = "APP_SESSION"
-    const val APP_TOKEN = "APPTOKEN"
+    const val APP_TOKEN = "APP_TOKEN"
+    const val APP_PROVIDER = "APP_PROVIDER"
 
     //region COLECCION USUARIO
     const val USER_COL = "usuario"

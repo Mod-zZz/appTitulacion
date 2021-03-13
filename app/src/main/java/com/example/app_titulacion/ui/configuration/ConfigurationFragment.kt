@@ -1,5 +1,7 @@
 package com.example.app_titulacion.ui.configuration
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +11,27 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentConfigurationBinding
+import com.example.app_titulacion.utils.Constants
+import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.FACEBOOK
+import com.example.app_titulacion.utils.Constants.GMAIL
+import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
 import com.example.app_titulacion.utils.Constants.MENU_ALERTAR
 import com.example.app_titulacion.utils.Constants.MENU_CONTACTOS_DE_CONFIANZA
 import com.example.app_titulacion.utils.Constants.MENU_LOGOUT
 import com.example.app_titulacion.utils.Constants.MENU_MIS_ALERTAS
 import com.example.app_titulacion.utils.Constants.MENU_MI_PERFIL
 import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationListener {
 
     private val TAG = "ConfigurationFragment"
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var _binding: FragmentConfigurationBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +57,8 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
 
         configurationAdapter = ConfigurationAdapter(configurationList, this)
 
@@ -80,23 +93,30 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
             }
             MENU_LOGOUT -> {
 
+                //RECUPERANDO EL PROVEEDOR
+                sharedPreferences =
+                    this.requireActivity()
+                        .getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
+
+                val provider = sharedPreferences.getString(Constants.APP_PROVIDER, "").toString()
+
                 //BORRAR DATOS DE SESION GUARDADOS
                 val prefs =
-                    getSharedPreferences(
-                        getString(R.string.prefs_file),
-                        Context.MODE_PRIVATE
-                    ).edit()
-                prefs.clear()
-                prefs.apply()
+                    this.activity?.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)?.edit()
+                prefs?.clear()
+                prefs?.apply()
 
                 //CERRAR SESION FACEBOOK
-                if (provider == ProviterType.FACEBOOK.name) {
+                if (provider == FACEBOOK) {
                     LoginManager.getInstance().logOut()
                 }
 
                 //CERRAR SESSION GOOGLE
-                FirebaseAuth.getInstance().signOut()
-                onBackPressed()
+                if (provider == GMAIL) {
+                    FirebaseAuth.getInstance().signOut()
+                    onBackPressed()
+                }
+
 
                 // Todo Funcion para salir de app
 
