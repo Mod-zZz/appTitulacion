@@ -72,12 +72,66 @@ class ContactosCFragment : Fragment() {
         with(binding) {
             guardarButton.setOnClickListener {
                 guardarContactos(email)
+
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_1(correo1EditText.text.toString(), email)
+                }
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_2(correo2EditText.text.toString(), email)
+                }
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_3(correo3EditText.text.toString(), email)
+                }
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_4(correo4EditText.text.toString(), email)
+                }
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_5(correo5EditText.text.toString(), email)
+                }
+
             }
+
+            Email1Button.setOnClickListener {
+                if (correo1EditText.text.toString() != "") {
+                    actualizarTokenCorreo_1(correo1EditText.text.toString(), email)
+                }
+
+            }
+
+            Email2Button.setOnClickListener {
+                if (correo2EditText.text.toString() != "") {
+                    actualizarTokenCorreo_2(correo2EditText.text.toString(), email)
+                }
+
+            }
+
+            Email3Button.setOnClickListener {
+                if (correo3EditText.text.toString() != "") {
+                    actualizarTokenCorreo_3(correo3EditText.text.toString(), email)
+                }
+
+            }
+
+            Email4Button.setOnClickListener {
+                if (correo4EditText.text.toString() != "") {
+                    actualizarTokenCorreo_4(correo4EditText.text.toString(), email)
+                }
+
+            }
+
+            Email5Button.setOnClickListener {
+
+                if (correo5EditText.text.toString() != "") {
+                    actualizarTokenCorreo_5(correo5EditText.text.toString(), email)
+                }
+
+            }
+
+
         }
     }
 
     private fun guardarContactos(email: String) {
-
 
         // TODO GRABAR CONTACTOS DE CONFIANZA
 
@@ -116,17 +170,10 @@ class ContactosCFragment : Fragment() {
                 batch.set(email4Ref, email4Contact)
                 batch.set(email5Ref, email5Contact)
             }.addOnSuccessListener {
-                actualizarTokens(
-                    email,
-                    email1Value,
-                    email2Value,
-                    email3Value,
-                    email4Value,
-                    email5Value
-                )
                 showToast(R.string.mensajeCorrecto.toString())
+                showToast("Sí guardo por primera vez ó actualizó el contacto de confianza no olvide probar")
             }.addOnFailureListener { e ->
-                Log.e(TAG, e.message!!)
+                //Log.e(TAG, e.message!!)
                 showToast(R.string.mensajeError.toString())
             }
 
@@ -134,105 +181,137 @@ class ContactosCFragment : Fragment() {
 
     }
 
-    private fun actualizarTokens(
-        email: String,
-        email1Value: String,
-        email2Value: String,
-        email3Value: String,
-        email4Value: String,
-        email5Value: String
-    ) {
+    private fun actualizarTokenCorreo_1(emailValue: String, email: String) =
+        CoroutineScope(Dispatchers.IO).launch {
 
-        //TODO TRAER EL TOKEN DEL CORREO
-        var tokenCorreo1: String = ""
-        var tokenCorreo2: String = ""
-        var tokenCorreo3: String = ""
-        var tokenCorreo4: String = ""
-        var tokenCorreo5: String = ""
+            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
 
-        //region OBTENER EL TOKEN DE CADA CORREO REGISTRADO
-        if (email1Value != "") {
-//            val email1Ref = db.collection(USER_COL).document(email1Value).get().await()
+            if (tokenC != "") {
+                val dataUpdate = hashMapOf<String, Any>(
+                    TOKEN_FIELD to tokenC
+                )
 
-//            db.collection(USER_COL).document(email1Value).get().addOnSuccessListener {
-//                tokenCorreo1 = ((it.get(TOKEN_FIELD) as String?).toString())
-//                Log.d(TAG, "tokenCorreo1 " + tokenCorreo1)
-//            }
+                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                    .document(EMAIL2_FIELD)
+                    .update(dataUpdate).addOnSuccessListener {
+                        showToast(R.string.mensajeCorrecto.toString())
+                    }.addOnFailureListener { e ->
+                        showToast(R.string.mensajeError.toString())
+                    }
+            }
+
         }
 
-        if (email2Value != "") {
-            db.collection(USER_COL).document(email2Value).get().addOnSuccessListener {
-                tokenCorreo2 = ((it.get(TOKEN_FIELD) as String?).toString())
-                Log.d(TAG, "tokenCorreo2 " + tokenCorreo2)
+    private fun actualizarTokenCorreo_2(emailValue: String, email: String) =
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
+
+            if (tokenC != "") {
+                val dataUpdate = hashMapOf<String, Any>(
+                    TOKEN_FIELD to tokenC
+                )
+
+                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                    .document(EMAIL2_FIELD)
+                    .update(dataUpdate).addOnSuccessListener {
+                        showToast(R.string.mensajeCorrecto.toString())
+                    }.addOnFailureListener { e ->
+                        showToast(R.string.mensajeError.toString())
+                    }
+            }
+
+
+        }
+
+
+    private fun actualizarTokenCorreo_3(emailValue: String, email: String) =
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
+
+            if (tokenC != "") {
+
+                val dataUpdate = hashMapOf<String, Any>(
+                    TOKEN_FIELD to tokenC
+                )
+
+                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                    .document(EMAIL3_FIELD)
+                    .update(dataUpdate).addOnSuccessListener {
+                        showToast(R.string.mensajeCorrecto.toString())
+                    }.addOnFailureListener { e ->
+                        showToast(R.string.mensajeError.toString())
+                    }
             }
         }
 
-        if (email3Value != "") {
-            db.collection(USER_COL).document(email3Value).get().addOnSuccessListener {
-                tokenCorreo3 = ((it.get(TOKEN_FIELD) as String?).toString())
-                Log.d(TAG, "tokenCorreo3 " + tokenCorreo3)
+
+    private fun actualizarTokenCorreo_4(emailValue: String, email: String) =
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
+
+            if (tokenC != "") {
+
+                val dataUpdate = hashMapOf<String, Any>(
+                    TOKEN_FIELD to tokenC
+                )
+
+                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                    .document(EMAIL4_FIELD)
+                    .update(dataUpdate).addOnSuccessListener {
+                        showToast(R.string.mensajeCorrecto.toString())
+                    }.addOnFailureListener { e ->
+                        Log.e(TAG, e.message!!)
+                        showToast(R.string.mensajeError.toString())
+                    }
+            }
+
+
+        }
+
+    private fun actualizarTokenCorreo_5(emailValue: String, email: String) =
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
+
+            if (tokenC != "") {
+                val dataUpdate = hashMapOf<String, Any>(
+                    TOKEN_FIELD to tokenC
+                )
+
+                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+                    .document(EMAIL5_FIELD)
+                    .update(dataUpdate).addOnSuccessListener {
+                        showToast(R.string.mensajeCorrecto.toString())
+                    }.addOnFailureListener { e ->
+                        Log.e(TAG, e.message!!)
+                        showToast(R.string.mensajeError.toString())
+                    }
             }
         }
 
-        if (email4Value != "") {
-            db.collection(USER_COL).document(email4Value).get().addOnSuccessListener {
-                tokenCorreo4 = ((it.get(TOKEN_FIELD) as String?).toString())
-                Log.d(TAG, "tokenCorreo4 " + tokenCorreo4)
-            }
+    private fun actualizarTokenCorreo_example(emailValue: String, email: String) {
+        var tokenC: String
+
+        db.collection(USER_COL).document(emailValue).get().addOnSuccessListener {
+            tokenC = ((it.get(TOKEN_FIELD) as String?).toString())
+
+            val dataUpdate = hashMapOf<String, Any>(
+                TOKEN_FIELD to tokenC
+            )
+
+            db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL5_FIELD)
+                .update(dataUpdate).addOnSuccessListener {
+                    showToast(R.string.mensajeCorrecto.toString())
+                }.addOnFailureListener { e ->
+                    Log.e(TAG, e.message!!)
+                    showToast(R.string.mensajeError.toString())
+                }
         }
-
-        if (email5Value != "") {
-            db.collection(USER_COL).document(email5Value).get().addOnSuccessListener {
-                tokenCorreo5 = ((it.get(TOKEN_FIELD) as String?).toString())
-                Log.d(TAG, "tokenCorreo5 " + tokenCorreo5)
-            }
-        }
-        //endregion
-
-
-        //region PASANDO A LA CLAVE SU VALOR CORRESPONDIENTE
-        val dataUpdate1 = hashMapOf<String, Any>(
-            TOKEN_FIELD to tokenCorreo1
-        )
-
-        val dataUpdate2 = hashMapOf<String, Any>(
-            TOKEN_FIELD to tokenCorreo2
-        )
-
-        val dataUpdate3 = hashMapOf<String, Any>(
-            TOKEN_FIELD to tokenCorreo3
-        )
-
-        val dataUpdate4 = hashMapOf<String, Any>(
-            TOKEN_FIELD to tokenCorreo4
-        )
-
-        val dataUpdate5 = hashMapOf<String, Any>(
-            TOKEN_FIELD to tokenCorreo5
-        )
-        //endregion
-
-        //region ACTUALIZANDO LOS DATOS QUE CORRESPONDAN
-
-        db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL1_FIELD)
-            .update(dataUpdate1)
-
-        db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL2_FIELD)
-            .update(dataUpdate2)
-
-        db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL3_FIELD)
-            .update(dataUpdate3)
-
-        db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL4_FIELD)
-            .update(dataUpdate4)
-
-        db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL5_FIELD)
-            .update(dataUpdate5)
-
-        //endregion
-
-
     }
+
 
     private fun getTokenFromTrustedContact(email: String) = CoroutineScope(Dispatchers.IO).launch {
         try {
@@ -241,7 +320,7 @@ class ContactosCFragment : Fragment() {
 
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                showToast("Eres la cagada")
+                showToast(R.string.mensajeError.toString())
             }
         }
     }
