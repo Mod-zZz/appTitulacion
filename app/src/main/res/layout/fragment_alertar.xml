@@ -5,11 +5,50 @@
     android:layout_height="match_parent"
     tools:context=".ui.configuration.alertar.AlertarFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Pantalla alertas"
-        android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/acosoSButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/AcosoSexual"
+            android:text="Acoso Sexual"
+            android:textColor="@color/black" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/acosoVerbalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/AcosoVerbal"
+            android:text="Acoso Verbal"
+            android:textColor="@color/black" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/agrecionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/AgresionFisica"
+            android:text="Agregecion Fisica"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
 </FrameLayout>
