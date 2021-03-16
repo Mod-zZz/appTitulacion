@@ -29,8 +29,14 @@ android {
 
     buildTypes {
         release {
+            def base_url_debug = "https://poblacion-vulnerable.herokuapp.com"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', "\"$base_url_debug/api/\""
+        }
+        debug {
+            def base_url_debug = "https://poblacion-vulnerable.herokuapp.com"
+            buildConfigField 'String', 'BASE_URL', "\"$base_url_debug/api/\""
         }
     }
     compileOptions {
@@ -113,6 +119,13 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.31.2-alpha"
     implementation('androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03')
     kapt('androidx.hilt:hilt-compiler:1.0.0-alpha03')
+
+    //Retrofit
+    implementation('com.squareup.retrofit2:retrofit:2.9.0')
+    implementation('com.google.code.gson:gson:2.8.6')
+    implementation('com.squareup.retrofit2:converter-gson:2.9.0')
+    implementation('com.squareup.okhttp3:logging-interceptor:4.7.2')
+    implementation('org.conscrypt:conscrypt-android:2.2.1')
 
     // Date
     implementation('joda-time:joda-time:2.10.6')

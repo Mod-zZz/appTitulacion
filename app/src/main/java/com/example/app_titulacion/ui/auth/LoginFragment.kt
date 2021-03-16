@@ -148,6 +148,7 @@ class LoginFragment : Fragment() {
         }
 
     }
+
     private fun recuperaToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             it.result?.token?.let {

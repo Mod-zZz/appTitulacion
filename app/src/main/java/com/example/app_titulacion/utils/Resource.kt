@@ -9,20 +9,20 @@ sealed class Resource<out T> {
     data class Failure<out T>(val throwable: Throwable) : Resource<T>()
 }
 
-//data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
-//
-//    companion object {
-//        fun <T> success(data: T): Resource<T> {
-//            return Resource(Status.SUCCESS, data, null)
-//        }
-//
-//        fun <T> error(message: String, data: T? = null): Resource<T> {
-//            return Resource(Status.ERROR, data, message)
-//        }
-//
-//        fun <T> loading(data: T? = null): Resource<T> {
-//            return Resource(Status.LOADING, data, null)
-//        }
-//    }
-//
-//}
+data class ResourceV2<out T>(val status: Status, val data: T?, val message: String?) {
+
+    companion object {
+        fun <T> success(data: T): ResourceV2<T> {
+            return ResourceV2(Status.SUCCESS, data, null)
+        }
+
+        fun <T> error(message: String, data: T? = null): ResourceV2<T> {
+            return ResourceV2(Status.ERROR, data, message)
+        }
+
+        fun <T> loading(data: T? = null): ResourceV2<T> {
+            return ResourceV2(Status.LOADING, data, null)
+        }
+    }
+
+}
