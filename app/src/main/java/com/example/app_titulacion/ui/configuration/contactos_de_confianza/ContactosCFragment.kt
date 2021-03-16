@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
-import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentContactosCBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.app_titulacion.utils.Constants.USER_COL
@@ -22,16 +22,12 @@ import com.example.app_titulacion.utils.Constants.EMAIL2_FIELD
 import com.example.app_titulacion.utils.Constants.EMAIL3_FIELD
 import com.example.app_titulacion.utils.Constants.EMAIL4_FIELD
 import com.example.app_titulacion.utils.Constants.EMAIL5_FIELD
-import com.example.app_titulacion.utils.Constants.TOKEN_FIELD
+import com.example.app_titulacion.utils.Status
 import com.example.app_titulacion.utils.showToast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.lang.Exception
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ContactosCFragment : Fragment() {
 
     private val TAG = "ContactosCFragment"
@@ -39,51 +35,57 @@ class ContactosCFragment : Fragment() {
     private var _binding: FragmentContactosCBinding? = null
 
     private val binding get() = _binding!!
+
     private val db = FirebaseFirestore.getInstance()
+
     private lateinit var sharedPreferences: SharedPreferences
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
+    private val contactosViewModel: ContactosViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentContactosCBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
-        val email: String;
         sharedPreferences =
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
-        email = sharedPreferences.getString(APP_EMAIL, "").toString()
-
-
+        val email: String = sharedPreferences.getString(APP_EMAIL, "").toString()
 
         traerContactos(email)
-        //Todo implementar servicio back end
+
         with(binding) {
             guardarButton.setOnClickListener {
                 guardarContactos(email)
-
             }
-
         }
+
+        subscribe()
+    }
+
+    private fun subscribe() {
+        contactosViewModel.contactoUpdateToken.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    Log.d(TAG, "LOADING")
+                }
+                Status.SUCCESS -> {
+                    Log.d(TAG, "SUCCESS")
+                    val gson = Gson()
+                    Log.d(TAG, gson.toJson(it.data))
+                    showToast(R.string.mensajeCorrecto.toString())
+                }
+                Status.ERROR -> {
+                    Log.d(TAG, "ERROR")
+                }
+            }
+        })
     }
 
     private fun guardarContactos(email: String) {
-
-        // TODO GRABAR CONTACTOS DE CONFIANZA
 
         with(binding) {
             val email1Value = correo1EditText.text.toString()
@@ -120,8 +122,7 @@ class ContactosCFragment : Fragment() {
                 batch.set(email4Ref, email4Contact)
                 batch.set(email5Ref, email5Contact)
             }.addOnSuccessListener {
-                showToast(R.string.mensajeCorrecto.toString())
-                showToast("Sí guardo por primera vez ó actualizó el contacto de confianza no olvide probar")
+                contactosViewModel.doContactUpdateToken(email)
             }.addOnFailureListener { e ->
                 //Log.e(TAG, e.message!!)
                 showToast(R.string.mensajeError.toString())
@@ -133,8 +134,6 @@ class ContactosCFragment : Fragment() {
 
 
     private fun traerContactos(email: String) {
-
-        // TODO CARGAR CONTACTOS DE CONFIANZA
 
         with(binding) {
             db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
