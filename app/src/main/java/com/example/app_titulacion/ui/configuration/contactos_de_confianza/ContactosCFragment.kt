@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentContactosCBinding
@@ -67,7 +68,7 @@ class ContactosCFragment : Fragment() {
     }
 
     private fun subscribe() {
-        contactosViewModel.contactoUpdateToken.observe(viewLifecycleOwner, {
+        contactosViewModel.contactoUpdateToken.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
                     Log.d(TAG, "LOADING")
@@ -76,13 +77,13 @@ class ContactosCFragment : Fragment() {
                     Log.d(TAG, "SUCCESS")
                     val gson = Gson()
                     Log.d(TAG, gson.toJson(it.data))
-                    showToast(R.string.mensajeCorrecto.toString())
+                    showToast(getString(R.string.mensajeCorrecto))
                 }
                 Status.ERROR -> {
-                    Log.d(TAG, "ERROR")
+                    Log.d(TAG, "ERROR ${it.message!!}")
                 }
             }
-        })
+        }
     }
 
     private fun guardarContactos(email: String) {
@@ -125,7 +126,7 @@ class ContactosCFragment : Fragment() {
                 contactosViewModel.doContactUpdateToken(email)
             }.addOnFailureListener { e ->
                 //Log.e(TAG, e.message!!)
-                showToast(R.string.mensajeError.toString())
+                showToast(getString(R.string.mensajeError))
             }
 
         }
