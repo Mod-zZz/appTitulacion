@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_nav_configuration_fragment_to_nav_auth"
             app:destination="@id/nav_auth" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_zonasRiesgoFragment"
+            app:destination="@id/zonasRiesgoFragment" />
     </fragment>
     <fragment
         android:id="@+id/alertarFragment"
@@ -44,4 +47,9 @@
         android:label="fragment_contactos_c"
         tools:layout="@layout/fragment_contactos_c" />
     <include app:graph="@navigation/nav_auth" />
+    <fragment
+        android:id="@+id/zonasRiesgoFragment"
+        android:name="com.example.app_titulacion.ui.configuration.zonas_de_riesgo.zonasRiesgoFragment"
+        android:label="fragment_zonas_riesgo"
+        tools:layout="@layout/fragment_zonas_riesgo" />
 </navigation>

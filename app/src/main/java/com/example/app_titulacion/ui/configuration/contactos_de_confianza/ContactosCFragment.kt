@@ -62,71 +62,21 @@ class ContactosCFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         val email: String;
         sharedPreferences =
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
         email = sharedPreferences.getString(APP_EMAIL, "").toString()
 
-        traerContactos(email)
 
+
+        traerContactos(email)
+        //Todo implementar servicio back end
         with(binding) {
             guardarButton.setOnClickListener {
                 guardarContactos(email)
 
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_1(correo1EditText.text.toString(), email)
-                }
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_2(correo2EditText.text.toString(), email)
-                }
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_3(correo3EditText.text.toString(), email)
-                }
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_4(correo4EditText.text.toString(), email)
-                }
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_5(correo5EditText.text.toString(), email)
-                }
-
             }
-
-            Email1Button.setOnClickListener {
-                if (correo1EditText.text.toString() != "") {
-                    actualizarTokenCorreo_1(correo1EditText.text.toString(), email)
-                }
-
-            }
-
-            Email2Button.setOnClickListener {
-                if (correo2EditText.text.toString() != "") {
-                    actualizarTokenCorreo_2(correo2EditText.text.toString(), email)
-                }
-
-            }
-
-            Email3Button.setOnClickListener {
-                if (correo3EditText.text.toString() != "") {
-                    actualizarTokenCorreo_3(correo3EditText.text.toString(), email)
-                }
-
-            }
-
-            Email4Button.setOnClickListener {
-                if (correo4EditText.text.toString() != "") {
-                    actualizarTokenCorreo_4(correo4EditText.text.toString(), email)
-                }
-
-            }
-
-            Email5Button.setOnClickListener {
-
-                if (correo5EditText.text.toString() != "") {
-                    actualizarTokenCorreo_5(correo5EditText.text.toString(), email)
-                }
-
-            }
-
 
         }
     }
@@ -181,149 +131,6 @@ class ContactosCFragment : Fragment() {
 
     }
 
-    private fun actualizarTokenCorreo_1(emailValue: String, email: String) =
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
-
-            if (tokenC != "") {
-                val dataUpdate = hashMapOf<String, Any>(
-                    TOKEN_FIELD to tokenC
-                )
-
-                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
-                    .document(EMAIL2_FIELD)
-                    .update(dataUpdate).addOnSuccessListener {
-                        showToast(R.string.mensajeCorrecto.toString())
-                    }.addOnFailureListener { e ->
-                        showToast(R.string.mensajeError.toString())
-                    }
-            }
-
-        }
-
-    private fun actualizarTokenCorreo_2(emailValue: String, email: String) =
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
-
-            if (tokenC != "") {
-                val dataUpdate = hashMapOf<String, Any>(
-                    TOKEN_FIELD to tokenC
-                )
-
-                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
-                    .document(EMAIL2_FIELD)
-                    .update(dataUpdate).addOnSuccessListener {
-                        showToast(R.string.mensajeCorrecto.toString())
-                    }.addOnFailureListener { e ->
-                        showToast(R.string.mensajeError.toString())
-                    }
-            }
-
-
-        }
-
-
-    private fun actualizarTokenCorreo_3(emailValue: String, email: String) =
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
-
-            if (tokenC != "") {
-
-                val dataUpdate = hashMapOf<String, Any>(
-                    TOKEN_FIELD to tokenC
-                )
-
-                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
-                    .document(EMAIL3_FIELD)
-                    .update(dataUpdate).addOnSuccessListener {
-                        showToast(R.string.mensajeCorrecto.toString())
-                    }.addOnFailureListener { e ->
-                        showToast(R.string.mensajeError.toString())
-                    }
-            }
-        }
-
-
-    private fun actualizarTokenCorreo_4(emailValue: String, email: String) =
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
-
-            if (tokenC != "") {
-
-                val dataUpdate = hashMapOf<String, Any>(
-                    TOKEN_FIELD to tokenC
-                )
-
-                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
-                    .document(EMAIL4_FIELD)
-                    .update(dataUpdate).addOnSuccessListener {
-                        showToast(R.string.mensajeCorrecto.toString())
-                    }.addOnFailureListener { e ->
-                        Log.e(TAG, e.message!!)
-                        showToast(R.string.mensajeError.toString())
-                    }
-            }
-
-
-        }
-
-    private fun actualizarTokenCorreo_5(emailValue: String, email: String) =
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val tokenC = db.collection(USER_COL).document(emailValue).get().await().toString()
-
-            if (tokenC != "") {
-                val dataUpdate = hashMapOf<String, Any>(
-                    TOKEN_FIELD to tokenC
-                )
-
-                db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
-                    .document(EMAIL5_FIELD)
-                    .update(dataUpdate).addOnSuccessListener {
-                        showToast(R.string.mensajeCorrecto.toString())
-                    }.addOnFailureListener { e ->
-                        Log.e(TAG, e.message!!)
-                        showToast(R.string.mensajeError.toString())
-                    }
-            }
-        }
-
-    private fun actualizarTokenCorreo_example(emailValue: String, email: String) {
-        var tokenC: String
-
-        db.collection(USER_COL).document(emailValue).get().addOnSuccessListener {
-            tokenC = ((it.get(TOKEN_FIELD) as String?).toString())
-
-            val dataUpdate = hashMapOf<String, Any>(
-                TOKEN_FIELD to tokenC
-            )
-
-            db.collection(USER_COL).document(email).collection(COLEC_CONTACT).document(EMAIL5_FIELD)
-                .update(dataUpdate).addOnSuccessListener {
-                    showToast(R.string.mensajeCorrecto.toString())
-                }.addOnFailureListener { e ->
-                    Log.e(TAG, e.message!!)
-                    showToast(R.string.mensajeError.toString())
-                }
-        }
-    }
-
-
-    private fun getTokenFromTrustedContact(email: String) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val email1Ref = db.collection(USER_COL).document(email).get().await()
-            val user = email1Ref.toObject(UserModel::class.java)
-
-        } catch (e: Exception) {
-            withContext(Dispatchers.Main) {
-                showToast(R.string.mensajeError.toString())
-            }
-        }
-    }
 
     private fun traerContactos(email: String) {
 

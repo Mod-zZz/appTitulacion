@@ -85,10 +85,9 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 // Todo Ir a fragmento mis alertas
             }
             MENU_ZONA_DE_RIESGO -> {
-                // Todo Ir a fragmento zona de riesgo
+               findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
             }
             MENU_MI_PERFIL -> {
-                // Todo Ir a fragmento mi perfil
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_perfilFragment)
             }
             MENU_CONTACTOS_DE_CONFIANZA -> {

@@ -45,5 +45,9 @@ object Constants {
     const val GMAIL = "GMAIL"
     //endregion
 
+    //regionZonaRiesgo
+    const val BASE_URL = "https://www.google.com/"//"https://datacrim.inei.gob.pe/"
+    //endregion
+
 
 }
