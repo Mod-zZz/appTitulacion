@@ -9,11 +9,28 @@ object Constants {
     const val APP_PREF = "APP_PREF"
     const val APP_EMAIL = "APP_EMAIL"
     const val APP_SESSION = "APP_SESSION"
+    const val APP_TOKEN = "APP_TOKEN"
+    const val APP_PROVIDER = "APP_PROVIDER"
 
-    const val USER = "usuario"
-    const val TOKEN = "token"
+    //region COLECCION USUARIO
+    const val USER_COL = "usuario"
+    const val TOKEN_FIELD = "token"
     const val EMAIL = "email"
-    const val PROVIDER = "provider"
+    const val PROVIDER_FIELD = "provider"
+    const val CELL_FIELD = "celular"
+    const val CITY_FIELD = "ciudad"
+    const val DISTRICT_FIELD = "distrito"
+    //endregion
+
+    //region DENTRO DEL DOCUMENTO ID_EMAIL COLECCION CONTACTOS SEGUROS
+    const val COLEC_CONTACT = "cSeguro"
+    const val EMAIL1_FIELD = "email1"
+    const val EMAIL2_FIELD = "email2"
+    const val EMAIL3_FIELD = "email3"
+    const val EMAIL4_FIELD = "email4"
+    const val EMAIL5_FIELD = "email5"
+    //endregion
+
 
     const val MENU_ALERTAR = 0
     const val MENU_MIS_ALERTAS = 1
@@ -21,4 +38,16 @@ object Constants {
     const val MENU_MI_PERFIL = 3
     const val MENU_CONTACTOS_DE_CONFIANZA = 4
     const val MENU_LOGOUT = 5
+
+    //region Proveedores
+    const val BASIC = "BASIC"
+    const val FACEBOOK = "FACEBOOK"
+    const val GMAIL = "GMAIL"
+    //endregion
+
+    //regionZonaRiesgo
+    const val BASE_URL = "https://www.google.com/"//"https://datacrim.inei.gob.pe/"
+    //endregion
+
+
 }

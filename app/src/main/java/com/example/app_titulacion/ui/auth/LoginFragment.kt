@@ -1,6 +1,7 @@
 package com.example.app_titulacion.ui.auth
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -13,11 +14,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
+import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentLoginBinding
 import com.example.app_titulacion.utils.Constants.APP_EMAIL
 import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.APP_PROVIDER
 import com.example.app_titulacion.utils.Constants.APP_SESSION
+import com.example.app_titulacion.utils.Constants.APP_TOKEN
+import com.example.app_titulacion.utils.Constants.BASIC
+import com.example.app_titulacion.utils.Constants.FACEBOOK
+import com.example.app_titulacion.utils.Constants.GMAIL
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
+import com.example.app_titulacion.utils.Constants.TOKEN_FIELD
 import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.showAlert
 import com.facebook.CallbackManager
@@ -27,8 +35,10 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.iid.FirebaseInstanceId
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,12 +51,16 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     private lateinit var callbackManager: CallbackManager
 
     private lateinit var sharedPreferences: SharedPreferences
 
     private var email: String? = null
+
+    var MyToken = ""
+    var provider = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,11 +74,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        session()
 
         sharedPreferences =
             this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
 
         callbackManager = CallbackManager.Factory.create()
+
         recuperaToken()
         subscribe()
 
@@ -76,8 +92,8 @@ class LoginFragment : Fragment() {
             loginButton.setOnClickListener {
                 email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
-
                 loginViewModel.doSignIn(email!!, password)
+                provider = BASIC
             }
 
             signUpButton.setOnClickListener {
@@ -112,13 +128,12 @@ class LoginFragment : Fragment() {
 
                                 FirebaseAuth.getInstance().signInWithCredential(credential)
                                     .addOnCompleteListener { authResult ->
-                                        if (authResult.isSuccessful) {
-//                                            showHome(
-//                                                it.result?.user?.email ?: "",
-//                                                ProviterType.FACEBOOK
-//                                            )
-                                            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
 
+                                        if (authResult.isSuccessful) {
+                                            provider = FACEBOOK
+                                            val userFb = authResult.result?.user?.email!!
+                                            val user = UserModel(userFb, FACEBOOK, "", MyToken)
+                                            registerViewModel.doCreateUser(user)
                                         } else {
                                             showAlert(
                                                 getString(R.string.error_title),
@@ -149,11 +164,73 @@ class LoginFragment : Fragment() {
 
     }
 
+    private fun session() {
+
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+
+        val isSessionActive = sharedPreferences.getBoolean(APP_SESSION, false)
+
+        if (isSessionActive) {
+            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        }
+
+    }
+
+    //************************************* GOOGLE INICIO DE SESION *************************************
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //**************** AGREGADO PARA FACEBOOK ****************
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        //**************** FIN AGREGADO PARA FACEBOOK ****************
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                //LA CUENTA VALOR PUEDE TRAER UN ERROR - TRY
+                val account = task.getResult(ApiException::class.java)
+
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener { authResult ->
+
+                            if (authResult.isSuccessful) {
+
+                                val userGM = authResult.result?.user?.email!!
+                                val user = UserModel(userGM, GMAIL, "", MyToken)
+                                registerViewModel.doCreateUser(user)
+                                provider = GMAIL
+
+                            } else {
+                                showAlert(
+                                    getString(R.string.error_title),
+                                    getString(R.string.error_message),
+                                    getString(
+                                        R.string.ok
+                                    )
+                                )
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                showAlert(
+                    getString(R.string.error_title),
+                    getString(R.string.error_message),
+                    getString(
+                        R.string.ok
+                    )
+                )
+            }
+        }
+    }
+
     private fun recuperaToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
-            it.result?.token?.let {
-                //tk = it
-
+            it.result?.token?.let { mToken ->
+                MyToken = mToken
             }
         }
     }
@@ -163,6 +240,8 @@ class LoginFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString(APP_EMAIL, email)
         editor.putBoolean(APP_SESSION, true)
+        editor.putString(APP_TOKEN, MyToken)
+        editor.putString(APP_PROVIDER, provider)
         editor.apply()
     }
 
@@ -190,6 +269,22 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Failure -> {
                     Log.d(TAG, "Failure")
+                    Log.d(TAG, it.throwable.message!!)
+                }
+            }
+        }
+
+        registerViewModel.createUser.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "createUser Loading")
+                }
+                is Resource.Success -> {
+                    Log.d(TAG, "createUser Success")
+                    findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+                }
+                is Resource.Failure -> {
+                    Log.d(TAG, "createUser Failure")
                     Log.d(TAG, it.throwable.message!!)
                 }
             }

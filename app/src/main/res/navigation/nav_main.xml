@@ -14,7 +14,7 @@
         android:id="@+id/nav_configuration_fragment"
         android:name="com.example.app_titulacion.ui.configuration.ConfigurationFragment"
         android:label="ConfigurationFragment"
-        tools:layout="@layout/fragment_configuration" >
+        tools:layout="@layout/fragment_configuration">
         <action
             android:id="@+id/action_nav_configuration_fragment_to_alertarFragment"
             app:destination="@id/alertarFragment" />
@@ -24,6 +24,12 @@
         <action
             android:id="@+id/action_nav_configuration_fragment_to_contactosCFragment"
             app:destination="@id/contactosCFragment" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_nav_auth"
+            app:destination="@id/nav_auth" />
+        <action
+            android:id="@+id/action_nav_configuration_fragment_to_zonasRiesgoFragment"
+            app:destination="@id/zonasRiesgoFragment" />
     </fragment>
     <fragment
         android:id="@+id/alertarFragment"
@@ -40,4 +46,10 @@
         android:name="com.example.app_titulacion.ui.configuration.contactos_de_confianza.ContactosCFragment"
         android:label="fragment_contactos_c"
         tools:layout="@layout/fragment_contactos_c" />
+    <include app:graph="@navigation/nav_auth" />
+    <fragment
+        android:id="@+id/zonasRiesgoFragment"
+        android:name="com.example.app_titulacion.ui.configuration.zonas_de_riesgo.zonasRiesgoFragment"
+        android:label="fragment_zonas_riesgo"
+        tools:layout="@layout/fragment_zonas_riesgo" />
 </navigation>

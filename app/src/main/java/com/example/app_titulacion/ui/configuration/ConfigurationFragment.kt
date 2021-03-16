@@ -1,26 +1,40 @@
 package com.example.app_titulacion.ui.configuration
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentConfigurationBinding
+import com.example.app_titulacion.ui.MainActivity
+import com.example.app_titulacion.utils.Constants
+import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.FACEBOOK
+import com.example.app_titulacion.utils.Constants.GMAIL
+import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
 import com.example.app_titulacion.utils.Constants.MENU_ALERTAR
 import com.example.app_titulacion.utils.Constants.MENU_CONTACTOS_DE_CONFIANZA
 import com.example.app_titulacion.utils.Constants.MENU_LOGOUT
 import com.example.app_titulacion.utils.Constants.MENU_MIS_ALERTAS
 import com.example.app_titulacion.utils.Constants.MENU_MI_PERFIL
 import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationListener {
 
     private val TAG = "ConfigurationFragment"
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var _binding: FragmentConfigurationBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +60,8 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
 
         configurationAdapter = ConfigurationAdapter(configurationList, this)
 
@@ -69,17 +85,45 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 // Todo Ir a fragmento mis alertas
             }
             MENU_ZONA_DE_RIESGO -> {
-                // Todo Ir a fragmento zona de riesgo
+               findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
             }
             MENU_MI_PERFIL -> {
-                // Todo Ir a fragmento mi perfil
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_perfilFragment)
             }
             MENU_CONTACTOS_DE_CONFIANZA -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_contactosCFragment)
             }
             MENU_LOGOUT -> {
-                // Todo Funcion para salir de app
+
+                //RECUPERANDO EL PROVEEDOR
+                sharedPreferences =
+                    this.requireActivity()
+                        .getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
+
+                val provider = sharedPreferences.getString(Constants.APP_PROVIDER, "").toString()
+
+                //BORRAR DATOS DE SESION GUARDADOS
+                val prefs =
+                    this.activity?.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)?.edit()
+                prefs?.clear()
+                prefs?.apply()
+
+                //CERRAR SESION FACEBOOK
+                if (provider == FACEBOOK) {
+                    LoginManager.getInstance().logOut()
+                }
+
+                //CERRAR SESSION GOOGLE
+                if (provider == GMAIL) {
+                    FirebaseAuth.getInstance().signOut()
+                }
+
+//                findNavController().navigate(R.id.action_nav_configuration_fragment_to_nav_auth)
+                //findNavController().navigate(ConfigurationFragmentDirections.actionNavConfigurationFragmentToNavAuth())
+                val mIntent = Intent(context, MainActivity::class.java)
+                ActivityCompat.finishAffinity(requireActivity())
+                startActivity(mIntent)
+
             }
         }
     }

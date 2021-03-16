@@ -39,5 +39,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--    region MensajesUsuario-->
+    <string name="mensajeCorrecto">Se actualizó con éxito</string>
+    <string name="mensajeError">Ocurrio un error durante la actualización</string>
+    <!--    endregion-->
 
 </resources>

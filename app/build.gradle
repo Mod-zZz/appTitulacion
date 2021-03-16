@@ -141,4 +141,7 @@ dependencies {
 
     //Para funciones - fecha
     implementation 'com.google.firebase:firebase-functions'
+
+//    PARA GOOGLE MAPS
+//    implementation 'com.google.android.gms:play-services.maps:16.1.0'
 }

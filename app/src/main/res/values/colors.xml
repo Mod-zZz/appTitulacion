@@ -13,4 +13,8 @@
     <color name="colorPrimaryDark">#2C384A</color>
     <color name="background">#CEFFF1</color>
 
+    <color name="AcosoSexual">#FF0000</color>
+    <color name="AcosoVerbal">#FFF454</color>
+    <color name="AgresionFisica">#FF6600</color>
+
 </resources>
