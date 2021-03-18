@@ -35,7 +35,11 @@
         android:id="@+id/alertarFragment"
         android:name="com.example.app_titulacion.ui.configuration.alertar.AlertarFragment"
         android:label="fragment_alertar"
-        tools:layout="@layout/fragment_alertar" />
+        tools:layout="@layout/fragment_alertar" >
+        <action
+            android:id="@+id/action_alertarFragment_to_comisariaFragment"
+            app:destination="@id/comisariaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/perfilFragment"
         android:name="com.example.app_titulacion.ui.configuration.mi_perfil.PerfilFragment"
@@ -49,7 +53,12 @@
     <include app:graph="@navigation/nav_auth" />
     <fragment
         android:id="@+id/zonasRiesgoFragment"
-        android:name="com.example.app_titulacion.ui.configuration.zonas_de_riesgo.zonasRiesgoFragment"
+        android:name="com.example.app_titulacion.ui.configuration.ZonasRiesgo.ZonasRiesgoFragment"
         android:label="fragment_zonas_riesgo"
         tools:layout="@layout/fragment_zonas_riesgo" />
+    <fragment
+        android:id="@+id/comisariaFragment"
+        android:name="com.example.app_titulacion.ui.configuration.alertar.ComisariaFragment"
+        android:label="fragment_comisaria"
+        tools:layout="@layout/fragment_comisaria" />
 </navigation>

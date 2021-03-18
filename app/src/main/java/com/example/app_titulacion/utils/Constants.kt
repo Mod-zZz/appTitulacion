@@ -46,7 +46,7 @@ object Constants {
     //endregion
 
     //regionZonaRiesgo
-    const val BASE_URL = "https://www.google.com/"//"https://datacrim.inei.gob.pe/"
+    const val BASE_URL = "https://datacrim.inei.gob.pe/ciudadano"
     //endregion
 
 

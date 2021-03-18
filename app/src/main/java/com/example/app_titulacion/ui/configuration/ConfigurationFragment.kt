@@ -3,6 +3,7 @@ package com.example.app_titulacion.ui.configuration
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.app_titulacion.databinding.FragmentConfigurationBinding
 import com.example.app_titulacion.ui.MainActivity
 import com.example.app_titulacion.utils.Constants
 import com.example.app_titulacion.utils.Constants.APP_PREF
+import com.example.app_titulacion.utils.Constants.BASE_URL
 import com.example.app_titulacion.utils.Constants.FACEBOOK
 import com.example.app_titulacion.utils.Constants.GMAIL
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
@@ -28,6 +30,7 @@ import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URL
 
 @AndroidEntryPoint
 class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationListener {
@@ -85,7 +88,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 // Todo Ir a fragmento mis alertas
             }
             MENU_ZONA_DE_RIESGO -> {
-               findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
+                findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
             }
             MENU_MI_PERFIL -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_perfilFragment)

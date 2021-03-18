@@ -30,18 +30,10 @@
 
             <EditText
                 android:id="@+id/correo_1_EditText"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
-
-            <Button
-                android:id="@+id/Email1Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:text="Prueba"
-                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -56,19 +48,11 @@
 
             <EditText
                 android:id="@+id/correo_2_EditText"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <Button
-                android:id="@+id/Email2Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:text="Prueba"
-                android:textColor="@color/white" />
         </LinearLayout>
 
         <Space
@@ -82,19 +66,11 @@
 
             <EditText
                 android:id="@+id/correo_3_EditText"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <Button
-                android:id="@+id/Email3Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:text="Prueba"
-                android:textColor="@color/white" />
         </LinearLayout>
 
         <Space
@@ -108,19 +84,11 @@
 
             <EditText
                 android:id="@+id/correo_4_EditText"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <Button
-                android:id="@+id/Email4Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:text="Prueba"
-                android:textColor="@color/white" />
         </LinearLayout>
 
         <Space
@@ -134,19 +102,10 @@
 
             <EditText
                 android:id="@+id/correo_5_EditText"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
-
-            <Button
-                android:id="@+id/Email5Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:text="Prueba"
-                android:textColor="@color/white" />
 
         </LinearLayout>
 

@@ -6,9 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!--    Permiso para usar GPS-->
-    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-    <!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>-->
-    <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
 
     <application
         android:name=".di.App"
@@ -17,7 +18,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App_Titulacion">
+        android:theme="@style/Theme.App_Titulacion"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".ui.MainActivity"
@@ -56,6 +58,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="true" />
 
 
     </application>
