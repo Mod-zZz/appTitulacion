@@ -16,10 +16,9 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.App_Titulacion.NoActionBar" parent="Theme.App_Titulacion">
+    <style name="Theme.App_Titulacion.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
     <style name="Theme.App_Titulacion.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
