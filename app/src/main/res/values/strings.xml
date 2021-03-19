@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App_Titulacion</string>
+    <string name="app_name">Walk Safe</string>
     <string name="prefs_file">com.example.app_titulacion.REFERENCE_FILE_KEY</string>
 
     //Agregados para autentificacion con FB

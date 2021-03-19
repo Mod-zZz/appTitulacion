@@ -16,12 +16,18 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.App_Titulacion.NoActionBar">
+    <style name="Theme.App_Titulacion.NoActionBar" parent="Theme.App_Titulacion">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
     <style name="Theme.App_Titulacion.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.App_Titulacion.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashTheme" parent="Theme.App_Titulacion">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+    </style>
+
 </resources>
