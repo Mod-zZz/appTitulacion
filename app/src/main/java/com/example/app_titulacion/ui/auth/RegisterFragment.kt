@@ -51,8 +51,8 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         with(binding) {
-            emailEditText.setText(R.string.dev_email)
-            passwordEditText.setText(R.string.dev_password)
+//            emailEditText.setText(R.string.dev_email)
+//            passwordEditText.setText(R.string.dev_password)
 
             btnSignUp.setOnClickListener {
 //                FirebaseInstallations.getInstance().getToken(true)
