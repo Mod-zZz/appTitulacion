@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.app_titulacion.R
 import com.example.app_titulacion.databinding.FragmentMainBinding
+import com.facebook.WebDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +23,8 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
