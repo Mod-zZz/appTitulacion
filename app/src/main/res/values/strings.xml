@@ -41,6 +41,8 @@
 
     <!--    region MensajesUsuario-->
     <string name="mensajeCorrecto">Se actualizó con éxito</string>
+    <string name="msjCorrecto">Se envió la notificacion con éxito.</string>
+    <string name="msjIncorrecto">No se envió la notificacion.</string>
     <string name="mensajeError">Ocurrio un error durante la actualización</string>
     <!--    endregion-->
 

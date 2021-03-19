@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/acosoSButton"
+            android:id="@+id/acosoSexualButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/AcosoSexual"
@@ -26,11 +26,11 @@
             android:layout_height="10dp" />
 
         <Button
-            android:id="@+id/acosoVerbalButton"
+            android:id="@+id/agrecionVerbalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/AcosoVerbal"
-            android:text="Acoso Verbal"
+            android:text="Agrecion Verbal"
             android:textColor="@color/black" />
 
         <Space
@@ -38,11 +38,11 @@
             android:layout_height="10dp" />
 
         <Button
-            android:id="@+id/agrecionButton"
+            android:id="@+id/agrecionFisicaButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/AgresionFisica"
-            android:text="Agregecion Fisica"
+            android:text="Agrecion Fisica"
             android:textColor="@color/black" />
 
     </LinearLayout>

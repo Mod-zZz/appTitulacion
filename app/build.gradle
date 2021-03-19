@@ -39,6 +39,7 @@ android {
             buildConfigField 'String', 'BASE_URL', "\"$base_url_debug/api/\""
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
