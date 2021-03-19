@@ -1,7 +1,10 @@
 package com.example.app_titulacion.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.Menu
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -19,9 +22,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         Thread.sleep(2000)
         setTheme(R.style.Theme_App_Titulacion)
 
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+
+        return super.onCreateView(name, context, attrs)
     }
 
 
