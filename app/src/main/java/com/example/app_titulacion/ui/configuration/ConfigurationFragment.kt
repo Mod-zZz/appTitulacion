@@ -85,7 +85,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_alertarFragment)
             }
             MENU_MIS_ALERTAS -> {
-                // Todo Ir a fragmento mis alertas
+                findNavController().navigate(R.id.action_nav_configuration_fragment_to_misAlertasFragment)
             }
             MENU_ZONA_DE_RIESGO -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
@@ -96,6 +96,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
             MENU_CONTACTOS_DE_CONFIANZA -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_contactosCFragment)
             }
+
             MENU_LOGOUT -> {
 
                 //RECUPERANDO EL PROVEEDOR
