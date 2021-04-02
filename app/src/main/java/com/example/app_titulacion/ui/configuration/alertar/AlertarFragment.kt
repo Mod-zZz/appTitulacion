@@ -97,6 +97,10 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
 
     }
 
+    private fun mandarMail(){
+
+    }
+
     private fun subscribe() {
 
         notificacionViewModel.sendNotificationAcosoSexual.observe(viewLifecycleOwner) {

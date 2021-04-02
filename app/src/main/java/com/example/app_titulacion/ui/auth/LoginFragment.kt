@@ -110,6 +110,10 @@ class LoginFragment : Fragment() {
                 val googleClient = GoogleSignIn.getClient(requireContext(), googleConf)
                 googleClient.signOut()
                 startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
+
+                /**
+                 * La función resuelve en onActivityResult
+                 * */
             }
 
             btnFacebook.setOnClickListener {
@@ -135,6 +139,7 @@ class LoginFragment : Fragment() {
                                             val userFb = authResult.result?.user?.email!!
                                             val user = UserModel(userFb, FACEBOOK, "", MyToken)
                                             registerViewModel.doCreateUser(user)
+                                            saveUserInSharedPreference(userFb!!)
                                         } else {
                                             showAlert(
                                                 getString(R.string.error_title),
@@ -204,6 +209,7 @@ class LoginFragment : Fragment() {
                                 val user = UserModel(userGM, GMAIL, "", MyToken)
                                 registerViewModel.doCreateUser(user)
                                 provider = GMAIL
+                                saveUserInSharedPreference(userGM!!)
 
                             } else {
                                 showAlert(

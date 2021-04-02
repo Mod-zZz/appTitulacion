@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Thread.sleep(1500)
+        //Thread.sleep(1500)
         setTheme(R.style.Theme_App_Titulacion)
 
     }
