@@ -20,13 +20,17 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        Thread.sleep(2000)
+        setTheme(R.style.Theme_App_Titulacion)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Thread.sleep(1500)
-        setTheme(R.style.Theme_App_Titulacion)
+
+
 
     }
+
+
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
 
