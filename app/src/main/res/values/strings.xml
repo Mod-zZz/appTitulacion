@@ -46,4 +46,7 @@
     <string name="mensajeError">Ocurrio un error durante la actualización</string>
     <!--    endregion-->
 
+    <string name="msjCargaCorrecta">Se cargó la información con exito.</string>
+    <string name="msjCargaInCorrecta">Ocurrio un error mientras cargaba la información porfavor intente de nuevo.</string>
+
 </resources>

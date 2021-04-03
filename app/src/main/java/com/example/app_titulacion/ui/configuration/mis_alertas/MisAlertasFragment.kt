@@ -87,13 +87,14 @@ class MisAlertasFragment : Fragment() {
                     Log.d(TAG, "SUCCESS")
                     val notificationList = it.data?.data!!
                     misAlertasAdapter.updateList(notificationList)
-                    showToast(getString(R.string.msjCorrecto))
+                    showToast(getString(R.string.msjCargaCorrecta))
 
                     binding.progressBar.visibility = View.GONE
                     binding.rvConfigurationAlertas.visibility = View.VISIBLE
                 }
                 Status.ERROR -> {
                     Log.d(TAG, "ERROR ${it.message!!}")
+                    showToast(getString(R.string.msjCargaInCorrecta))
                     binding.progressBar.visibility = View.GONE
                     binding.rvConfigurationAlertas.visibility = View.GONE
                 }
