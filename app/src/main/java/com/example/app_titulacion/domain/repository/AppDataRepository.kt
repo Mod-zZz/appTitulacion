@@ -27,4 +27,8 @@ class AppDataRepository @Inject constructor(private val appDataSource: AppDataSo
         return  appDataSource.sendNotificationAgresionVerbal(email)
     }
 
+    override suspend fun getListaNotificaciones(email: String): ResourceV2<ListaNotificacionResponse> {
+        return  appDataSource.getListaNotificaciones(email)
+    }
+
 }

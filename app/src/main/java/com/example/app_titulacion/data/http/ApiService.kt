@@ -1,6 +1,6 @@
 package com.example.app_titulacion.data.http
 
-import com.example.app_titulacion.data.http.dto.ContactUpdateTokenDto
+import com.example.app_titulacion.data.http.dto.EmailDto
 import com.example.app_titulacion.data.http.response.*
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,7 +14,7 @@ interface ApiService {
 
     @POST("contacto/actualizartoken")
     suspend fun contactUpdateToken(
-        @Body dto: ContactUpdateTokenDto
+        @Body dto: EmailDto
     ): Response<ContactUpdateTokenResponse>
 
     @GET("notificacion/sos")
@@ -37,4 +37,8 @@ interface ApiService {
         @Query("email") email : String
     ): Response<NotificationAgresionVerbalResponse>
 
+    @POST("notificacion/traerListaNotificaciones")
+    suspend fun getListaNotificaciones(
+        @Body dto: EmailDto
+    ): Response<ListaNotificacionResponse>
 }

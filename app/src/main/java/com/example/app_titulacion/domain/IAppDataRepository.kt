@@ -11,4 +11,7 @@ interface IAppDataRepository {
     suspend fun sendNotificationAcosoSexual(email: String): ResourceV2<NotificationAcosoSexualResponse>
     suspend fun sendNotificationAgresionFisica(email: String): ResourceV2<NotificationAgresionFisicaResponse>
     suspend fun sendNotificationAgresionVerbal(email: String): ResourceV2<NotificationAgresionVerbalResponse>
+
+    suspend fun getListaNotificaciones(email: String): ResourceV2<ListaNotificacionResponse>
+
 }

@@ -2,7 +2,7 @@ package com.example.app_titulacion.data.http.datasource
 
 import com.example.app_titulacion.data.IAppDataSource
 import com.example.app_titulacion.data.http.ApiService
-import com.example.app_titulacion.data.http.dto.ContactUpdateTokenDto
+import com.example.app_titulacion.data.http.dto.EmailDto
 import com.example.app_titulacion.data.http.response.*
 import com.example.app_titulacion.utils.ResourceV2
 import javax.inject.Inject
@@ -12,7 +12,7 @@ class AppDataSource @Inject constructor(private val apiService: ApiService) : IA
 
     override suspend fun contactUpdateToken(email: String): ResourceV2<ContactUpdateTokenResponse> =
         getResult {
-            apiService.contactUpdateToken(ContactUpdateTokenDto(email))
+            apiService.contactUpdateToken(EmailDto(email))
         }
 
     override suspend fun sendNotificationSos(email: String): ResourceV2<NotificationSosResponse> =
@@ -34,4 +34,12 @@ class AppDataSource @Inject constructor(private val apiService: ApiService) : IA
         getResult {
             apiService.sendNotificationAgresionVerbal(email)
         }
+
+    override suspend fun getListaNotificaciones(email: String): ResourceV2<ListaNotificacionResponse> =
+        getResult {
+            apiService.getListaNotificaciones(EmailDto(email))
+        }
+
+
+
 }
