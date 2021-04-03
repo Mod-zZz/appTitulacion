@@ -1,7 +1,9 @@
 package com.example.app_titulacion.ui.configuration.ZonasRiesgo
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
@@ -45,38 +47,39 @@ class ZonasRiesgoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        solicitarPermisos()
-
-        with(binding) {
-
-            webView.webViewClient = object : WebViewClient() {
-
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
-                ): Boolean {
-                    return false
-                }
-
-                override fun onReceivedSslError(
-                    view: WebView,
-                    handler: SslErrorHandler,
-                    error: SslError
-                ) {
-                    handler.proceed()
-                }
-
-            }
+        val intent: Intent = Intent(Intent.ACTION_VIEW)
+        intent.setData( Uri.parse(BASE_URL))
+        startActivity(intent)
 
 
-            val settings = webView.settings
-            settings.javaScriptEnabled = true
+//        solicitarPermisos()
 
-
-
-            webView.loadUrl(BASE_URL)
-
-        }
+//        with(binding) {
+//
+//            webView.webViewClient = object : WebViewClient() {
+//
+//                override fun shouldOverrideUrlLoading(
+//                    view: WebView?,
+//                    request: WebResourceRequest?
+//                ): Boolean {
+//                    return false
+//                }
+//
+//                override fun onReceivedSslError(
+//                    view: WebView,
+//                    handler: SslErrorHandler,
+//                    error: SslError
+//                ) {
+//                    handler.proceed()
+//                }
+//
+//            }
+//
+//            val settings = webView.settings
+//            settings.javaScriptEnabled = true
+//            webView.loadUrl(BASE_URL)
+//
+//        }
     }
 
     fun solicitarPermisos() {

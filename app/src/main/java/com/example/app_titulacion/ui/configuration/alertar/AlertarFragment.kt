@@ -49,7 +49,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         return binding.root
 
         //TODO SE DEBE OBLIGAR AL USUARIO A ACTIVAR EL GPS
-        //TODO OBTENER EL GPS DEL USUARIO PARA CALCULAR SU UBICACION Y TRAER LAS COMISARIAS CERCANAS
 
     }
 

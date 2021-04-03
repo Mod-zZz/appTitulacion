@@ -31,4 +31,6 @@ class MainFragment : Fragment() {
         binding.bottomNavigationMain.setupWithNavController(requireActivity().findNavController(R.id.main_fragment))
     }
 
+
+
 }

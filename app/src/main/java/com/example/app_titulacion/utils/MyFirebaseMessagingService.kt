@@ -4,6 +4,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.example.app_titulacion.R
 import com.example.app_titulacion.utils.Constants.FIREBASE_PREF
 import com.example.app_titulacion.utils.Constants.FIREBASE_TOKEN
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -16,6 +18,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         Log.e("newToken", token);
         getSharedPreferences(FIREBASE_PREF, MODE_PRIVATE).edit().putString(FIREBASE_TOKEN, token).apply();
+
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
