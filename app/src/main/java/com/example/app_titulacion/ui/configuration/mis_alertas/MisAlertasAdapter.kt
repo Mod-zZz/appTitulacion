@@ -7,13 +7,20 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_titulacion.data.model.Notificacion
 import com.example.app_titulacion.databinding.ItemNotificationBinding
+
+
 import com.example.app_titulacion.utils.BaseViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 import java.time.*
 
-class MisAlertasAdapter() :
-    RecyclerView.Adapter<BaseViewHolder<*>>() {
+class MisAlertasAdapter(
+    private val listener: MisAlertasListener
+) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+
+    interface MisAlertasListener {
+        fun onItemClickSelected(latitud: String, longitud: String)
+    }
 
     private val list: MutableList<Notificacion> = mutableListOf()
 
@@ -33,6 +40,7 @@ class MisAlertasAdapter() :
 
     inner class MisAlertasViewHolder(private val binding: ItemNotificationBinding) :
         BaseViewHolder<Notificacion>(binding.root) {
+
         @RequiresApi(Build.VERSION_CODES.O)
         override fun bind(item: Notificacion) = with(binding) {
             tvDe.text = "De: " + item.de.toString()
@@ -45,7 +53,16 @@ class MisAlertasAdapter() :
             tvIncedente.text = "Incidente: " + item.incidente.toString()
             tvOrigen.text = "Notificación: " + if (item.origen!!) "Saliente" else "Entrante"
             tvResultado.text = "Estado: " + if (item.resultado!!) "Exitoso" else "Fallado"
+
+            tvLatitud.text = item.latitud
+            tvLongitud.text = item.longitud
+
+            root.setOnClickListener {
+                listener.onItemClickSelected(item.latitud,item.longitud)
+            }
+
         }
+
 
     }
 
@@ -56,17 +73,6 @@ class MisAlertasAdapter() :
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
         return sdf.format(date)
 
-    }
-
-
-    private fun getDateTime(s: Long): String? {
-        try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
-            val netDate = Date(s.toLong() / 1000)
-            return sdf.format(netDate)
-        } catch (e: Exception) {
-            return e.toString()
-        }
     }
 
     fun updateList(list: List<Notificacion>) {

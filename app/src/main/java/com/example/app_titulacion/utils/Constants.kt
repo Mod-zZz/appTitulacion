@@ -29,7 +29,10 @@ object Constants {
     const val EMAIL3_FIELD = "email3"
     const val EMAIL4_FIELD = "email4"
     const val EMAIL5_FIELD = "email5"
+
+    const val CELULAR_FIELD = "celular"
     //endregion
+
 
 
     const val MENU_ALERTAR = 0

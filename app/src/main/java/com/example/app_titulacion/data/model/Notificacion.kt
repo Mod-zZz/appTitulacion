@@ -7,4 +7,6 @@ data class Notificacion(
     val origen: Boolean? = false,
     val para: String? = "",
     val resultado: Boolean? = false,
+    val latitud: String="",
+    val longitud: String="",
 )

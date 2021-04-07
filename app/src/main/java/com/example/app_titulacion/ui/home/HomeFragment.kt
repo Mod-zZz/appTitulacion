@@ -7,33 +7,34 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.app_titulacion.R
+import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentHomeBinding
 import com.example.app_titulacion.utils.Constants
+import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
+import com.example.app_titulacion.utils.Constants.USER_COL
 import com.example.app_titulacion.utils.Status
 import com.example.app_titulacion.utils.showToast
 import com.google.android.gms.location.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -41,9 +42,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val TAG = "Home Fragment"
 
     private var _binding: FragmentHomeBinding? = null
+
     private val binding get() = _binding!!
 
-//    val REQUEST_PERMISSION_LOCATION = 111
+    private val db = FirebaseFirestore.getInstance()
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -56,6 +58,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private val REQUEST_PERMISSION_LOCATION = 10
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,15 +89,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             startLocationUpdates()
         }
 
-        var latitud: String = ""
-        var longitud: String = ""
-
-
         with(binding) {
             sosButton.setOnClickListener() {
-                latitud = tvLatitud.text.toString()
-                longitud = tvLatitud.text.toString()
-                notificacionViewModel.doSendNotification(email,latitud,longitud)
+
+                notificacionViewModel.doSendNotification(
+                    email,
+                    tvLatitud.text.toString(),
+                    tvLongitud.text.toString()
+                )
+
+                if (checkPermissionsSms()) {
+                    listadeContactosConfianza(
+                        email,
+                        tvLatitud.text.toString(),
+                        tvLongitud.text.toString()
+                    )
+                }
+
+
             }
         }
 
@@ -121,15 +133,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     // region Gps
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+
+        //SOLO GPS
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                 //Agregar el método startlocationUpdate () más tarde en lugar de Toast
-                Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
+//                Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
+//                    .show()
+                startLocationUpdates()
+            }
+        }
+
+        //SOLO ENVIAR SMS
+
+        if (requestCode == 777) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Todo_ bien SMS
+            } else {
+                Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -189,22 +217,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             mLastLocation = location
 
-            if (mLastLocation == null){
+            if (mLastLocation.latitude.toString() == "") {
 
-            }else {
+            } else {
                 tvLatitud.text = "" + mLastLocation.latitude
                 tvLongitud.text = "" + mLastLocation.longitude
             }
 
-
-
-
-
 //        val date: Date = Calendar.getInstance().time
 //        val sdf = SimpleDateFormat("hh:mm:ss a")
 //        tvUbicacion.text = "Updated at : " + sdf.format(date) + " LATITUDE : " + mLastLocation.latitude + " LONGITUDE : " + mLastLocation.longitude
-//            tvUbicacion.text =
-//                "Latitud : " + mLastLocation.latitude + " Longitud : " + mLastLocation.longitude
 
         }
     }
@@ -253,6 +275,92 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 //endregion
+
+    // region Sms
+
+    private fun listadeContactosConfianza(email: String, latitud: String, longitud: String) {
+
+        db.collection(USER_COL).document(email).collection(COLEC_CONTACT)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Log.e(TAG, "firebaseFirestoreException", firebaseFirestoreException)
+                }
+
+                val list = mutableListOf<Contact>()
+                querySnapshot!!.forEach { queryDocumentSnapshot ->
+                    list.add(queryDocumentSnapshot.toObject(Contact::class.java))
+                }
+
+                //solo se puede enviar con 160 caracteres como maximo
+                val urlMaps =
+                    "WalkSafe: $email https://www.google.es/maps?q=$latitud,$longitud"
+
+                for (sendCell in list) {
+                    sendSMS(urlMaps, sendCell.celular.toString())
+                }
+                showToast(getString(R.string.msjCorrectoSms))
+
+            }
+
+
+    }
+
+    private fun sendSMS(
+        smsMsj: String,
+        cel: String
+    ) {
+
+        if (cel.count() > 0) {
+            val sms: SmsManager = SmsManager.getDefault()
+            sms.sendTextMessage(
+                cel,
+                null,
+                smsMsj,
+                null,
+                null
+            )
+        }
+    }
+
+    private fun checkPermissionsSms(): Boolean {
+
+        var r: Boolean = false
+
+        if (ContextCompat.checkSelfPermission(
+                this.requireContext(),
+                Manifest.permission.SEND_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            //permiso no aceptado por el momento
+            requestSmsPermission()
+
+        } else {
+            r = true
+            return r
+        }
+        return r
+    }
+
+    private fun requestSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this.requireActivity(),
+                Manifest.permission.SEND_SMS
+            )
+        ) {
+            //El usuaario ya ha rechazado los permisos
+            Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT).show()
+        } else {
+            //pedir permiso
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(Manifest.permission.SEND_SMS),
+                777
+            )
+        }
+    }
+
+
+    //endregion
 
     override fun onDestroyView() {
         stoplocationUpdates()

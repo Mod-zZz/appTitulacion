@@ -53,4 +53,6 @@
     <string name="msjCreacionInicio">Se creó el usuario con exito.</string>
     <string name="msjPswIncorrecto">La contraseña no coincide, intente de nuevo.</string>
 
+    <string name="msjCorrectoSms">Se envió un mensaje con éxito.</string>
+
 </resources>

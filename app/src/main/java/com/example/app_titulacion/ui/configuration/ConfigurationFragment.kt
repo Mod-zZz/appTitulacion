@@ -74,10 +74,6 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onItemClickSelected(pos: Int) {
         when (pos) {
@@ -130,5 +126,10 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
 
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

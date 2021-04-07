@@ -17,17 +17,21 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
 import android.provider.Settings
+import android.telephony.SmsManager
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.app_titulacion.R
+import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentAlertarBinding
 import com.example.app_titulacion.utils.Constants
 import com.example.app_titulacion.utils.Status
 import com.example.app_titulacion.utils.showToast
 import com.google.android.gms.location.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,6 +44,8 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
     private val binding get() = _binding!!
     private lateinit var sharedPreferences: SharedPreferences
     private val notificacionViewModel: AlertarViewModel by viewModels()
+
+    private val db = FirebaseFirestore.getInstance()
 
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
@@ -96,12 +102,15 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
 
             acosoSexualButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAcosoSexual(email, latitud, longitud)
+                mandarSms(email, latitud, longitud)
             }
             agrecionVerbalButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAgresionVerbal(email, latitud, longitud)
+                mandarSms(email, latitud, longitud)
             }
             agrecionFisicaButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAgresionFisica(email, latitud, longitud)
+                mandarSms(email, latitud, longitud)
             }
         }
 
@@ -113,8 +122,14 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         //TODO ENVIAR CORREO
     }
 
-    private fun mandarSms() {
-        //TODO ENVIAR SMS
+    private fun mandarSms(email: String, latitud: String, longitud: String) {
+        if (checkPermissionsSms()) {
+            listadeContactosConfianza(
+                email,
+                latitud,
+                longitud
+            )
+        }
     }
 
     private fun subscribe() {
@@ -178,10 +193,22 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        //SOLO GPS
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Agregar el método startlocationUpdate () más tarde en lugar de Toast
                 Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        //SOLO ENVIAR SMS
+
+        if (requestCode == 777) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Todo_ bien SMS
+            } else {
+                Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -240,21 +267,12 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         with(binding) {
 
             mLastLocation = location
+            if (mLastLocation.latitude.toString() == "") {
 
-            if (mLastLocation == null){
-
-            }else{
+            } else {
                 tvLatitud.text = "" + mLastLocation.latitude
                 tvLongitud.text = "" + mLastLocation.longitude
             }
-
-
-            //        val date: Date = Calendar.getInstance().time
-//        val sdf = SimpleDateFormat("hh:mm:ss a")
-//        tvUbicacion.text = "Updated at : " + sdf.format(date) + " LATITUDE : " + mLastLocation.latitude + " LONGITUDE : " + mLastLocation.longitude
-
-//            tvUbicacion.text =
-//                "Latitud : " + mLastLocation.latitude + " Longitud : " + mLastLocation.longitude
 
         }
     }
@@ -303,6 +321,94 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
     }
 
 //endregion
+
+
+    // region Sms
+
+    private fun listadeContactosConfianza(email: String, latitud: String, longitud: String) {
+
+        db.collection(Constants.USER_COL).document(email).collection(Constants.COLEC_CONTACT)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    Log.e(TAG, "firebaseFirestoreException", firebaseFirestoreException)
+                }
+
+                val list = mutableListOf<Contact>()
+                querySnapshot!!.forEach { queryDocumentSnapshot ->
+                    list.add(queryDocumentSnapshot.toObject(Contact::class.java))
+                }
+
+                //solo se puede enviar con 160 caracteres como maximo
+                val urlMaps =
+                    "WalkSafe: $email https://www.google.es/maps?q=$latitud,$longitud"
+
+                for (sendCell in list) {
+                    sendSMS(urlMaps, sendCell.celular.toString())
+                }
+                showToast(getString(R.string.msjCorrectoSms))
+
+            }
+
+
+    }
+
+    private fun sendSMS(
+        smsMsj: String,
+        cel: String
+    ) {
+
+        if (cel.count() > 0) {
+            val sms: SmsManager = SmsManager.getDefault()
+            sms.sendTextMessage(
+                cel,
+                null,
+                smsMsj,
+                null,
+                null
+            )
+        }
+    }
+
+    private fun checkPermissionsSms(): Boolean {
+
+        var r: Boolean = false
+
+        if (ContextCompat.checkSelfPermission(
+                this.requireContext(),
+                Manifest.permission.SEND_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            //permiso no aceptado por el momento
+            requestSmsPermission()
+
+        } else {
+            r = true
+            return r
+        }
+        return r
+    }
+
+    private fun requestSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this.requireActivity(),
+                Manifest.permission.SEND_SMS
+            )
+        ) {
+            //El usuaario ya ha rechazado los permisos
+            Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT).show()
+        } else {
+            //pedir permiso
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(Manifest.permission.SEND_SMS),
+                777
+            )
+        }
+    }
+
+
+    //endregion
+
 
     override fun onDestroyView() {
         stoplocationUpdates()
