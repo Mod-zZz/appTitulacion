@@ -42,7 +42,7 @@
             android:id="@+id/acosoSexualButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/AcosoSexual"
+            android:background="@drawable/shape_30_red_all"
             android:text="Acoso Sexual"
             android:textColor="@color/black" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/agrecionVerbalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/AcosoVerbal"
+            android:background="@drawable/shape_30_orange_all"
             android:text="Agrecion Verbal"
             android:textColor="@color/black" />
 
@@ -66,7 +66,7 @@
             android:id="@+id/agrecionFisicaButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/AgresionFisica"
+            android:background="@drawable/shape_30_yellow_all"
             android:text="Agrecion Fisica"
             android:textColor="@color/black" />
 

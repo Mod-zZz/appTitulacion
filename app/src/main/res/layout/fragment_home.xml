@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@android:color/holo_red_dark"
+            android:background="@drawable/shape_30_red_all"
             android:text="SOS"
             android:textColor="@color/black"
             android:textSize="36sp" />

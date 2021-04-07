@@ -17,7 +17,7 @@
             android:id="@+id/correoTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Correo:"/>
+            android:text="Correo:" />
 
         <EditText
             android:id="@+id/correoEditText"
@@ -75,7 +75,7 @@
                 android:id="@+id/actualizarButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/shape_30_primary_all"
                 android:text="Actualizar"
                 android:textColor="@android:color/white" />
 

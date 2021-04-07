@@ -93,24 +93,32 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
             startLocationUpdates()
         }
 
-        var latitud: String = ""
-        var longitud: String = ""
 
         with(binding) {
-            latitud = tvLatitud.text.toString()
-            longitud = tvLatitud.text.toString()
 
             acosoSexualButton.setOnClickListener() {
-                notificacionViewModel.doSendNotificationAcosoSexual(email, latitud, longitud)
-                mandarSms(email, latitud, longitud)
+                notificacionViewModel.doSendNotificationAcosoSexual(
+                    email,
+                    tvLatitud.text.toString(),
+                    tvLongitud.text.toString()
+                )
+                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
             agrecionVerbalButton.setOnClickListener() {
-                notificacionViewModel.doSendNotificationAgresionVerbal(email, latitud, longitud)
-                mandarSms(email, latitud, longitud)
+                notificacionViewModel.doSendNotificationAgresionVerbal(
+                    email,
+                    tvLatitud.text.toString(),
+                    tvLongitud.text.toString()
+                )
+                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
             agrecionFisicaButton.setOnClickListener() {
-                notificacionViewModel.doSendNotificationAgresionFisica(email, latitud, longitud)
-                mandarSms(email, latitud, longitud)
+                notificacionViewModel.doSendNotificationAgresionFisica(
+                    email,
+                    tvLatitud.text.toString(),
+                    tvLongitud.text.toString()
+                )
+                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
         }
 
