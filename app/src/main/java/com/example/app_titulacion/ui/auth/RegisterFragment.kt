@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -16,6 +17,8 @@ import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.getNewToken
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.app_titulacion.utils.Constants.BASIC
+import com.example.app_titulacion.utils.showToast
+import kotlin.system.exitProcess
 
 
 @AndroidEntryPoint
@@ -51,26 +54,22 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         with(binding) {
-//            emailEditText.setText(R.string.dev_email)
-//            passwordEditText.setText(R.string.dev_password)
-
             btnSignUp.setOnClickListener {
-//                FirebaseInstallations.getInstance().getToken(true)
-//                    .addOnCompleteListener { tokenResult ->
-
                 val email = emailEditText.text.toString()
                 val password = passwordEditText.text.toString()
+                val repitPassword = repitPasswordEditText.text.toString()
 
-                user = UserModel(
-                    email = email,
-                    password = password,
-                    token = getNewToken(requireContext())!!,
-                    provider = BASIC
-                )
-
-                registerViewModel.doCreateUser(user!!)
-
-//                    }
+                if (password == repitPassword) {
+                    user = UserModel(
+                        email = email,
+                        password = password,
+                        token = getNewToken(requireContext())!!,
+                        provider = BASIC
+                    )
+                    registerViewModel.doCreateUser(user!!)
+                }else {
+                    showToast(getString(R.string.msjPswIncorrecto))
+                }
             }
         }
 
@@ -84,6 +83,7 @@ class RegisterFragment : Fragment() {
                     Log.d(TAG, "createUser Loading")
                 }
                 is Resource.Success -> {
+                    showToast(getString(R.string.msjCreacionInicio))
                     Log.d(TAG, "createUser Success")
                     registerViewModel.doSignUp(user!!)
                 }

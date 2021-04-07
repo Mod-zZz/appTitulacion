@@ -49,4 +49,8 @@
     <string name="msjCargaCorrecta">Se cargó la información con exito.</string>
     <string name="msjCargaInCorrecta">Ocurrio un error mientras cargaba la información porfavor intente de nuevo.</string>
 
+
+    <string name="msjCreacionInicio">Se creó el usuario con exito.</string>
+    <string name="msjPswIncorrecto">La contraseña no coincide, intente de nuevo.</string>
+
 </resources>

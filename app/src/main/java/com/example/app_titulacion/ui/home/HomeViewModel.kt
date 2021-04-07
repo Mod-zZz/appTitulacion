@@ -19,11 +19,11 @@ class HomeViewModel @Inject constructor(private val appDataRepository: AppDataRe
     private val _sendNotification = MutableLiveData<ResourceV2<NotificationSosResponse>>()
     val sendNotification: LiveData<ResourceV2<NotificationSosResponse>> get() = _sendNotification
 
-    fun doSendNotification(email: String) {
+    fun doSendNotification(email: String, latitud: String, longitud: String) {
         viewModelScope.launch {
             _sendNotification.postValue(ResourceV2.loading())
             try {
-                val res = appDataRepository.sendNotification(email)
+                val res = appDataRepository.sendNotification(email,latitud, longitud)
                 if (res.status == Status.SUCCESS) {
                     _sendNotification.postValue(res)
                 } else if (res.status == Status.ERROR) {

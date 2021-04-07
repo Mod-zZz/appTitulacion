@@ -22,11 +22,11 @@ class AlertarViewModel @Inject constructor(private val appDataRepository: AppDat
     private val _sendNotificationAcosoSexual = MutableLiveData<ResourceV2<NotificationAcosoSexualResponse>>()
     val sendNotificationAcosoSexual: LiveData<ResourceV2<NotificationAcosoSexualResponse>> get () = _sendNotificationAcosoSexual
 
-    fun doSendNotificationAcosoSexual(email: String){
+    fun doSendNotificationAcosoSexual(email: String,latitud: String, longitud: String){
         viewModelScope.launch {
             _sendNotificationAcosoSexual.postValue(ResourceV2.loading())
             try {
-                val res = appDataRepository.sendNotificationAcosoSexual(email)
+                val res = appDataRepository.sendNotificationAcosoSexual(email,latitud,longitud)
                 if (res.status == Status.SUCCESS) {
                     _sendNotificationAcosoSexual.postValue(res)
                 } else if (res.status == Status.ERROR) {
@@ -42,11 +42,11 @@ class AlertarViewModel @Inject constructor(private val appDataRepository: AppDat
     private val _sendNotificationAgresionFisica = MutableLiveData<ResourceV2<NotificationAgresionFisicaResponse>>()
     val sendNotificationAgresionFisica: LiveData<ResourceV2<NotificationAgresionFisicaResponse>> get () = _sendNotificationAgresionFisica
 
-    fun doSendNotificationAgresionFisica(email: String){
+    fun doSendNotificationAgresionFisica(email: String,latitud: String, longitud: String){
         viewModelScope.launch {
             _sendNotificationAgresionFisica.postValue(ResourceV2.loading())
             try {
-                val res = appDataRepository.sendNotificationAgresionFisica(email)
+                val res = appDataRepository.sendNotificationAgresionFisica(email,latitud,longitud)
                 if (res.status == Status.SUCCESS) {
                     _sendNotificationAgresionFisica.postValue(res)
                 } else if (res.status == Status.ERROR) {
@@ -62,11 +62,11 @@ class AlertarViewModel @Inject constructor(private val appDataRepository: AppDat
     private val _sendNotificationAgresionVerbal = MutableLiveData<ResourceV2<NotificationAgresionVerbalResponse>>()
     val sendNotificationAgresionVerbal: LiveData<ResourceV2<NotificationAgresionVerbalResponse>> get () = _sendNotificationAgresionVerbal
 
-    fun doSendNotificationAgresionVerbal(email: String){
+    fun doSendNotificationAgresionVerbal(email: String,latitud: String, longitud: String){
         viewModelScope.launch {
             _sendNotificationAgresionVerbal.postValue(ResourceV2.loading())
             try {
-                val res = appDataRepository.sendNotificationAgresionVerbal(email)
+                val res = appDataRepository.sendNotificationAgresionVerbal(email,latitud,longitud)
                 if (res.status == Status.SUCCESS) {
                     _sendNotificationAgresionVerbal.postValue(res)
                 } else if (res.status == Status.ERROR) {

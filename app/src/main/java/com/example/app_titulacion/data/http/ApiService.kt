@@ -19,22 +19,30 @@ interface ApiService {
 
     @GET("notificacion/sos")
     suspend fun sendNotificationSos(
-        @Query("email") email : String
+        @Query("email") email: String,
+        @Query("latitud") latitud: String,
+        @Query("longitud") longitud: String
     ): Response<NotificationSosResponse>
 
     @GET("notificacion/AcosoSexual")
     suspend fun sendNotificationAcosoSexual(
-        @Query("email") email : String
+        @Query("email") email: String,
+        @Query("latitud") latitud: String,
+        @Query("longitud") longitud: String
     ): Response<NotificationAcosoSexualResponse>
 
     @GET("notificacion/AgresionFisica")
     suspend fun sendNotificationAgresionFisica(
-        @Query("email") email : String
+        @Query("email") email: String,
+        @Query("latitud") latitud: String,
+        @Query("longitud") longitud: String
     ): Response<NotificationAgresionFisicaResponse>
 
     @GET("notificacion/AgresionVerbal")
     suspend fun sendNotificationAgresionVerbal(
-        @Query("email") email : String
+        @Query("email") email: String,
+        @Query("latitud") latitud: String,
+        @Query("longitud") longitud: String
     ): Response<NotificationAgresionVerbalResponse>
 
     @POST("notificacion/traerListaNotificaciones")

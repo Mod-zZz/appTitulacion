@@ -82,24 +82,24 @@ class ZonasRiesgoFragment : Fragment() {
 //        }
     }
 
-    fun solicitarPermisos() {
-
-        val gps = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        if (gps != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_CODE_ASK_PERMISSION
-                )
-            }
-        }
-
-    }
+//    fun solicitarPermisos() {
+//
+//        val gps = ActivityCompat.checkSelfPermission(
+//            requireContext(),
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        )
+//
+//        if (gps != PackageManager.PERMISSION_GRANTED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//                requestPermissions(
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                    REQUEST_CODE_ASK_PERMISSION
+//                )
+//            }
+//        }
+//
+//    }
 
 
 }

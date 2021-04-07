@@ -15,24 +15,24 @@ class AppDataSource @Inject constructor(private val apiService: ApiService) : IA
             apiService.contactUpdateToken(EmailDto(email))
         }
 
-    override suspend fun sendNotificationSos(email: String): ResourceV2<NotificationSosResponse> =
+    override suspend fun sendNotificationSos(email: String, latitud: String, longitud: String): ResourceV2<NotificationSosResponse> =
         getResult {
-            apiService.sendNotificationSos(email)
+            apiService.sendNotificationSos(email,latitud,longitud)
         }
 
-    override suspend fun sendNotificationAcosoSexual(email: String): ResourceV2<NotificationAcosoSexualResponse> =
+    override suspend fun sendNotificationAcosoSexual(email: String,latitud: String, longitud: String): ResourceV2<NotificationAcosoSexualResponse> =
         getResult {
-            apiService.sendNotificationAcosoSexual(email)
+            apiService.sendNotificationAcosoSexual(email,latitud,longitud)
         }
 
-    override suspend fun sendNotificationAgresionFisica(email: String): ResourceV2<NotificationAgresionFisicaResponse> =
+    override suspend fun sendNotificationAgresionFisica(email: String,latitud: String, longitud: String): ResourceV2<NotificationAgresionFisicaResponse> =
         getResult {
-            apiService.sendNotificationAgresionFisica(email)
+            apiService.sendNotificationAgresionFisica(email,latitud,longitud)
         }
 
-    override suspend fun sendNotificationAgresionVerbal(email: String): ResourceV2<NotificationAgresionVerbalResponse> =
+    override suspend fun sendNotificationAgresionVerbal(email: String,latitud: String, longitud: String): ResourceV2<NotificationAgresionVerbalResponse> =
         getResult {
-            apiService.sendNotificationAgresionVerbal(email)
+            apiService.sendNotificationAgresionVerbal(email,latitud,longitud)
         }
 
     override suspend fun getListaNotificaciones(email: String): ResourceV2<ListaNotificacionResponse> =

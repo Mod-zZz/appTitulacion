@@ -38,17 +38,10 @@ class MisAlertasAdapter() :
             tvDe.text = "De: " + item.de.toString()
             tvPara.text = "Para: " + item.para.toString()
 
-
-//          tvFecha.text = "Fecha: " + getDateTime(item.fecha!!)
             val fecha = item.fecha.toString()
-            val fechaF = fecha.substring(0,10)
-
+            val fechaF = fecha.substring(0, 10)
 
             tvFecha.text = "Fecha: " + dateFormatter(fechaF.toLong())
-//            tvFecha.text =
-//                OffsetDateTime.ofInstant(Instant.ofEpochMilli(item.fecha!!), ZoneOffset.UTC).toString()
-
-
             tvIncedente.text = "Incidente: " + item.incidente.toString()
             tvOrigen.text = "Notificación: " + if (item.origen!!) "Saliente" else "Entrante"
             tvResultado.text = "Estado: " + if (item.resultado!!) "Exitoso" else "Fallado"
