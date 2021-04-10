@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_30_orange_all"
-            android:text="Agrecion Verbal"
+            android:text="Agresíon Verbal"
             android:textColor="@color/black" />
 
         <Space
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_30_yellow_all"
-            android:text="Agrecion Fisica"
+            android:text="Agresíon Fisica"
             android:textColor="@color/black" />
 
     </LinearLayout>

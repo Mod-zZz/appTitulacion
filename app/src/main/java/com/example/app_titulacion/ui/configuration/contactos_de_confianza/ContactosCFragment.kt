@@ -67,25 +67,6 @@ class ContactosCFragment : Fragment() {
         subscribe()
     }
 
-    private fun subscribe() {
-        contactosViewModel.contactoUpdateToken.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Status.LOADING -> {
-                    Log.d(TAG, "LOADING")
-                }
-                Status.SUCCESS -> {
-                    Log.d(TAG, "SUCCESS")
-                    val gson = Gson()
-                    Log.d(TAG, gson.toJson(it.data))
-                    showToast(getString(R.string.mensajeCorrecto))
-                }
-                Status.ERROR -> {
-                    Log.d(TAG, "ERROR ${it.message!!}")
-                }
-            }
-        }
-    }
-
     private fun guardarContactos(email: String) {
 
         with(binding) {
@@ -131,6 +112,25 @@ class ContactosCFragment : Fragment() {
 
         }
 
+    }
+
+    private fun subscribe() {
+        contactosViewModel.contactoUpdateToken.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.LOADING -> {
+                    Log.d(TAG, "LOADING")
+                }
+                Status.SUCCESS -> {
+                    Log.d(TAG, "SUCCESS")
+                    val gson = Gson()
+                    Log.d(TAG, gson.toJson(it.data))
+                    showToast(getString(R.string.mensajeCorrecto))
+                }
+                Status.ERROR -> {
+                    Log.d(TAG, "ERROR ${it.message!!}")
+                }
+            }
+        }
     }
 
 

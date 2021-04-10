@@ -126,9 +126,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
 
     }
 
-    private fun mandarMail() {
-        //TODO ENVIAR CORREO
-    }
 
     private fun mandarSms(email: String, latitud: String, longitud: String) {
         if (checkPermissionsSms()) {
