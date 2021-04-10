@@ -88,6 +88,7 @@ class RegisterFragment : Fragment() {
                     registerViewModel.doSignUp(user!!)
                 }
                 is Resource.Failure -> {
+                    showToast("Ocurrió un error durante la creación de su usuario, vuelva a intentarlo.")
                     Log.d(TAG, "createUser Failure ${it.throwable.message!!}")
                 }
             }
