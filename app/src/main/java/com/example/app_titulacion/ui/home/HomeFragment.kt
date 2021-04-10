@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.os.StrictMode
 import android.provider.Settings
 import android.telephony.SmsManager
 import android.util.Log
@@ -26,15 +27,22 @@ import androidx.lifecycle.observe
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentHomeBinding
-import com.example.app_titulacion.utils.Constants
+import com.example.app_titulacion.utils.*
 import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
 import com.example.app_titulacion.utils.Constants.USER_COL
-import com.example.app_titulacion.utils.Status
-import com.example.app_titulacion.utils.showToast
 import com.google.android.gms.location.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
+import kotlin.jvm.Throws
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -105,6 +113,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         tvLongitud.text.toString()
                     )
                 }
+
+//                val user = "walksafenotification@gmail.com"
+//                val passwd = "walksafenotification2020"
+//
+//
+//                MailJob(user, passwd).execute(
+//                    Mail(user, "enriquerafaelbecerrabocangel@gmail.com", "Hola", "Khe")
+//                )
 
 
             }
@@ -364,8 +380,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         stoplocationUpdates()
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
 }

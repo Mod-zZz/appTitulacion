@@ -147,4 +147,10 @@ dependencies {
 //    PARA GOOGLE MAPS
 
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+
+    //java mail
+    implementation 'com.sun.mail:android-mail:1.5.5'
+    implementation 'com.sun.mail:android-activation:1.5.5'
+
 }
