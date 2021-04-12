@@ -21,10 +21,9 @@ import com.example.app_titulacion.utils.Constants.BASE_URL
 import com.example.app_titulacion.utils.Constants.FACEBOOK
 import com.example.app_titulacion.utils.Constants.GMAIL
 import com.example.app_titulacion.utils.Constants.GOOGLE_SIGN_IN
-import com.example.app_titulacion.utils.Constants.MENU_ALERTAR
 import com.example.app_titulacion.utils.Constants.MENU_CONTACTOS_DE_CONFIANZA
 import com.example.app_titulacion.utils.Constants.MENU_LOGOUT
-import com.example.app_titulacion.utils.Constants.MENU_MIS_ALERTAS
+//import com.example.app_titulacion.utils.Constants.MENU_MIS_ALERTAS
 import com.example.app_titulacion.utils.Constants.MENU_MI_PERFIL
 import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
 import com.facebook.login.LoginManager
@@ -45,8 +44,7 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
     private lateinit var configurationAdapter: ConfigurationAdapter
 
     private val configurationList = listOf(
-        "Alertar",
-        "Mis alertas",
+//        "Mis alertas",
         "Zonas de riesgo",
         "Editar usuario",
         "Contactos de Confianza",
@@ -77,12 +75,10 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
 
     override fun onItemClickSelected(pos: Int) {
         when (pos) {
-            MENU_ALERTAR -> {
-                findNavController().navigate(R.id.action_nav_configuration_fragment_to_alertarFragment)
-            }
-            MENU_MIS_ALERTAS -> {
-                findNavController().navigate(R.id.action_nav_configuration_fragment_to_misAlertasFragment)
-            }
+
+//            MENU_MIS_ALERTAS -> {
+//                findNavController().navigate(R.id.action_nav_configuration_fragment_to_misAlertasFragment)
+//            }
             MENU_ZONA_DE_RIESGO -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
             }

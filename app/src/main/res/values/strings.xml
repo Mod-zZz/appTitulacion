@@ -20,6 +20,9 @@
     //
     <string name="bn_home">SOS</string>
     <string name="bn_config">Configuración</string>
+    <string name="bn_alertar">Alertar</string>
+    <string name="bn_mis_alertas">Mis alertas</string>
+    <string name="bn_cerrar_sesion">Cerrar Sesión</string>
     <string name="create_account"><u>¿No tienes cuenta? Regístrate</u></string>
 
     <string name="dev_email">asantivanezg@hotmail.com</string>

@@ -29,8 +29,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.bottomNavigationMain.setupWithNavController(requireActivity().findNavController(R.id.main_fragment))
-    }
 
+    }
 
 
 }

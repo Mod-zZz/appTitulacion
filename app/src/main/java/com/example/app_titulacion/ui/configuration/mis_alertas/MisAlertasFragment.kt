@@ -40,14 +40,14 @@ class MisAlertasFragment : Fragment(), MisAlertasAdapter.MisAlertasListener {
 
     }
 
-    private val configurationListAlertas = listOf(
-        "Registro 1",
-        "Registro 2",
-        "Registro 3",
-        "Registro 4",
-        "Registro 5",
-        "Registro 6"
-    )
+//    private val configurationListAlertas = listOf(
+//        "Registro 1",
+//        "Registro 2",
+//        "Registro 3",
+//        "Registro 4",
+//        "Registro 5",
+//        "Registro 6"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

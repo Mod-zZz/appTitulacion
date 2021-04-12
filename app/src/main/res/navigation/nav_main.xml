@@ -16,9 +16,6 @@
         android:label="ConfigurationFragment"
         tools:layout="@layout/fragment_configuration">
         <action
-            android:id="@+id/action_nav_configuration_fragment_to_alertarFragment"
-            app:destination="@id/alertarFragment" />
-        <action
             android:id="@+id/action_nav_configuration_fragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
         <action
@@ -30,12 +27,12 @@
         <action
             android:id="@+id/action_nav_configuration_fragment_to_zonasRiesgoFragment"
             app:destination="@id/zonasRiesgoFragment" />
-        <action
-            android:id="@+id/action_nav_configuration_fragment_to_misAlertasFragment"
-            app:destination="@id/misAlertasFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_nav_configuration_fragment_to_misAlertasFragment"-->
+<!--            app:destination="@id/misAlertasFragment" />-->
     </fragment>
     <fragment
-        android:id="@+id/alertarFragment"
+        android:id="@+id/nav_alertar_fragment"
         android:name="com.example.app_titulacion.ui.configuration.alertar.AlertarFragment"
         android:label="fragment_alertar"
         tools:layout="@layout/fragment_alertar" />
@@ -56,7 +53,7 @@
         android:label="fragment_zonas_riesgo"
         tools:layout="@layout/fragment_zonas_riesgo" />
     <fragment
-        android:id="@+id/misAlertasFragment"
+        android:id="@+id/nav_mis_alertas_fragment"
         android:name="com.example.app_titulacion.ui.configuration.mis_alertas.MisAlertasFragment"
         android:label="fragment_configuration_registros"
         tools:layout="@layout/fragment_configuration_alertas" />

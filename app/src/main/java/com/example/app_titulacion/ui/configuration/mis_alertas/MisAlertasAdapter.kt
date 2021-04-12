@@ -1,15 +1,22 @@
 package com.example.app_titulacion.ui.configuration.mis_alertas
 
+import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Notificacion
 import com.example.app_titulacion.databinding.ItemNotificationBinding
 
 
 import com.example.app_titulacion.utils.BaseViewHolder
+import com.example.app_titulacion.utils.Constants.AGRESION_FISICA
+import com.example.app_titulacion.utils.Constants.AGRESION_SEXUAL
+import com.example.app_titulacion.utils.Constants.AGRESION_VERBAL
+import com.example.app_titulacion.utils.Constants.SOS
 import java.text.SimpleDateFormat
 import java.util.*
 import java.time.*
@@ -24,9 +31,12 @@ class MisAlertasAdapter(
 
     private val list: MutableList<Notificacion> = mutableListOf()
 
+    private lateinit var context: Context
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val vh =
             ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return MisAlertasViewHolder(vh)
     }
 
@@ -58,9 +68,35 @@ class MisAlertasAdapter(
             tvLongitud.text = item.longitud
 
             root.setOnClickListener {
-                listener.onItemClickSelected(item.latitud,item.longitud)
+                listener.onItemClickSelected(item.latitud, item.longitud)
             }
 
+            rootLayout.setBackgroundColor(
+                if (item.incidenciaId == AGRESION_SEXUAL && item.origen == false) {
+                    ContextCompat.getColor(context, R.color.red)
+                } else if (item.incidenciaId == AGRESION_FISICA && item.origen == false) {
+                    ContextCompat.getColor(context, R.color.yellow)
+                } else if (item.incidenciaId == AGRESION_VERBAL && item.origen == false) {
+                    ContextCompat.getColor(context, R.color.orange)
+                } else if (item.incidenciaId == SOS && item.origen == false) {
+                    ContextCompat.getColor(context, R.color.red)
+                } else {
+                    ContextCompat.getColor(context, R.color.teal_200)
+                }
+            )
+
+//            rootLayout.setBackgroundColor(
+//                when (item.incidenciaId) {
+//                    AGRESION_SEXUAL -> ContextCompat.getColor(context, R.color.red)
+//                    AGRESION_FISICA -> ContextCompat.getColor(context, R.color.yellow)
+//                    AGRESION_VERBAL -> ContextCompat.getColor(context, R.color.orange)
+//                    SOS -> ContextCompat.getColor(
+//                        context,
+//                        R.color.red
+//                    )
+//                    else -> ContextCompat.getColor(context, R.color.black)
+//                }
+//            )
         }
 
 

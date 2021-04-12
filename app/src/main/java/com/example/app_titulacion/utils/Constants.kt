@@ -35,12 +35,12 @@ object Constants {
 
 
 
-    const val MENU_ALERTAR = 0
-    const val MENU_MIS_ALERTAS = 1
-    const val MENU_ZONA_DE_RIESGO = 2
-    const val MENU_MI_PERFIL = 3
-    const val MENU_CONTACTOS_DE_CONFIANZA = 4
-    const val MENU_LOGOUT = 5
+//    const val MENU_ALERTAR = 0
+//    const val MENU_MIS_ALERTAS = 0
+    const val MENU_ZONA_DE_RIESGO = 0
+    const val MENU_MI_PERFIL = 1
+    const val MENU_CONTACTOS_DE_CONFIANZA = 2
+    const val MENU_LOGOUT = 3
 
     //region Proveedores
     const val BASIC = "BASIC"
@@ -51,6 +51,12 @@ object Constants {
     //regionZonaRiesgo
     const val BASE_URL = "https://datacrim.inei.gob.pe/ciudadano"
     //endregion
+
+
+    const val AGRESION_SEXUAL = 1
+    const val AGRESION_FISICA = 2
+    const val AGRESION_VERBAL = 3
+    const val SOS = 4
 
 
 }
