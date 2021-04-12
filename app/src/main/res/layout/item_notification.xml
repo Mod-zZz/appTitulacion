@@ -81,8 +81,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Resultado" />
 
+
     <TextView
         android:id="@+id/tvLatitud"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -95,6 +97,7 @@
 
     <TextView
         android:id="@+id/tvLongitud"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="190dp"
@@ -104,6 +107,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Longitud" />
+
+    <TextView
+        android:id="@+id/tvClic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="215dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Haz clic aquí para ver la ruta en Google Maps"  />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -252,11 +252,6 @@ class LoginFragment : Fragment() {
         editor.apply()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun subscribe() {
         loginViewModel.signIn.observe(viewLifecycleOwner) {
             when (it) {
@@ -296,5 +291,10 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

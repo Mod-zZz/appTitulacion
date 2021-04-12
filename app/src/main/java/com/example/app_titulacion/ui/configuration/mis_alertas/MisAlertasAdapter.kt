@@ -81,7 +81,7 @@ class MisAlertasAdapter(
                 } else if (item.incidenciaId == SOS && item.origen == false) {
                     ContextCompat.getColor(context, R.color.red)
                 } else {
-                    ContextCompat.getColor(context, R.color.teal_200)
+                    ContextCompat.getColor(context, R.color.white_fond)
                 }
             )
 

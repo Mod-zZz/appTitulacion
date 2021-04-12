@@ -133,7 +133,6 @@ class ContactosCFragment : Fragment() {
         }
     }
 
-
     private fun traerContactos(email: String) {
 
         with(binding) {

@@ -1,5 +1,7 @@
 package com.example.app_titulacion.ui.auth
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,11 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.UserModel
 import com.example.app_titulacion.databinding.FragmentRegisterBinding
+import com.example.app_titulacion.utils.Constants
 import com.example.app_titulacion.utils.Resource
 import com.example.app_titulacion.utils.getNewToken
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.app_titulacion.utils.Constants.BASIC
 import com.example.app_titulacion.utils.showToast
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlin.system.exitProcess
 
 
@@ -29,7 +33,11 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     private val registerViewModel: RegisterViewModel by viewModels()
+
+    var MyToken = ""
 
     private var user: UserModel? = null
 
@@ -46,12 +54,11 @@ class RegisterFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
+        session()
 
         with(binding) {
             btnSignUp.setOnClickListener {
@@ -67,12 +74,12 @@ class RegisterFragment : Fragment() {
                         provider = BASIC
                     )
                     registerViewModel.doCreateUser(user!!)
-                }else {
+                } else {
                     showToast(getString(R.string.msjPswIncorrecto))
                 }
             }
         }
-
+//        recuperaToken()
         subscribe()
     }
 
@@ -101,6 +108,7 @@ class RegisterFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     Log.d(TAG, "signUp Success")
+                    saveUserInSharedPreference(user!!.email)
                     findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
                 }
                 is Resource.Failure -> {
@@ -108,7 +116,40 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun saveUserInSharedPreference(email: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(Constants.APP_EMAIL, email)
+        editor.putBoolean(Constants.APP_SESSION, true)
+        editor.putString(Constants.APP_TOKEN, MyToken)
+        editor.putString(Constants.APP_PROVIDER, BASIC)
+        editor.apply()
+    }
 
+    private fun session() {
+
+        sharedPreferences =
+            this.requireActivity().getSharedPreferences(Constants.APP_PREF, Context.MODE_PRIVATE)
+
+        val isSessionActive = sharedPreferences.getBoolean(Constants.APP_SESSION, false)
+
+        if (isSessionActive) {
+            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun recuperaToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            it.result?.token?.let { mToken ->
+                MyToken = mToken
+            }
+        }
     }
 }
