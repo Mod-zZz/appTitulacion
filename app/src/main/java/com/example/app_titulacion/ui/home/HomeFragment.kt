@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -28,6 +29,7 @@ import com.example.app_titulacion.R
 import com.example.app_titulacion.data.model.Contact
 import com.example.app_titulacion.databinding.FragmentHomeBinding
 import com.example.app_titulacion.utils.*
+import com.example.app_titulacion.utils.Constants.BASE_URL
 import com.example.app_titulacion.utils.Constants.COLEC_CONTACT
 import com.example.app_titulacion.utils.Constants.USER_COL
 import com.google.android.gms.location.*
@@ -113,16 +115,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         tvLongitud.text.toString()
                     )
                 }
-
-//                val user = "walksafenotification@gmail.com"
-//                val passwd = "walksafenotification2020"
-//
-//
-//                MailJob(user, passwd).execute(
-//                    Mail(user, "enriquerafaelbecerrabocangel@gmail.com", "Hola", "Khe")
-//                )
-
-
+            }
+            btnZonasRiesgo.setOnClickListener() {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setData(Uri.parse(BASE_URL))
+                startActivity(intent)
             }
         }
 
@@ -159,11 +156,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         //SOLO GPS
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                //Agregar el método startlocationUpdate () más tarde en lugar de Toast
-//                Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
-//                    .show()
-                startLocationUpdates()
+                startLocationUpdates()//Permiso concedido
             }
         }
 

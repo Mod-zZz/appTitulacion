@@ -33,14 +33,12 @@ object Constants {
     const val CELULAR_FIELD = "celular"
     //endregion
 
-
-
 //    const val MENU_ALERTAR = 0
 //    const val MENU_MIS_ALERTAS = 0
-    const val MENU_ZONA_DE_RIESGO = 0
-    const val MENU_MI_PERFIL = 1
-    const val MENU_CONTACTOS_DE_CONFIANZA = 2
-    const val MENU_LOGOUT = 3
+//    const val MENU_ZONA_DE_RIESGO = 0
+    const val MENU_MI_PERFIL = 0
+    const val MENU_CONTACTOS_DE_CONFIANZA = 1
+    const val MENU_LOGOUT = 2
 
     //region Proveedores
     const val BASIC = "BASIC"

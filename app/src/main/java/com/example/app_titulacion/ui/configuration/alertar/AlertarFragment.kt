@@ -15,6 +15,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Looper
 import android.provider.Settings
 import android.telephony.SmsManager
@@ -119,6 +120,11 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLongitud.text.toString()
                 )
                 mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+            }
+            btnZonasRiesgo.setOnClickListener(){
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setData(Uri.parse(Constants.BASE_URL))
+                startActivity(intent)
             }
         }
 

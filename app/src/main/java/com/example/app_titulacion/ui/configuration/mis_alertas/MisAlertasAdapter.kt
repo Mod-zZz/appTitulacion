@@ -2,8 +2,10 @@ package com.example.app_titulacion.ui.configuration.mis_alertas
 
 import android.content.Context
 import android.os.Build
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,7 @@ import com.example.app_titulacion.utils.Constants.AGRESION_FISICA
 import com.example.app_titulacion.utils.Constants.AGRESION_SEXUAL
 import com.example.app_titulacion.utils.Constants.AGRESION_VERBAL
 import com.example.app_titulacion.utils.Constants.SOS
+import com.example.app_titulacion.utils.showToast
 import java.text.SimpleDateFormat
 import java.util.*
 import java.time.*
@@ -40,6 +43,7 @@ class MisAlertasAdapter(
         return MisAlertasViewHolder(vh)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
             is MisAlertasViewHolder -> holder.bind(list[position])
@@ -68,8 +72,15 @@ class MisAlertasAdapter(
             tvLongitud.text = item.longitud
 
             root.setOnClickListener {
-                listener.onItemClickSelected(item.latitud, item.longitud)
+                if (item.latitud == "Latitud" && item.longitud == "Longitud") {
+                    Toast.makeText(context, R.string.msjNoLatiLong, Toast.LENGTH_SHORT).show()
+                } else {
+                    listener.onItemClickSelected(item.latitud, item.longitud)
+                }
+
             }
+
+
 
             rootLayout.setBackgroundColor(
                 if (item.incidenciaId == AGRESION_SEXUAL && item.origen == false) {
@@ -84,6 +95,8 @@ class MisAlertasAdapter(
                     ContextCompat.getColor(context, R.color.white_fond)
                 }
             )
+
+            tvClic.text = "Ver la ruta en google Maps."
 
 //            rootLayout.setBackgroundColor(
 //                when (item.incidenciaId) {

@@ -8,6 +8,11 @@
         android:icon="@android:drawable/ic_dialog_alert"
         android:title="@string/bn_home" />
 
+<!--    <item-->
+<!--        android:id="@+id/nav_zonas_riesgo_fragment"-->
+<!--        android:icon="@drawable/ic_marcador_de_posicion"-->
+<!--        android:title="@string/bn_zonas_de_riesgo" />-->
+
     <item
         android:id="@+id/nav_alertar_fragment"
         android:icon="@drawable/ic_alarma"
@@ -18,10 +23,13 @@
         android:icon="@drawable/ic_alerta_de_telefono"
         android:title="@string/bn_mis_alertas" />
 
+
     <item
         android:id="@+id/nav_configuration_fragment"
         android:icon="@drawable/ic_config"
         android:title="@string/bn_config" />
+
+
 
 <!--    <item-->
 <!--        android:id="@+id/cerrar_session"-->

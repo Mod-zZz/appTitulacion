@@ -25,7 +25,7 @@ import com.example.app_titulacion.utils.Constants.MENU_CONTACTOS_DE_CONFIANZA
 import com.example.app_titulacion.utils.Constants.MENU_LOGOUT
 //import com.example.app_titulacion.utils.Constants.MENU_MIS_ALERTAS
 import com.example.app_titulacion.utils.Constants.MENU_MI_PERFIL
-import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
+//import com.example.app_titulacion.utils.Constants.MENU_ZONA_DE_RIESGO
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,8 +44,6 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
     private lateinit var configurationAdapter: ConfigurationAdapter
 
     private val configurationList = listOf(
-//        "Mis alertas",
-        "Zonas de riesgo",
         "Editar usuario",
         "Contactos de Confianza",
         "Cerrar Sesión"
@@ -76,12 +74,6 @@ class ConfigurationFragment : Fragment(), ConfigurationAdapter.ConfigurationList
     override fun onItemClickSelected(pos: Int) {
         when (pos) {
 
-//            MENU_MIS_ALERTAS -> {
-//                findNavController().navigate(R.id.action_nav_configuration_fragment_to_misAlertasFragment)
-//            }
-            MENU_ZONA_DE_RIESGO -> {
-                findNavController().navigate(R.id.action_nav_configuration_fragment_to_zonasRiesgoFragment)
-            }
             MENU_MI_PERFIL -> {
                 findNavController().navigate(R.id.action_nav_configuration_fragment_to_perfilFragment)
             }

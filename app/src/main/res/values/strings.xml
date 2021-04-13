@@ -23,7 +23,8 @@
     <string name="bn_home">SOS</string>
     <string name="bn_config">Configuración</string>
     <string name="bn_alertar">Alertar</string>
-    <string name="bn_mis_alertas">Mis alertas</string>
+    <string name="bn_mis_alertas">Mis Alertas</string>
+    <string name="bn_zonas_de_riesgo">Zonas de riesgo</string>
     <string name="bn_cerrar_sesion">Cerrar Sesión</string>
     <string name="create_account"><u>¿No tienes cuenta? Regístrate</u></string>
 
@@ -42,6 +43,9 @@
     <string name="email">Email</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="msjNoLatiLong">Esta notificacion no tiene datos para abrir Maps.</string>
 
     <!--    region MensajesUsuario-->
     <string name="mensajeCorrecto">Se actualizó con éxito</string>

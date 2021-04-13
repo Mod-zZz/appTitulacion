@@ -24,9 +24,6 @@
         <action
             android:id="@+id/action_nav_configuration_fragment_to_nav_auth"
             app:destination="@id/nav_auth" />
-        <action
-            android:id="@+id/action_nav_configuration_fragment_to_zonasRiesgoFragment"
-            app:destination="@id/zonasRiesgoFragment" />
 <!--        <action-->
 <!--            android:id="@+id/action_nav_configuration_fragment_to_misAlertasFragment"-->
 <!--            app:destination="@id/misAlertasFragment" />-->
@@ -47,14 +44,10 @@
         android:label="fragment_contactos_c"
         tools:layout="@layout/fragment_contactos_c" />
     <include app:graph="@navigation/nav_auth" />
-    <fragment
-        android:id="@+id/zonasRiesgoFragment"
-        android:name="com.example.app_titulacion.ui.configuration.ZonasRiesgo.ZonasRiesgoFragment"
-        android:label="fragment_zonas_riesgo"
-        tools:layout="@layout/fragment_zonas_riesgo" />
+
     <fragment
         android:id="@+id/nav_mis_alertas_fragment"
         android:name="com.example.app_titulacion.ui.configuration.mis_alertas.MisAlertasFragment"
-        android:label="fragment_configuration_registros"
-        tools:layout="@layout/fragment_configuration_alertas" />
+        android:label="Hilt_MisAlertasFragment" />
+
 </navigation>
