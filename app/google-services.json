@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "795997496198",
-    "project_id": "poblacionesvulnerables-2021",
-    "storage_bucket": "poblacionesvulnerables-2021.appspot.com"
+    "project_number": "372203465770",
+    "project_id": "walksafe-camina-con-seguridad",
+    "storage_bucket": "walksafe-camina-con-seguridad.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:795997496198:android:a568a7362a12eaa936c207",
+        "mobilesdk_app_id": "1:372203465770:android:f579c3873bdf4c64096753",
         "android_client_info": {
-          "package_name": "com.example.app_titulacion"
+          "package_name": "com.walksafe.app_titulacion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "795997496198-ntflcbf2v77e110c63m2p30pk168diuo.apps.googleusercontent.com",
+          "client_id": "372203465770-cg4a3dl7dpv7jk1nl7pi7hispb00d803.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walksafe.app_titulacion",
+            "certificate_hash": "bd93353bb695c3cc7653ec823e939fe903e6d20a"
+          }
+        },
+        {
+          "client_id": "372203465770-2gsv3mmrrumqt3p0bgc8vl8c5bc1rnvj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmhrmwA3RMqSTAYwMBSXRjYyjxRdmhxKY"
+          "current_key": "AIzaSyCgd_uGe5Pxf1B4HRAbWu67OhbNotbSSS8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "795997496198-ntflcbf2v77e110c63m2p30pk168diuo.apps.googleusercontent.com",
+              "client_id": "372203465770-2gsv3mmrrumqt3p0bgc8vl8c5bc1rnvj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

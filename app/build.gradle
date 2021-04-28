@@ -1,7 +1,7 @@
 plugins {
+    id 'com.google.gms.google-services'
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
@@ -18,7 +18,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.app_titulacion"
+        applicationId "com.walksafe.app_titulacion"
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
@@ -53,7 +53,7 @@ android {
 dependencies {
 
     //Dependencias para FireBase
-    implementation platform('com.google.firebase:firebase-bom:26.5.0')
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
     //implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Agregado para google Analytics
@@ -82,7 +82,7 @@ dependencies {
     //Implementacion Crashlytics
     //implementation platform('com.google.firebase:firebase-bom:26.4.0')
     //implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     //Implementacion FireBaseCloud
     implementation 'com.google.firebase:firebase-firestore:21.6.0'

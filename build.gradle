@@ -2,8 +2,8 @@
 buildscript {
     ext.kotlin_version = "1.4.31"
     repositories {
-        google()
         jcenter()
+        google()
         mavenCentral()
         maven {
             url "https://maven.java.net/content/groups/public/"
@@ -13,7 +13,6 @@ buildscript {
         //GPS
         classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.google.gms:google-services:4.3.5'
-
         classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -29,10 +28,6 @@ buildscript {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.31.2-alpha'
         // navigation
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.3"
-
-
-
-
 
     }
 }

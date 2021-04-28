@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.app_titulacion.ui.auth.LoginFragment"
+        android:name="com.walksafe.app_titulacion.ui.auth.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.app_titulacion.ui.MainFragment"
+        android:name="com.walksafe.app_titulacion.ui.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.app_titulacion.ui.auth.RegisterFragment"
+        android:name="com.walksafe.app_titulacion.ui.auth.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
