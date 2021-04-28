@@ -85,7 +85,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val email: String = sharedPreferences.getString(Constants.APP_EMAIL, "").toString()
 
-
         mLocationRequest = LocationRequest()
 
         val locationManager =
@@ -114,6 +113,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         tvLatitud.text.toString(),
                         tvLongitud.text.toString()
                     )
+                    showToast(getString(R.string.msjCorrectoSms))
                 }
             }
             btnZonasRiesgo.setOnClickListener() {
@@ -156,7 +156,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         //SOLO GPS
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationUpdates()//Permiso concedido
+//                startLocationUpdates()//Permiso concedido
+                Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -309,7 +311,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 for (sendCell in list) {
                     sendSMS(urlMaps, sendCell.celular.toString())
                 }
-                showToast(getString(R.string.msjCorrectoSms))
 
             }
 

@@ -56,22 +56,13 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
     private lateinit var mLocationRequest: LocationRequest
     private val REQUEST_PERMISSION_LOCATION = 10
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAlertarBinding.inflate(inflater, container, false)
-
         return binding.root
-
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,7 +94,12 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+                if (checkPermissionsSms()){
+                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
+                    showToast(getString(R.string.msjCorrectoSms))
+                }
+//                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+
             }
             agrecionVerbalButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAgresionVerbal(
@@ -111,7 +107,11 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+                if (checkPermissionsSms()){
+                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
+                    showToast(getString(R.string.msjCorrectoSms))
+                }
+//                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
             agrecionFisicaButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAgresionFisica(
@@ -119,8 +119,13 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+                if (checkPermissionsSms()){
+                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
+                    showToast(getString(R.string.msjCorrectoSms))
+                }
+//               mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
+
             btnZonasRiesgo.setOnClickListener(){
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setData(Uri.parse(Constants.BASE_URL))
@@ -356,8 +361,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                 for (sendCell in list) {
                     sendSMS(urlMaps, sendCell.celular.toString())
                 }
-                showToast(getString(R.string.msjCorrectoSms))
-
             }
 
 
