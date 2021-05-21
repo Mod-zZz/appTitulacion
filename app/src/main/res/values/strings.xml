@@ -42,9 +42,6 @@
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <string name="msjNoLatiLong">Esta notificacion no tiene datos para abrir Maps.</string>
 
     <!--    region MensajesUsuario-->
@@ -54,6 +51,7 @@
     <string name="mensajeError">Ocurrio un error durante la actualización</string>
     <!--    endregion-->
 
+    <string name="msjCargaNoData">No tienes alertas registradas.</string>
     <string name="msjCargaCorrecta">Se cargó la información con exito.</string>
     <string name="msjCargaInCorrecta">Ocurrio un error mientras cargaba la información porfavor intente de nuevo.</string>
 

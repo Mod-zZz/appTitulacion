@@ -40,15 +40,6 @@ class MisAlertasFragment : Fragment(), MisAlertasAdapter.MisAlertasListener {
 
     }
 
-//    private val configurationListAlertas = listOf(
-//        "Registro 1",
-//        "Registro 2",
-//        "Registro 3",
-//        "Registro 4",
-//        "Registro 5",
-//        "Registro 6"
-//    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -89,7 +80,13 @@ class MisAlertasFragment : Fragment(), MisAlertasAdapter.MisAlertasListener {
                     Log.d(TAG, "SUCCESS")
                     val notificationList = it.data?.data!!
                     misAlertasAdapter.updateList(notificationList)
-                    showToast(getString(R.string.msjCargaCorrecta))
+
+                    if (notificationList.count() > 0){
+                        showToast(getString(R.string.msjCargaCorrecta))
+                    }
+                    else{
+                        showToast(getString(R.string.msjCargaNoData))
+                    }
 
                     binding.progressBar.visibility = View.GONE
                     binding.rvConfigurationAlertas.visibility = View.VISIBLE

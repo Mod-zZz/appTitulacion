@@ -62,6 +62,9 @@ class PerfilFragment : Fragment() {
 
         //********* FIN TRAER EL EMAIL GUARADO EN EL SHARE PREFERNECES*********//
 
+        binding.correoEditText.setFocusable(false)
+        // binding.correoEditText.isEnabled = false
+
         traerEmailSession(email)
         recuperarInformacionUsaurio(email)
         actualizarInformacionUsuario(email, token)

@@ -277,7 +277,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun stoplocationUpdates() {
-        if (mLocationCallback != null) {
+        if (mLocationCallback != null && mFusedLocationProviderClient != null) {
             mFusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback)
         }
     }

@@ -1,6 +1,8 @@
 package com.walksafe.app_titulacion.ui.configuration.mis_alertas
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
@@ -80,38 +82,39 @@ class MisAlertasAdapter(
 
             }
 
-
-
-            rootLayout.setBackgroundColor(
+            rootLayout.background.setColorFilter(
                 if (item.incidenciaId == AGRESION_SEXUAL && item.origen == false) {
-                    ContextCompat.getColor(context, R.color.red)
+                    Color.parseColor("#C63637")
                 } else if (item.incidenciaId == AGRESION_FISICA && item.origen == false) {
-                    ContextCompat.getColor(context, R.color.yellow)
+                    Color.parseColor("#378FAE")
                 } else if (item.incidenciaId == AGRESION_VERBAL && item.origen == false) {
-                    ContextCompat.getColor(context, R.color.orange)
+                    Color.parseColor("#F7BD56")
                 } else if (item.incidenciaId == SOS && item.origen == false) {
-                    ContextCompat.getColor(context, R.color.red)
+                    Color.parseColor("#C63637")
                 } else {
-                    ContextCompat.getColor(context, R.color.white_fond)
+                    Color.parseColor("#EAF2E3")
                 }
+                , PorterDuff.Mode.SRC_ATOP
             )
+
+
+//            rootLayout.setBackgroundColor(
+//                if (item.incidenciaId == AGRESION_SEXUAL && item.origen == false) {
+//                    ContextCompat.getColor(context, R.color.red)
+//                } else if (item.incidenciaId == AGRESION_FISICA && item.origen == false) {
+//                    ContextCompat.getColor(context, R.color.yellow)
+//                } else if (item.incidenciaId == AGRESION_VERBAL && item.origen == false) {
+//                    ContextCompat.getColor(context, R.color.orange)
+//                } else if (item.incidenciaId == SOS && item.origen == false) {
+//                    ContextCompat.getColor(context, R.color.red)
+//                } else {
+//                    ContextCompat.getColor(context, R.color.white_fond)
+//                }
+//            )
 
             tvClic.text = "Ver la ruta en google Maps."
 
-//            rootLayout.setBackgroundColor(
-//                when (item.incidenciaId) {
-//                    AGRESION_SEXUAL -> ContextCompat.getColor(context, R.color.red)
-//                    AGRESION_FISICA -> ContextCompat.getColor(context, R.color.yellow)
-//                    AGRESION_VERBAL -> ContextCompat.getColor(context, R.color.orange)
-//                    SOS -> ContextCompat.getColor(
-//                        context,
-//                        R.color.red
-//                    )
-//                    else -> ContextCompat.getColor(context, R.color.black)
-//                }
-//            )
         }
-
 
     }
 

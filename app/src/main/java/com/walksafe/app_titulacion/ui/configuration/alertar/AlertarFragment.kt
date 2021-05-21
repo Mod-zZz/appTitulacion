@@ -93,11 +93,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-//                if (checkPermissionsSms()){
-//                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
-//                    showToast(getString(R.string.msjCorrectoSms))
-//                }
-//                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
 
             }
             agrecionVerbalButton.setOnClickListener() {
@@ -106,11 +101,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-//                if (checkPermissionsSms()){
-//                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
-//                    showToast(getString(R.string.msjCorrectoSms))
-//                }
-//                mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
             }
             agrecionFisicaButton.setOnClickListener() {
                 notificacionViewModel.doSendNotificationAgresionFisica(
@@ -118,11 +108,7 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     tvLatitud.text.toString(),
                     tvLongitud.text.toString()
                 )
-//                if (checkPermissionsSms()){
-//                    listadeContactosConfianza(email,tvLatitud.text.toString(),tvLongitud.text.toString())
-//                    showToast(getString(R.string.msjCorrectoSms))
-//                }
-//               mandarSms(email, tvLatitud.text.toString(), tvLongitud.text.toString())
+
             }
 
             btnZonasRiesgo.setOnClickListener() {
@@ -135,17 +121,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         subscribe()
 
     }
-
-
-//    private fun mandarSms(email: String, latitud: String, longitud: String) {
-//        if (checkPermissionsSms()) {
-//            listadeContactosConfianza(
-//                email,
-//                latitud,
-//                longitud
-//            )
-//        }
-//    }
 
     private fun subscribe() {
 
@@ -216,17 +191,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                     .show()
             }
         }
-
-        //SOLO ENVIAR SMS
-
-//        if (requestCode == 777) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //Todo_ bien SMS
-//            } else {
-//                Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//    }
 }
 
 fun checkPermissionForLocation(context: Context): Boolean {
@@ -337,92 +301,6 @@ private fun stoplocationUpdates() {
 }
 
 //endregion
-
-
-// region Sms
-//
-//    private fun listadeContactosConfianza(email: String, latitud: String, longitud: String) {
-//
-//        db.collection(Constants.USER_COL).document(email).collection(Constants.COLEC_CONTACT)
-//            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-//                if (firebaseFirestoreException != null) {
-//                    Log.e(TAG, "firebaseFirestoreException", firebaseFirestoreException)
-//                }
-//
-//                val list = mutableListOf<Contact>()
-//                querySnapshot!!.forEach { queryDocumentSnapshot ->
-//                    list.add(queryDocumentSnapshot.toObject(Contact::class.java))
-//                }
-//
-//                //solo se puede enviar con 160 caracteres como maximo
-//                val urlMaps =
-//                    "WalkSafe: $email https://www.google.es/maps?q=$latitud,$longitud"
-//
-//                for (sendCell in list) {
-//                    sendSMS(urlMaps, sendCell.celular.toString())
-//                }
-//            }
-//
-//
-//    }
-//
-//    private fun sendSMS(
-//        smsMsj: String,
-//        cel: String
-//    ) {
-//
-//        if (cel.count() > 0) {
-//            val sms: SmsManager = SmsManager.getDefault()
-//            sms.sendTextMessage(
-//                cel,
-//                null,
-//                smsMsj,
-//                null,
-//                null
-//            )
-//        }
-//    }
-//
-//    private fun checkPermissionsSms(): Boolean {
-//
-//        var r: Boolean = false
-//
-//        if (ContextCompat.checkSelfPermission(
-//                this.requireContext(),
-//                Manifest.permission.SEND_SMS
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            //permiso no aceptado por el momento
-//            requestSmsPermission()
-//
-//        } else {
-//            r = true
-//            return r
-//        }
-//        return r
-//    }
-//
-//    private fun requestSmsPermission() {
-//        if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                this.requireActivity(),
-//                Manifest.permission.SEND_SMS
-//            )
-//        ) {
-//            //El usuaario ya ha rechazado los permisos
-//            Toast.makeText(this.requireContext(), "Permisos rechazados.", Toast.LENGTH_SHORT).show()
-//        } else {
-//            //pedir permiso
-//            ActivityCompat.requestPermissions(
-//                this.requireActivity(),
-//                arrayOf(Manifest.permission.SEND_SMS),
-//                777
-//            )
-//        }
-//    }
-
-
-//endregion
-
 
 override fun onDestroyView() {
     stoplocationUpdates()
