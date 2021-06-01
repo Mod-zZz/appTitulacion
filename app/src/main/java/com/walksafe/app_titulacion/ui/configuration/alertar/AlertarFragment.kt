@@ -50,10 +50,8 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
     private val INTERVAL: Long = 2000
     private val FASTEST_INTERVAL: Long = 1000
     lateinit var mLastLocation: Location
-    private val REQUEST_PERMISSION_LOCATION = 10
-
     private lateinit var mLocationRequest: LocationRequest
-
+    private val REQUEST_PERMISSION_LOCATION = 10
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -131,8 +129,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                 }
                 Status.SUCCESS -> {
                     Log.d(TAG, "SUCCESS")
-                    val gson = Gson()
-                    Log.d(TAG, gson.toJson(it.data))
                     showToast(getString(R.string.msjCorrecto))
                 }
                 Status.ERROR -> {
@@ -148,8 +144,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                 }
                 Status.SUCCESS -> {
                     Log.d(TAG, "SUCCESS")
-                    val gson = Gson()
-                    Log.d(TAG, gson.toJson(it.data))
                     showToast(getString(R.string.msjCorrecto))
                 }
                 Status.ERROR -> {
@@ -165,8 +159,6 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
                 }
                 Status.SUCCESS -> {
                     Log.d(TAG, "SUCCESS")
-                    val gson = Gson()
-                    Log.d(TAG, gson.toJson(it.data))
                     showToast(getString(R.string.msjCorrecto))
                 }
                 Status.ERROR -> {
@@ -186,127 +178,125 @@ class AlertarFragment : Fragment(R.layout.fragment_alertar) {
         //SOLO GPS
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Agregar el método startlocationUpdate () más tarde en lugar de Toast
                 Toast.makeText(this.requireContext(), "Permiso concedido.", Toast.LENGTH_SHORT)
                     .show()
             }
         }
-}
+    }
 
-fun checkPermissionForLocation(context: Context): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    fun checkPermissionForLocation(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
-            PackageManager.PERMISSION_GRANTED
-        ) {
+            if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                true
+            } else {
+                // Mostrar la solicitud de permiso
+                ActivityCompat.requestPermissions(
+                    this.requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_PERMISSION_LOCATION
+                )
+                false
+            }
+        } else {
             true
-        } else {
-            // Mostrar la solicitud de permiso
-            ActivityCompat.requestPermissions(
-                this.requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSION_LOCATION
-            )
-            false
         }
-    } else {
-        true
     }
-}
-private fun buildAlertMessageNoGps() {
 
-    val builder = AlertDialog.Builder(this.requireContext())
-    builder.setMessage("Tu GPS parece estar desactivado, ¿Quieres activarlo?")
-        .setCancelable(false)
-        .setPositiveButton("Sí") { dialog, id ->
-            startActivityForResult(
-                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                , 11
-            )
-        }
-        .setNegativeButton("No") { dialog, id ->
-            dialog.cancel()
+    private fun buildAlertMessageNoGps() {
+
+        val builder = AlertDialog.Builder(this.requireContext())
+        builder.setMessage("Tu GPS parece estar desactivado, ¿Quieres activarlo?")
+            .setCancelable(false)
+            .setPositiveButton("Sí") { dialog, id ->
+                startActivityForResult(
+                    Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 11
+                )
+            }
+            .setNegativeButton("No") { dialog, id ->
+                dialog.cancel()
 //                finish()
-        }
-    val alert: AlertDialog = builder.create()
-    alert.show()
+            }
+        val alert: AlertDialog = builder.create()
+        alert.show()
 
-}
-
-private val mLocationCallback = object : LocationCallback() {
-    override fun onLocationResult(locationResult: LocationResult) {
-        // do work here
-        locationResult.lastLocation
-        onLocationChanged(locationResult.lastLocation)
     }
-}
 
-fun onLocationChanged(location: Location) {
-    //Se ha determinado la nueva ubicación
-    with(binding) {
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            // do work here
+            locationResult.lastLocation
+            onLocationChanged(locationResult.lastLocation)
+        }
+    }
 
-        mLastLocation = location
-        if (mLastLocation.latitude.toString() == "") {
+    fun onLocationChanged(location: Location) {
+        //Se ha determinado la nueva ubicación
+        with(binding) {
+
+            mLastLocation = location
+            if (mLastLocation.latitude.toString() == "") {
 //
-        } else {
-            tvLatitud.text = "" + mLastLocation.latitude
-            tvLongitud.text = "" + mLastLocation.longitude
+            } else {
+                tvLatitud.text = "" + mLastLocation.latitude
+                tvLongitud.text = "" + mLastLocation.longitude
+            }
         }
-
     }
-}
 
-private fun startLocationUpdates() {
+    private fun startLocationUpdates() {
 
-    //Cree la solicitud de ubicación para comenzar a recibir actualizaciones
+        //Cree la solicitud de ubicación para comenzar a recibir actualizaciones
 
 //        mLocationRequest = LocationRequest()
-    mLocationRequest = LocationRequest()
-    mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-    mLocationRequest!!.setInterval(INTERVAL)
-    mLocationRequest!!.setFastestInterval(FASTEST_INTERVAL)
+        mLocationRequest = LocationRequest()
+        mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest!!.setInterval(INTERVAL)
+        mLocationRequest!!.setFastestInterval(FASTEST_INTERVAL)
 
-    // Crear objeto LocationSettingsRequest usando la solicitud de ubicación
+        // Crear objeto LocationSettingsRequest usando la solicitud de ubicación
 
-    val builder = LocationSettingsRequest.Builder()
-    builder.addLocationRequest(mLocationRequest!!)
-    val locationSettingsRequest = builder.build()
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest!!)
+        val locationSettingsRequest = builder.build()
 
-    val settingsClient = LocationServices.getSettingsClient(this.requireActivity())
-    settingsClient.checkLocationSettings(locationSettingsRequest)
+        val settingsClient = LocationServices.getSettingsClient(this.requireActivity())
+        settingsClient.checkLocationSettings(locationSettingsRequest)
 
-    mFusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(this.requireActivity())
-    // El nuevo SDK de API de Google v11 usa getFusedLocationProviderClient (this)
-    if (ActivityCompat.checkSelfPermission(
-            this.requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            this.requireActivity(),
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-    ) {
+        mFusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this.requireActivity())
+        // El nuevo SDK de API de Google v11 usa getFusedLocationProviderClient (this)
+        if (ActivityCompat.checkSelfPermission(
+                this.requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this.requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
-        return
+            return
+        }
+        mFusedLocationProviderClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
     }
-    mFusedLocationProviderClient!!.requestLocationUpdates(
-        mLocationRequest, mLocationCallback,
-        Looper.myLooper()
-    )
-}
 
-private fun stoplocationUpdates() {
-    if (mLocationCallback != null) {
-        mFusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback)
+    private fun stoplocationUpdates() {
+        if (mLocationCallback != null && mFusedLocationProviderClient != null) {
+            mFusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback)
+        }
     }
-}
 
 //endregion
 
-override fun onDestroyView() {
-    stoplocationUpdates()
-    super.onDestroyView()
-    _binding = null
-}
+    override fun onDestroyView() {
+        stoplocationUpdates()
+        _binding = null
+        super.onDestroyView()
+    }
 
 
 }
