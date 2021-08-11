@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">App_Titulacion</string>
-    <string name="prefs_file">com.example.app_titulacion.REFERENCE_FILE_KEY</string>
+    <string name="app_name">Walk Safe</string>
+    <string name="prefs_file">com.walksafe.app_titulacion.REFERENCE_FILE_KEY</string>
 
     //Agregados para autentificacion con FB
-    <string name="facebook_app_id">431901104727598</string>
-    <string name="fb_login_protocol_scheme">fb431901104727598</string>
+
+    <string name="facebook_app_id">4040081306082973</string>
+    <string name="fb_login_protocol_scheme">fb4040081306082973</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,5 +18,47 @@
     <string name="menu_home">Agregar usuario de Confianza</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    //
+    <string name="bn_home">SOS</string>
+    <string name="bn_config">Configuración</string>
+    <string name="bn_alertar">Alertar</string>
+    <string name="bn_mis_alertas">Mis Alertas</string>
+    <string name="bn_zonas_de_riesgo">Zonas de riesgo</string>
+    <string name="bn_cerrar_sesion">Cerrar Sesión</string>
+    <string name="create_account"><u>¿No tienes cuenta? Regístrate</u></string>
+
+    <string name="dev_email">asantivanezg@hotmail.com</string>
+    <string name="dev_password">123456</string>
+
+    <string name="icon_app_description">Icono de la aplicacion</string>
+
+    <string name="error_title">Error</string>
+    <string name="error_message">Se ha producido un error autenticando al usuario</string>
+    <string name="accept">Aceptar</string>
+    <string name="ok">OK</string>
+    <string name="register">Registrar</string>
+    <string name="access">Acceder</string>
+    <string name="password">Contraseña</string>
+    <string name="email">Email</string>
+
+    <string name="msjNoLatiLong">Esta notificacion no tiene datos para abrir Maps.</string>
+
+    <!--    region MensajesUsuario-->
+    <string name="mensajeCorrecto">Se actualizó con éxito</string>
+    <string name="msjCorrecto">Se envió la notificacion con éxito.</string>
+    <string name="msjIncorrecto">No se envió la notificacion.</string>
+    <string name="mensajeError">Ocurrio un error durante la actualización</string>
+    <!--    endregion-->
+
+    <string name="msjCargaNoData">No tienes alertas registradas.</string>
+    <string name="msjCargaCorrecta">Se cargó la información con exito.</string>
+    <string name="msjCargaInCorrecta">Ocurrio un error mientras cargaba la información porfavor intente de nuevo.</string>
+
+
+    <string name="msjCreacionInicio">Se creó el usuario con éxito.</string>
+    <string name="msjPswIncorrecto">La contraseña no coincide, intente de nuevo.</string>
+
+    <string name="msjCorrectoSms">Se envió uno más mensajes con éxito.</string>
 
 </resources>
